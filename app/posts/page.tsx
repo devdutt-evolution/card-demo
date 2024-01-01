@@ -42,14 +42,15 @@ export default function Posts() {
     );
   // else
   return (
-    <main className="flex w-full h-screen">
-      <div className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-max border-2 border-white px-1 py-1">
+    <main className="flex w-full">
+      <div className="flex flex-col w-3/5 text-white mx-auto h-max">
         {data.map((post) => {
           return (
             <Link key={post.id} href={`/post/${post.id}`}>
-              <p className="text-ellipsis cursor-pointer hover:text-black hover:bg-white p-2">
-                {post.id}. {post.title}
-              </p>
+              <div className="bg-card rounded-lg py-6 px-8 m-2 border-2 border-black hover:border-2 hover:border-green">
+                <h2 className="text-2xl pb-5">{post.title}</h2>
+                <p>{post.body}</p>
+              </div>
             </Link>
           );
         })}

@@ -39,25 +39,26 @@ export default function Comment({ postId }: { postId: number }) {
   // if no post
   if (data.length == 0)
     return (
-      <div className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-max border-2 border-white px-2 py-1">
+      <div className="flex flex-col w-full text-white mx-auto mt-2 px-2 py-1">
         No Comments
       </div>
     );
   // else
   return (
-    <div className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-max border-2 border-white px-2 py-1">
+    <>
       {data.map((comment) => {
         return (
-          <>
-            <h4 key={comment.id} className="text-l pt-1 leading-3">
+          <div key={comment.id} className="bg-divider my-5 py-3 px-5 rounded-lg">
+            <h4 className="text-l font-bold">
               <a href={`to:${comment.email}`}>
-                {comment.name.split(" ")[0].toUpperCase()}
+              {comment.name.split(' ')[0]}
               </a>
             </h4>
-            <p className="pl-2 pb-2">{comment.body}</p>
-          </>
+            <p className="text-sm text-place">{comment.email}</p>
+            <p className="pt-3">{comment.body}</p>
+          </div>
         );
       })}
-    </div>
+    </>
   );
 }
