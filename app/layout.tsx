@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
+import ReactQueryProvider from "@/components/ReactQuery";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,8 +30,8 @@ export default function RootLayout({
               height={"20"}
             />
           </Link>
-        </header>
-        {children}
+        </header> 
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   );

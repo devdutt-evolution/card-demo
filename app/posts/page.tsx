@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Posts } from "../../types/type.d";
 
+const PAGE_SIZE = 10;
+
 export default function Posts() {
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(true);
