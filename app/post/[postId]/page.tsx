@@ -1,7 +1,8 @@
 "use client";
-import { Post } from "@/types/post.d";
+import { Post } from "@/types/type.d";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Comment from "@/components/Comment";
 
 export default function Post({ params }: { params: { postId: string } }) {
   const [isError, setError] = useState(false);
@@ -40,6 +41,9 @@ export default function Post({ params }: { params: { postId: string } }) {
       <div className="flex flex-col gap-y-2 w-4/5 text-white mx-auto mt-2 border-2 border-white px-10 py-10 h-min">
         <h2 className="text-2xl mb-2">{data.title}</h2>
         <p>{data.body}</p>
+      </div>
+      <div className="w-4/5 mx-auto mt-2">
+        <Comment postId={parseInt(params.postId)} />
       </div>
       <button className="flex w-4/5 text-white mx-auto mt-4">
         <Link href="/posts" className="border-2 border-white">

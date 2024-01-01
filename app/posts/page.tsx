@@ -1,8 +1,8 @@
 "use client";
-
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { Post, Posts } from "../../types/post.d";
+import type { Posts } from "../../types/type.d";
+
 export default function Posts() {
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -24,29 +24,33 @@ export default function Posts() {
 
     fetchPosts();
   }, []);
-
+  // if error
   if (isError) return <div>Error Occured</div>;
-
+  // if loading
   if (isLoading)
     return (
       <main className="flex min-h-screen justify-center items-center font-bold text-white">
         Loading
       </main>
     );
-
+  // if no data
+  if (data.length == 0)
+    return (
+      <div className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-max border-2 border-white px-1 py-1">
+        No Posts
+      </div>
+    );
+  // else
   return (
     <main className="flex w-full h-screen">
-      <div className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-full border-2 border-white overflow-y-scroll px-1 py-1">
+      <div className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-max border-2 border-white px-1 py-1">
         {data.map((post) => {
           return (
-            <p
-              key={post.id}
-              className="text-ellipsis cursor-pointer hover:text-black hover:bg-white p-2"
-            >
-              <Link href={`/post/${post.id}`}>
+            <Link key={post.id} href={`/post/${post.id}`}>
+              <p className="text-ellipsis cursor-pointer hover:text-black hover:bg-white p-2">
                 {post.id}. {post.title}
-              </Link>
-            </p>
+              </p>
+            </Link>
           );
         })}
       </div>
