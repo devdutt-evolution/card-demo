@@ -12,8 +12,8 @@ export default function Comment({ postId }: { postId: number }) {
     const fetchCommentsDetail = async (postId: number) => {
       try {
         let data = await fetch(`https://jsonplaceholder.typicode.com/comments`);
-        data = await data.json();
-        let comments: Comments = data.filter(
+        let commetns: Comments = await data.json();
+        let comments: Comments = commetns.filter(
           (comment: Comment) => comment.postId == postId
         );
 

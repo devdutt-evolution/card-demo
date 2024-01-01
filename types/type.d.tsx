@@ -3,7 +3,7 @@ export type Post = {
   title?: string;
   body?: string;
 };
-export type Posts = [Post];
+export type Posts = Array<Post>;
 
 export type Comment = {
   postId: number;
@@ -12,5 +12,4 @@ export type Comment = {
   email: string;
   body: string;
 };
-export type Comments = [Comment];
-
+export type Comments = Array<Comment>;
