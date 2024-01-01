@@ -11,11 +11,10 @@ export default function Comment({ postId }: { postId: number }) {
   useEffect(() => {
     const fetchCommentsDetail = async (postId: number) => {
       try {
-        let data = await fetch(`https://jsonplaceholder.typicode.com/comments`);
-        let commetns: Comments = await data.json();
-        let comments: Comments = commetns.filter(
-          (comment: Comment) => comment.postId == postId
+        let data = await fetch(
+          `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
         );
+        let comments: Comments = await data.json();
 
         setLoading(false);
         setData(comments);
@@ -48,11 +47,12 @@ export default function Comment({ postId }: { postId: number }) {
     <>
       {data.map((comment) => {
         return (
-          <div key={comment.id} className="bg-divider my-5 py-3 px-5 rounded-lg">
+          <div
+            key={comment.id}
+            className="bg-divider my-5 py-3 px-5 rounded-lg"
+          >
             <h4 className="text-l font-bold">
-              <a href={`to:${comment.email}`}>
-              {comment.name.split(' ')[0]}
-              </a>
+              <a href={`to:${comment.email}`}>{comment.name.split(" ")[0]}</a>
             </h4>
             <p className="text-sm text-place">{comment.email}</p>
             <p className="pt-3">{comment.body}</p>

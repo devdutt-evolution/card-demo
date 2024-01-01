@@ -6,7 +6,9 @@ import type { Posts } from "../../types/type.d";
 export default function Posts() {
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState<Posts | []>([]);
+  const [data, setData] = useState<Posts>([]);
+  const [afterSearch, setAfterSearch] = useState<Posts>([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -16,6 +18,7 @@ export default function Posts() {
 
         setLoading(false);
         setData(posts);
+        setAfterSearch(posts);
       } catch (err) {
         setLoading(false);
         setError(true);
@@ -24,6 +27,11 @@ export default function Posts() {
 
     fetchPosts();
   }, []);
+  useEffect(() => {
+    if (!search) setAfterSearch(data);
+    const d = data.filter((p) => p.title?.includes(search));
+    setAfterSearch(d);
+  }, [data, search]);
   // if error
   if (isError) return <div>Error Occured</div>;
   // if loading
@@ -41,10 +49,19 @@ export default function Posts() {
       </div>
     );
   // else
+  const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSearch(e.target.value);
+  };
   return (
     <main className="flex w-full">
       <div className="flex flex-col w-3/5 text-white mx-auto h-max">
-        {data.map((post) => {
+        <input
+          type="search"
+          className="focus:outline-none text-[#FFF] font-roboto rounded-lg bg-card p-2 m-2"
+          placeholder="Search"
+          onChange={handleSearch}
+        />
+        {afterSearch.map((post) => {
           return (
             <Link key={post.id} href={`/post/${post.id}`}>
               <div className="bg-card rounded-lg py-6 px-8 m-2 border-2 border-black hover:border-2 hover:border-green">
