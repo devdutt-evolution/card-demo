@@ -10,7 +10,7 @@ export default async function Post({ params }: { params: { postId: string } }) {
   // useEffect(() => {
   const fetchPostDetail = async (postId: string) => {
     let data = await fetch(
-      `https://jsonplaceholder.typicode.com/posts/${postId}`
+      `http://localhost:3001/posts/${postId}`
     );
     let post: Post = await data.json();
     return post;

@@ -13,11 +13,11 @@ const fetchNextPosts = async (
   let res;
   if (!search)
     res = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}`
+      `http://localhost:3001/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
     );
   else
     res = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?_q=${search}&_sort=${sortWith}&_order=${isAsc}`
+      `http://localhost:3001/posts?_q=${search}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
     );
   if (!res.ok) throw new Error("failed to fetch");
   let data: Posts = await res.json();
@@ -113,7 +113,11 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
           return (
             <Link key={post.id} href={`/post/${post.id}`}>
               <div className="bg-card rounded-lg py-6 px-8 m-2 border-2 border-black hover:border-2 hover:border-green">
-                <h2 className="text-2xl pb-5">{post.title}</h2>
+                <Link href={`/user/${post.user.id}`}>
+                  <h2 className="text-green text-2xl">{post.user.username}</h2>
+                  <h3 className="text-sm mb-4">{post.user.name}</h3>
+                </Link>
+                <h3 className="text-xl pb-5">{post.title}</h3>
                 <p>{post.body}</p>
               </div>
             </Link>
