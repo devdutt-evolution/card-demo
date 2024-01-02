@@ -24,10 +24,15 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   };
 
   useEffect(() => {
-    if (!search) setAfterSearch(data);
-    const d = data.filter((p) => p.title?.includes(search));
-    setAfterSearch(d);
+    const getData = setTimeout(() => {
+      if (!search) setAfterSearch(data);
+      const d = data.filter((p) => p.title?.includes(search));
+      setAfterSearch(d);
+    }, 2000);
+
+    return () => clearTimeout(getData);
   }, [data, search]);
+
   const loadMore = () => {
     fetchNextPosts(page);
     setPage((page) => page + 1);
