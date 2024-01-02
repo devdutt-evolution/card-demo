@@ -3,7 +3,7 @@ import type { Posts } from "../../types/type.d";
 
 const fetchInitialPosts = async () => {
   let res = await fetch(
-    "http://localhost:3001/posts?_limit=10&_page=1&_sort=title&_order=asc&_expand=user"
+    "https://jsonplaceholder.typicode.com/posts?_limit=10&_page=1&_sort=title&_order=asc&_expand=user"
   );
   if (!res.ok) throw new Error("failed to fetch");
   let data: Posts = await res.json();

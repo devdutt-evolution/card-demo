@@ -13,11 +13,11 @@ const fetchNextPosts = async (
   let res;
   if (!search)
     res = await fetch(
-      `http://localhost:3001/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
+      `https://jsonplaceholder.typicode.com/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
     );
   else
     res = await fetch(
-      `http://localhost:3001/posts?_q=${search}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
+      `https://jsonplaceholder.typicode.com/posts?_q=${search}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
     );
   if (!res.ok) throw new Error("failed to fetch");
   let data: Posts = await res.json();

@@ -2,7 +2,9 @@ import { User } from "@/types/type.d";
 import Link from "next/link";
 
 const fetchUserDetails = async (userId: string) => {
-  let data = await fetch(`http://localhost:3001/users/${userId}`);
+  let data = await fetch(
+    `https://jsonplaceholder.typicode.com/users/${userId}`
+  );
   let user: User = await data.json();
   return user;
 };
@@ -25,9 +27,7 @@ export default async function UserDetails({
   return (
     <div className="flex flex-col w-3/5 text-white mx-auto h-max">
       <div className="flex flex-col gap-y-2 bg-card rounded-lg py-6 px-8 m-2">
-        <h2 className="text-2xl pb-5 w-max font-bold">
-          {user.name}
-        </h2>
+        <h2 className="text-2xl pb-5 w-max font-bold">{user.name}</h2>
         <p>username: {user.username}</p>
         <p>
           email:&nbsp;
