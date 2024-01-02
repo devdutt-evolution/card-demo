@@ -50,6 +50,19 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
     fun();
   }, [sortWith, isAsc]);
 
+  useEffect(() => {
+    const handleScroll = (e: Event) => {
+      const target = e.target as Document["documentElement"];
+      const scrollHeight = target.scrollHeight;
+      const currentHeight = target.scrollTop + window.innerHeight;
+      if (currentHeight + 1 >= scrollHeight) {
+       loadMore()
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
   const loadMore = async () => {
     let data = await fetchNextPosts(page, sortWith, isAsc);
     setData((prevPosts) => {
@@ -123,7 +136,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
             </Link>
           );
         })}
-        {page < 11 ? (
+        {/* {page < 11 ? (
           <button
             className="bg-green hover:bg-hgreen px-4 py-2 rounded-lg m-2"
             onClick={loadMore}
@@ -132,7 +145,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
           </button>
         ) : (
           <></>
-        )}
+        )} */}
       </div>
     </main>
   );
