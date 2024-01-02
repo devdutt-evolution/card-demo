@@ -9,6 +9,8 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   const [isError, setError] = useState(false);
   const [data, setData] = useState<Posts>(posts);
   const [page, setPage] = useState(2);
+  const [isAsc, setAsc] = useState("true");
+  const [sortWith, setSortWith] = useState("title");
   const [afterSearch, setAfterSearch] = useState<Posts>(data);
   const [search, setSearch] = useState("");
 
@@ -33,6 +35,20 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
     return () => clearTimeout(getData);
   }, [data, search]);
 
+  useEffect(() => {
+    setAfterSearch((arr: Posts) =>
+      arr.sort((one, two) => {
+        if (sortWith == "title") {
+          if (isAsc == "false") return one.title < two.title ? -1 : 1;
+          return one.title > two.title ? -1 : 1;
+        } else {
+          if (isAsc == "false") return one.body < two.body ? -1 : 1;
+          return one.body > two.body ? -1 : 1;
+        }
+      })
+    );
+  }, [sortWith, isAsc, afterSearch]);
+
   const loadMore = () => {
     fetchNextPosts(page);
     setPage((page) => page + 1);
@@ -56,6 +72,14 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   // else
   const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     setSearch(e.target.value);
+  const sortChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+    console.log(e.target.value);
+    setAsc(e.target.value);
+  };
+  const fieldChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+    console.log(e.target.value);
+    setSortWith(e.target.value);
+  };
   return (
     <main className="flex w-full">
       <div className="flex flex-col w-3/5 text-white mx-auto h-max">
@@ -65,6 +89,20 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
           placeholder="Search"
           onChange={handleSearch}
         />
+        <div className="flex justify-end">
+          <select className="p-2 m-2 rounded-lg bg-card" value={isAsc} onChange={sortChange}>
+            <option value="true">Asc</option>
+            <option value="false">Desc</option>
+          </select>
+          <select
+            className="p-2 m-2 rounded-lg bg-card"
+            value={sortWith}
+            onChange={fieldChange}
+          >
+            <option value="title">Title</option>
+            <option value="description">Description</option>
+          </select>
+        </div>
         {afterSearch.map((post) => {
           return (
             <Link key={post.id} href={`/post/${post.id}`}>
