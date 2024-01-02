@@ -2,7 +2,7 @@ import InfinitePosts from "@/components/InfintePosts";
 import type { Posts } from "../../types/type.d";
 
 const fetchInitialPosts = async () => {
-  let res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=10&_page=1");
+  let res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=10&_page=1&_sort=title&_order=asc");
   if(!res.ok) throw new Error("failed to fetch");
   let data: Posts = await res.json();
   return data;

@@ -4,26 +4,27 @@ import { useEffect, useState } from "react";
 import type { Posts } from "../types/type.d";
 
 const PAGE_SIZE = 10;
+const fetchNextPosts = async (
+  pageNumber: number,
+  sortWith: string,
+  isAsc: string
+) => {
+  let res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}`
+  );
+  if (!res.ok) throw new Error("failed to fetch");
+  let data: Posts = await res.json();
+  return data;
+};
 
 export default function InfinitePosts({ posts }: { posts: Posts }) {
   const [isError, setError] = useState(false);
   const [data, setData] = useState<Posts>(posts);
   const [page, setPage] = useState(2);
-  const [isAsc, setAsc] = useState("true");
+  const [isAsc, setAsc] = useState("asc");
   const [sortWith, setSortWith] = useState("title");
   const [afterSearch, setAfterSearch] = useState<Posts>(data);
   const [search, setSearch] = useState("");
-
-  const fetchNextPosts = async (pageNumber: number) => {
-    let res = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}`
-    );
-    if (!res.ok) throw new Error("failed to fetch");
-    let data: Posts = await res.json();
-    setData((prevPosts) => {
-      return prevPosts.concat(data);
-    });
-  };
 
   useEffect(() => {
     const getData = setTimeout(() => {
@@ -36,21 +37,20 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   }, [data, search]);
 
   useEffect(() => {
-    setAfterSearch((arr: Posts) =>
-      arr.sort((one, two) => {
-        if (sortWith == "title") {
-          if (isAsc == "false") return one.title < two.title ? -1 : 1;
-          return one.title > two.title ? -1 : 1;
-        } else {
-          if (isAsc == "false") return one.body < two.body ? -1 : 1;
-          return one.body > two.body ? -1 : 1;
-        }
-      })
-    );
-  }, [sortWith, isAsc, afterSearch]);
+    setPage(2);
+    let fun = async () => {
+      let data = await fetchNextPosts(1, sortWith, isAsc);
+      setData(data);
+      setAfterSearch(data);
+    };
+    fun();
+  }, [sortWith, isAsc]);
 
-  const loadMore = () => {
-    fetchNextPosts(page);
+  const loadMore = async () => {
+    let data = await fetchNextPosts(page, sortWith, isAsc);
+    setData((prevPosts) => {
+      return prevPosts.concat(data);
+    });
     setPage((page) => page + 1);
   };
   // if error
@@ -73,11 +73,9 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     setSearch(e.target.value);
   const sortChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    console.log(e.target.value);
     setAsc(e.target.value);
   };
   const fieldChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    console.log(e.target.value);
     setSortWith(e.target.value);
   };
   return (
@@ -90,9 +88,13 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
           onChange={handleSearch}
         />
         <div className="flex justify-end">
-          <select className="p-2 m-2 rounded-lg bg-card" value={isAsc} onChange={sortChange}>
-            <option value="true">Asc</option>
-            <option value="false">Desc</option>
+          <select
+            className="p-2 m-2 rounded-lg bg-card"
+            value={isAsc}
+            onChange={sortChange}
+          >
+            <option value="asc">Asc</option>
+            <option value="desc">Desc</option>
           </select>
           <select
             className="p-2 m-2 rounded-lg bg-card"
@@ -100,7 +102,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
             onChange={fieldChange}
           >
             <option value="title">Title</option>
-            <option value="description">Description</option>
+            <option value="body">Description</option>
           </select>
         </div>
         {afterSearch.map((post) => {
