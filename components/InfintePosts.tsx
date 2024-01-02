@@ -7,11 +7,18 @@ const PAGE_SIZE = 10;
 const fetchNextPosts = async (
   pageNumber: number,
   sortWith: string,
-  isAsc: string
+  isAsc: string,
+  search: string = ""
 ) => {
-  let res = await fetch(
-    `https://jsonplaceholder.typicode.com/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}`
-  );
+  let res;
+  if (!search)
+    res = await fetch(
+      `https://jsonplaceholder.typicode.com/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}`
+    );
+  else
+    res = await fetch(
+      `https://jsonplaceholder.typicode.com/posts?_q=${search}&_sort=${sortWith}&_order=${isAsc}`
+    );
   if (!res.ok) throw new Error("failed to fetch");
   let data: Posts = await res.json();
   return data;
@@ -23,25 +30,22 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   const [page, setPage] = useState(2);
   const [isAsc, setAsc] = useState("asc");
   const [sortWith, setSortWith] = useState("title");
-  const [afterSearch, setAfterSearch] = useState<Posts>(data);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const getData = setTimeout(() => {
-      if (!search) setAfterSearch(data);
-      const d = data.filter((p) => p.title?.includes(search));
-      setAfterSearch(d);
+    const getData = setTimeout(async () => {
+      const d = await fetchNextPosts(1, sortWith, isAsc, search);
+      setData(d);
     }, 2000);
 
     return () => clearTimeout(getData);
-  }, [data, search]);
+  }, [search, sortWith, isAsc]);
 
   useEffect(() => {
     setPage(2);
     let fun = async () => {
       let data = await fetchNextPosts(1, sortWith, isAsc);
       setData(data);
-      setAfterSearch(data);
     };
     fun();
   }, [sortWith, isAsc]);
@@ -105,7 +109,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
             <option value="body">Description</option>
           </select>
         </div>
-        {afterSearch.map((post) => {
+        {data.map((post) => {
           return (
             <Link key={post.id} href={`/post/${post.id}`}>
               <div className="bg-card rounded-lg py-6 px-8 m-2 border-2 border-black hover:border-2 hover:border-green">
