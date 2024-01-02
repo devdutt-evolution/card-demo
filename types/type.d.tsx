@@ -30,7 +30,8 @@ export type Post = {
   id: number;
   title: string;
   body: string;
-  user: User;
+  userId: string;
+  user?: User;
 };
 export type Posts = Array<Post>;
 
