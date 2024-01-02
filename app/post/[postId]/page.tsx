@@ -1,40 +1,32 @@
-"use client";
 import { Post } from "@/types/type.d";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import Comment from "@/components/Comment";
 
-export default function Post({ params }: { params: { postId: string } }) {
-  const [isError, setError] = useState(false);
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState<Post>({});
-
-  useEffect(() => {
-    const fetchPostDetail = async (postId: string) => {
-      try {
-        let data = await fetch(
-          `https://jsonplaceholder.typicode.com/posts/${postId}`
-        );
-        let post: Post = await data.json();
-        setLoading(false);
-        setData(post);
-      } catch (err) {
-        setLoading(false);
-        setError(true);
-      }
-    };
-
-    fetchPostDetail(params.postId);
-  }, [params.postId]);
-
-  if (isError) return <div>Error Occured</div>;
-
-  if (isLoading)
-    return (
-      <main className="flex min-h-screen justify-center items-center font-bold text-white">
-        Loading
-      </main>
+export default async function Post({ params }: { params: { postId: string } }) {
+  // const [isError, setError] = useState(false);
+  // const [isLoading, setLoading] = useState(true);
+  // const [data, setData] = useState<Post>({});
+  // useEffect(() => {
+  const fetchPostDetail = async (postId: string) => {
+    let data = await fetch(
+      `https://jsonplaceholder.typicode.com/posts/${postId}`
     );
+    let post: Post = await data.json();
+    return post;
+  };
+
+  const data: Post = await fetchPostDetail(params.postId);
+  // }, [params.postId]);
+
+  // if (isError) return <div>Error Occured</div>;
+
+  // if (isLoading)
+  //   return (
+  //     <main className="flex min-h-screen justify-center items-center font-bold text-white">
+  //       Loading
+  //     </main>
+  //   );
 
   return (
     <div className="flex flex-col w-3/5 text-white mx-auto h-max">
