@@ -51,15 +51,16 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   }, [sortWith, isAsc]);
 
   useEffect(() => {
-    const handleScroll = (e: Event) => {
-      const target = e.target as Document["documentElement"];
-      const scrollHeight = target.scrollHeight;
-      const currentHeight = target.scrollTop + window.innerHeight;
+    const handleScroll= (e : Event) => {
+      const target = e.target as Document
+      const ta = target.documentElement as Document["documentElement"]
+      const scrollHeight = ta.scrollHeight;
+      const currentHeight =
+        ta.scrollTop + window.innerHeight;
       if (currentHeight + 1 >= scrollHeight) {
-       loadMore()
+        loadMore();
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   });
