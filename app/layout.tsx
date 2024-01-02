@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="w-full h-[100px] mb-2 bg-card flex justify-center items-center">
+        <header className="w-full h-[100px] mb-2 bg-card flex justify-center items-center sticky top-0">
           <Link href="/">
             <Image
               src="/logo.svg"
