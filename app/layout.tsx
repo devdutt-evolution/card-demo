@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
-import ReactQueryProvider from "@/components/ReactQuery";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,8 +29,9 @@ export default function RootLayout({
               height={"20"}
             />
           </Link>
-        </header> 
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        </header>
+        {children}
+        <div id="modal-root"></div>
       </body>
     </html>
   );

@@ -1,5 +1,5 @@
 export type User = {
-  id: number;
+  _id: string;
   name: string;
   username: string;
   email: string;
@@ -27,17 +27,25 @@ type Company = {
 };
 
 export type Post = {
-  id: number;
+  _id: string;
   title: string;
   body: string;
   userId: string;
   user?: User;
 };
+export type PostComment = {
+  _id: string;
+  title: string;
+  body: string;
+  userId: string;
+  user?: User;
+  comments: Comments;
+};
 export type Posts = Array<Post>;
 
 export type Comment = {
-  postId: number;
-  id: number;
+  postId: string;
+  _id: string;
   name: string;
   email: string;
   body: string;

@@ -2,11 +2,9 @@ import { User } from "@/types/type.d";
 import Link from "next/link";
 
 const fetchUserDetails = async (userId: string) => {
-  let data = await fetch(
-    `https://jsonplaceholder.typicode.com/users/${userId}`
-  );
-  let user: User = await data.json();
-  return user;
+  let data = await fetch(`http://localhost:3001/user/${userId}`);
+  let user: { user: User } = await data.json();
+  return user.user;
 };
 
 export default async function UserDetails({
@@ -19,7 +17,12 @@ export default async function UserDetails({
   if (!user) {
     return (
       <div className="flex justify-center items-center w-3/5 text-white mx-auto h-max">
-        <p className="text-2xl">No Such User</p>
+        <div className="bg-card rounded-lg py-6 px-8 m-2 w-full text-2xl h-[calc(100vh-130px)] flex gap-2 justify-center items-center">
+          <Link href="/posts">
+            <p className="py-1 px-3 rounded-lg bg-green">&larr;</p>
+          </Link>
+          <p>No Such User</p>
+        </div>
       </div>
     );
   }
