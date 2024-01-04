@@ -15,11 +15,11 @@ const fetchNextPosts = async (
   let res;
   if (!search)
     res = await fetch(
-      `http://localhost:3001/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
     );
   else
     res = await fetch(
-      `http://localhost:3001/posts?_q=${search}&_limit=${PAGE_SIZE}&_expand=user`
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_q=${search}&_limit=${PAGE_SIZE}&_expand=user`
     );
   if (!res.ok) throw new Error("failed to fetch");
   let data: { posts: Posts } = await res.json();

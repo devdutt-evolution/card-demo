@@ -2,7 +2,9 @@ import { User } from "@/types/type.d";
 import Link from "next/link";
 
 const fetchUserDetails = async (userId: string) => {
-  let data = await fetch(`http://localhost:3001/user/${userId}`);
+  let data = await fetch(
+    `${process.env.NEXT_PUBLIC_URL_BACKEND}/user/${userId}`
+  );
   let user: { user: User } = await data.json();
   return user.user;
 };

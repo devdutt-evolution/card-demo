@@ -3,8 +3,9 @@ import type { Posts } from "../../types/type.d";
 
 const fetchInitialPosts = async () => {
   let res = await fetch(
-    "http://localhost:3001/posts?_limit=10&_page=1&_sort=title&_order=asc&_expand=user"
+    `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_limit=10&_page=1&_sort=title&_order=asc&_expand=user`
   );
+  console.log(process.env.NEXT_PUBLIC_URL_BACKEND);
   if (!res.ok) throw new Error("failed to fetch");
   let data: { posts: Posts } = await res.json();
 

@@ -30,7 +30,7 @@ export default function PostHook({
     // mutation.mutate(postData);
     setSent(true);
     axios
-      .post("http://localhost:3001/posts", postData)
+      .post(`${process.env.NEXT_PUBLIC_URL_BACKEND}/posts`, postData)
       .then((data) => {
         setError("");
         router.refresh();

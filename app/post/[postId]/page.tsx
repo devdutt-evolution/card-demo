@@ -6,7 +6,7 @@ export const revalidate = 0;
 
 export default async function Post({ params }: { params: { postId: string } }) {
   const fetchPostDetail = async (postId: string) => {
-    let data = await fetch(`http://localhost:3001/posts/${postId}`);
+    let data = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}`);
     let post: { post: PostComment } = await data.json();
 
     return post.post;
