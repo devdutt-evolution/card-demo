@@ -46,8 +46,11 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   }, [page, sortWith, isAsc]);
   // to check if the passed data has changed from parent compo
   useEffect(() => {
-    setData(posts);
-  }, [posts]);
+    fetchNextPosts(1, sortWith, isAsc).then((data) => {
+      setData(data);
+    });
+    setPage(1);
+  }, [posts, sortWith, isAsc]);
   // for debounce and search
   useEffect(() => {
     const getData = setTimeout(async () => {
@@ -95,81 +98,74 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
 
   // if error
   if (isError) return <main>Error Occured</main>;
-  // if no data
-  // if (data?.length == 0)
-  //   return (
-  //     <main className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-max border-2 border-white px-1 py-1">
-  //       No Posts
-  //     </main>
-  //   );
+
   return (
     <>
       {yes && (
-        <ReactQueryProvider>
-          <main className="flex w-full">
-            <div className="flex flex-col w-3/5 text-white mx-auto h-max p-2">
-              <AddPost />
-              <input
-                type="search"
-                className="focus:outline-none text-[#FFF] font-roboto rounded-lg bg-card p-2"
-                placeholder="Search"
-                onChange={handleSearch}
-              />
-              <div className="flex justify-end py-2 gap-2">
-                <select
-                  className="p-2 rounded-lg bg-card"
-                  value={isAsc}
-                  onChange={sortChange}
-                >
-                  <option value="asc">Asc</option>
-                  <option value="desc">Desc</option>
-                </select>
-                <select
-                  className="p-2 rounded-lg bg-card"
-                  value={sortWith}
-                  onChange={fieldChange}
-                >
-                  <option value="title">Title</option>
-                  <option value="createdAt">Time</option>
-                  <option value="body">Description</option>
-                </select>
-              </div>
-              {data.length > 0 ? (
-                data?.map((post) => {
-                  let diff = post.publishAt;
-                  let luxonDate;
-                  if (diff && diff > 0) {
-                    luxonDate = DateTime.fromMillis(diff);
-                  }
-                  return (
-                    <div
-                      key={post._id}
-                      className="bg-card rounded-lg py-6 mb-2 px-8 border-2 border-black hover:border-2 hover:border-green"
-                    >
-                      <Link className="w-fit" href={`/user/${post.userId}`}>
-                        <div className="flex justify-between">
-                          <h2 className="text-green text-2xl">
-                            {post.user?.username}
-                          </h2>
-                          {post.publishAt && <h3>{luxonDate?.toRelativeCalendar()}</h3>}
-                        </div>
-                        <h3 className="text-sm mb-4">{post.user?.name}</h3>
-                      </Link>
-                      <Link href={`/post/${post._id}`}>
-                        <h3 className="text-xl pb-4">{post.title}</h3>
-                        <p>{post.body}</p>
-                      </Link>
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="bg-card rounded-lg py-4 px-3 border-2 border-black">
-                  No Posts
-                </div>
-              )}
+        <main className="flex w-full">
+          <div className="flex flex-col w-3/5 text-white mx-auto h-max p-2">
+            <AddPost />
+            <input
+              type="search"
+              className="focus:outline-none text-[#FFF] font-roboto rounded-lg bg-card p-2"
+              placeholder="Search"
+              onChange={handleSearch}
+            />
+            <div className="flex justify-end py-2 gap-2">
+              <select
+                className="p-2 rounded-lg bg-card"
+                value={isAsc}
+                onChange={sortChange}
+              >
+                <option value="asc">Asc</option>
+                <option value="desc">Desc</option>
+              </select>
+              <select
+                className="p-2 rounded-lg bg-card"
+                value={sortWith}
+                onChange={fieldChange}
+              >
+                <option value="title">Title</option>
+                <option value="createdAt">Time</option>
+                <option value="body">Description</option>
+              </select>
             </div>
-          </main>
-        </ReactQueryProvider>
+            {data.length > 0 ? (
+              data?.map((post) => {
+                let diff = post.publishAt;
+                let luxonDate;
+                if (diff && diff > 0) luxonDate = DateTime.fromMillis(diff);
+
+                return (
+                  <div
+                    key={post._id}
+                    className="bg-card rounded-lg py-6 mb-2 px-8 border-2 border-black hover:border-2 hover:border-green"
+                  >
+                    <Link className="w-fit" href={`/user/${post.userId}`}>
+                      <div className="flex justify-between">
+                        <h2 className="text-green text-2xl">
+                          {post.user?.username}
+                        </h2>
+                        {post.publishAt && (
+                          <h3>{luxonDate?.toRelativeCalendar()}</h3>
+                        )}
+                      </div>
+                      <h3 className="text-sm mb-4">{post.user?.name}</h3>
+                    </Link>
+                    <Link href={`/post/${post._id}`}>
+                      <h3 className="text-xl pb-4">{post.title}</h3>
+                      <p>{post.body}</p>
+                    </Link>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="bg-card rounded-lg py-4 px-3 border-2 border-black">
+                No Posts
+              </div>
+            )}
+          </div>
+        </main>
       )}
     </>
   );

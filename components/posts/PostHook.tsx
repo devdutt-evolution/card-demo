@@ -23,7 +23,7 @@ export default function PostHook({
   useEffect(() => {
     setSent(false);
     setError("");
-  }, [title, body]);
+  }, [title, body, isSchedule, schedule]);
   const createPost: FormEventHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();

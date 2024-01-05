@@ -10,7 +10,6 @@ const fetchInitialPosts = async () => {
 
   return data.posts;
 };
-export const revalidate = 0;
 
 export default async function Posts() {
   const data: Posts = await fetchInitialPosts();
