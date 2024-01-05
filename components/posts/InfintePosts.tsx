@@ -114,9 +114,9 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
                 placeholder="Search"
                 onChange={handleSearch}
               />
-              <div className="flex justify-end">
+              <div className="flex justify-end py-2 gap-2">
                 <select
-                  className="p-2 m-2 rounded-lg bg-card"
+                  className="p-2 rounded-lg bg-card"
                   value={isAsc}
                   onChange={sortChange}
                 >
@@ -124,7 +124,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
                   <option value="desc">Desc</option>
                 </select>
                 <select
-                  className="p-2 m-2 rounded-lg bg-card"
+                  className="p-2 rounded-lg bg-card"
                   value={sortWith}
                   onChange={fieldChange}
                 >
