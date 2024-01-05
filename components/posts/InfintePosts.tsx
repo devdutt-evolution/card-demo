@@ -129,6 +129,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
                   onChange={fieldChange}
                 >
                   <option value="title">Title</option>
+                  <option value="createdAt">Time</option>
                   <option value="body">Description</option>
                 </select>
               </div>
