@@ -5,6 +5,7 @@ import ReactQueryProvider from "@/components/ReactQuery";
 import { useCallback, useEffect, useState } from "react";
 import type { Posts } from "../../types/type.d";
 import { DateTime } from "luxon";
+import Loader from "../Loader";
 
 const PAGE_SIZE = 10;
 const fetchNextPosts = async (
@@ -31,6 +32,7 @@ const fetchNextPosts = async (
 export default function InfinitePosts({ posts }: { posts: Posts }) {
   const [isError, setError] = useState(false);
   const [yes, setYes] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Posts>(posts);
   const [page, setPage] = useState(2);
   const [isAsc, setAsc] = useState("asc");
@@ -42,6 +44,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
     setData((prevPosts) => {
       return [...prevPosts, ...data];
     });
+    setLoading(false);
     setPage((page) => page + 1);
   }, [page, sortWith, isAsc]);
   // to check if the passed data has changed from parent compo
@@ -49,26 +52,29 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
     fetchNextPosts(1, sortWith, isAsc).then((data) => {
       setData(data);
     });
+    setLoading(false);
     setPage(1);
   }, [posts, sortWith, isAsc]);
   // for debounce and search
   useEffect(() => {
+    setLoading(true);
     const getData = setTimeout(async () => {
       const d = await fetchNextPosts(1, sortWith, isAsc, search);
       setData(d);
+      setLoading(false);
     }, 1500);
 
     return () => clearTimeout(getData);
   }, [search, sortWith, isAsc]);
   // on sorting change data
-  useEffect(() => {
-    setPage(2);
-    let fun = async () => {
-      let data = await fetchNextPosts(1, sortWith, isAsc);
-      setData(data);
-    };
-    fun();
-  }, [sortWith, isAsc]);
+  // useEffect(() => {
+  //   setPage(2);
+  //   let fun = async () => {
+  //     let data = await fetchNextPosts(1, sortWith, isAsc);
+  //     setData(data);
+  //   };
+  //   fun();
+  // }, [sortWith, isAsc]);
   // infinite scroll
   useEffect(() => {
     const handleScroll = (e: Event) => {
@@ -78,6 +84,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
       const currentHeight = ta.scrollTop + window.innerHeight;
       if (currentHeight + 1 >= scrollHeight) {
         loadMore();
+        setLoading(true);
       }
     };
     window.addEventListener("scroll", handleScroll);
@@ -95,6 +102,16 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
     setAsc(e.target.value);
   const fieldChange: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
     setSortWith(e.target.value);
+    
+  const handleRecent: React.MouseEventHandler = (e) => {
+    if (sortWith == "createdAt" && isAsc == "desc") {
+      setSortWith("title");
+      setAsc("asc");
+    } else {
+      setSortWith("createdAt");
+      setAsc("desc");
+    }
+  };
 
   // if error
   if (isError) return <main>Error Occured</main>;
@@ -112,6 +129,16 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
               onChange={handleSearch}
             />
             <div className="flex justify-end py-2 gap-2">
+              <button
+                onClick={handleRecent}
+                className={`py-2 px-3 bg-card rounded-lg border-2 border-card ${
+                  isAsc == "desc" &&
+                  sortWith == "createdAt" &&
+                  "border-green text-green"
+                }`}
+              >
+                Recent First
+              </button>
               <select
                 className="p-2 rounded-lg bg-card"
                 value={isAsc}
@@ -126,8 +153,8 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
                 onChange={fieldChange}
               >
                 <option value="title">Title</option>
-                <option value="createdAt">Time</option>
                 <option value="body">Description</option>
+                <option value="createdAt">Time</option>
               </select>
             </div>
             {data.length > 0 ? (
@@ -146,9 +173,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
                         <h2 className="text-green text-2xl">
                           {post.user?.username}
                         </h2>
-                        {post.publishAt && (
-                          <h3>{luxonDate?.toRelativeCalendar()}</h3>
-                        )}
+                        {post.publishAt && <h3>{luxonDate?.toRelative()}</h3>}
                       </div>
                       <h3 className="text-sm mb-4">{post.user?.name}</h3>
                     </Link>
@@ -162,6 +187,11 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
             ) : (
               <div className="bg-card rounded-lg py-4 px-3 border-2 border-black">
                 No Posts
+              </div>
+            )}
+            {loading && (
+              <div className="h-[200px] flex justify-center items-center w-full">
+                <Loader />
               </div>
             )}
           </div>

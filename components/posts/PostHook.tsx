@@ -2,6 +2,7 @@
 import axios from "axios";
 import { FormEventHandler, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Loader from "../Loader";
 
 export default function PostHook({
   title,
@@ -51,7 +52,9 @@ export default function PostHook({
   return (
     <>
       {sent ? (
-        <p className="text-green px-4 py-2 rounded-lg mb-4">Creating Post</p>
+        <div className="flex justify-center items-center w-full mb-4">
+          <Loader />
+        </div>
       ) : (
         <>
           {error != "" ? (
