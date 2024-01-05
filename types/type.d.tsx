@@ -31,6 +31,7 @@ export type Post = {
   title: string;
   body: string;
   userId: string;
+  publishAt?: number;
   user?: User;
 };
 export type PostComment = {
@@ -39,6 +40,7 @@ export type PostComment = {
   body: string;
   userId: string;
   user?: User;
+  publishAt?: number;
   comments: Comments;
 };
 export type Posts = Array<Post>;

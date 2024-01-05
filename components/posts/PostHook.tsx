@@ -6,10 +6,14 @@ import { useRouter } from "next/navigation";
 export default function PostHook({
   title,
   body,
+  isSchedule,
+  schedule,
   toggle,
 }: {
   title: string;
   body: string;
+  isSchedule: boolean;
+  schedule: Date;
   toggle: () => void;
 }) {
   const router = useRouter();
@@ -26,6 +30,8 @@ export default function PostHook({
     const postData = {
       title,
       body,
+      tobePublished: isSchedule,
+      publishAt: isSchedule ? schedule.getTime() : 0
     };
     // mutation.mutate(postData);
     setSent(true);

@@ -6,6 +6,8 @@ import PostHook from "./PostHook";
 export default function AddPost() {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
+  const [isSchedule, setIsSchedule] = useState(false);
+  const [schedule, setSchedule] = useState(new Date());
   const [body, setBody] = useState("");
   const changeTitle: ChangeEventHandler<HTMLInputElement> = (e) =>
     setTitle(e.target.value);
@@ -41,10 +43,34 @@ export default function AddPost() {
               value={body}
               onChange={changeBody}
             />
+            <div className="flex gap-2 justify-start w-3/5">
+              <input
+                type="checkbox"
+                id="isSchedule"
+                className="accent-green hover:bg-green hover:bg-opacity-50"
+                onChange={(e) => setIsSchedule(e.target.checked)}
+              />
+              <label htmlFor="isSchedule">Schedule</label>
+            </div>
+            {isSchedule && (
+              <input
+                type="datetime-local"
+                className="text-place outline-none rounded-lg p-2 bg-divider"
+                onChange={(e) => setSchedule(new Date(e.target.value))}
+              />
+            )}
             <PostHook
               title={title}
               body={body}
-              toggle={() => setOpen((t) => !t)}
+              isSchedule={isSchedule}
+              schedule={schedule}
+              toggle={() => {
+                setOpen((t) => !t);
+                setTitle("");
+                setIsSchedule(false);
+                setSchedule(new Date());
+                setBody("");
+              }}
             />
           </form>
         </Modal>

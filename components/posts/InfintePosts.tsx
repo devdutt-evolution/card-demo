@@ -4,6 +4,7 @@ import AddPost from "./AddPost";
 import ReactQueryProvider from "@/components/ReactQuery";
 import { useCallback, useEffect, useState } from "react";
 import type { Posts } from "../../types/type.d";
+import { DateTime } from "luxon";
 
 const PAGE_SIZE = 10;
 const fetchNextPosts = async (
@@ -135,18 +136,24 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
               </div>
               {data.length > 0 ? (
                 data?.map((post) => {
+                  let diff = post.publishAt;
+                  let luxonDate;
+                  if (diff && diff > 0) {
+                    luxonDate = DateTime.fromMillis(diff);
+                  }
                   return (
                     <div
                       key={post._id}
                       className="bg-card rounded-lg py-6 mb-2 px-8 border-2 border-black hover:border-2 hover:border-green"
                     >
                       <Link className="w-fit" href={`/user/${post.userId}`}>
-                        <h2 className="text-green text-2xl w-min">
-                          {post.user?.username}
-                        </h2>
-                        <h3 className="text-sm mb-4 w-min">
-                          {post.user?.name}
-                        </h3>
+                        <div className="flex justify-between">
+                          <h2 className="text-green text-2xl">
+                            {post.user?.username}
+                          </h2>
+                          {post.publishAt && <h3>{luxonDate?.toRelativeCalendar()}</h3>}
+                        </div>
+                        <h3 className="text-sm mb-4">{post.user?.name}</h3>
                       </Link>
                       <Link href={`/post/${post._id}`}>
                         <h3 className="text-xl pb-4">{post.title}</h3>
