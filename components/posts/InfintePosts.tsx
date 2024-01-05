@@ -95,12 +95,12 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   // if error
   if (isError) return <main>Error Occured</main>;
   // if no data
-  if (data?.length == 0)
-    return (
-      <main className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-max border-2 border-white px-1 py-1">
-        No Posts
-      </main>
-    );
+  // if (data?.length == 0)
+  //   return (
+  //     <main className="flex flex-col gap-y-1 w-4/5 text-white mx-auto mt-2 h-max border-2 border-white px-1 py-1">
+  //       No Posts
+  //     </main>
+  //   );
   return (
     <>
       {yes && (
@@ -132,25 +132,33 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
                   <option value="body">Description</option>
                 </select>
               </div>
-              {data?.map((post) => {
-                return (
-                  <div
-                    key={post._id}
-                    className="bg-card rounded-lg py-6 mb-2 px-8 border-2 border-black hover:border-2 hover:border-green"
-                  >
-                    <Link className="w-fit" href={`/user/${post.userId}`}>
-                      <h2 className="text-green text-2xl w-min">
-                        {post.user?.username}
-                      </h2>
-                      <h3 className="text-sm mb-4 w-min">{post.user?.name}</h3>
-                    </Link>
-                    <Link href={`/post/${post._id}`}>
-                      <h3 className="text-xl pb-4">{post.title}</h3>
-                      <p>{post.body}</p>
-                    </Link>
-                  </div>
-                );
-              })}
+              {data.length > 0 ? (
+                data?.map((post) => {
+                  return (
+                    <div
+                      key={post._id}
+                      className="bg-card rounded-lg py-6 mb-2 px-8 border-2 border-black hover:border-2 hover:border-green"
+                    >
+                      <Link className="w-fit" href={`/user/${post.userId}`}>
+                        <h2 className="text-green text-2xl w-min">
+                          {post.user?.username}
+                        </h2>
+                        <h3 className="text-sm mb-4 w-min">
+                          {post.user?.name}
+                        </h3>
+                      </Link>
+                      <Link href={`/post/${post._id}`}>
+                        <h3 className="text-xl pb-4">{post.title}</h3>
+                        <p>{post.body}</p>
+                      </Link>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="bg-card rounded-lg py-4 px-3 border-2 border-black">
+                  No Posts
+                </div>
+              )}
             </div>
           </main>
         </ReactQueryProvider>
