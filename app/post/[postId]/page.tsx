@@ -2,8 +2,6 @@ import { PostComment } from "@/types/type.d";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 
-export const revalidate = 0;
-
 export default async function Post({ params }: { params: { postId: string } }) {
   const fetchPostDetail = async (postId: string) => {
     let data = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}`);
