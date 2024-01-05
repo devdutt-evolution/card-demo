@@ -25,7 +25,7 @@ export default function RootLayout({
               <Image src="/logo.svg" alt="logo" width="65" height="61" />
             </Link>
             <div className="text-4xl flex justify-center items-center">
-              <p>Post It!</p>
+              <p>Quotes</p>
             </div>
           </div>
         </header>
