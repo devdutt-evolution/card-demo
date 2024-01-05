@@ -9,7 +9,7 @@ export default function AddPost() {
   const [body, setBody] = useState("");
   const changeTitle: ChangeEventHandler<HTMLInputElement> = (e) =>
     setTitle(e.target.value);
-  const changeBody: ChangeEventHandler<HTMLInputElement> = (e) =>
+  const changeBody: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
     setBody(e.target.value);
 
   return (
@@ -35,10 +35,9 @@ export default function AddPost() {
               value={title}
               onChange={changeTitle}
             />
-            <input
-              className="bg-divider p-2 font-[#FFF] rounded-lg block w-3/5"
+            <textarea
+              className="bg-divider p-2 font-[#FFF] rounded-lg block h-[12vh] w-3/5"
               placeholder="Post Body"
-              type="text"
               value={body}
               onChange={changeBody}
             />
