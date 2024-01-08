@@ -10,21 +10,26 @@ const fetchNextPosts = async (
   pageNumber: number,
   sortWith: string,
   isAsc: string,
+  token: string,
   search: string = ""
 ) => {
-  let res;
-  if (!search)
-    res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}&_expand=user`
-    );
-  else
-    res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_q=${search}&_limit=${PAGE_SIZE}&_expand=user`
-    );
-  if (!res.ok) throw new Error("failed to fetch");
-  let data: { posts: Posts } = await res.json();
+  if (token) {
+    let res;
+    if (!search)
+      res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}&_expand=user`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    else
+      res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_q=${search}&_limit=${PAGE_SIZE}&_expand=user`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    if (!res.ok) throw new Error("failed to fetch");
+    let data: { posts: Posts } = await res.json();
 
-  return data.posts;
+    return data.posts;
+  }
 };
 
 export default function InfinitePosts({
@@ -32,33 +37,47 @@ export default function InfinitePosts({
   sortWith,
   isAsc,
   cust,
+  token,
 }: {
   search: string;
   sortWith: string;
   isAsc: string;
   cust: boolean;
+  token: string;
 }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Posts>([]);
   const [page, setPage] = useState(2);
 
   const loadMore = useCallback(async () => {
-    let data = await fetchNextPosts(page, sortWith, isAsc, search);
+    let data = (await fetchNextPosts(
+      page,
+      sortWith,
+      isAsc,
+      token,
+      search
+    )) as Posts;
     setLoading(false);
     setPage((page) => page + 1);
     setData((prevPosts) => [...prevPosts, ...data]);
-  }, [page, sortWith, isAsc, search]);
+  }, [page, sortWith, isAsc, search, token]);
 
   useEffect(() => {
     setLoading(true);
     let a = async () => {
-      let data = await fetchNextPosts(1, sortWith, isAsc, search);
+      let data = (await fetchNextPosts(
+        1,
+        sortWith,
+        isAsc,
+        token,
+        search
+      )) as Posts;
       setData(data);
       setPage(2);
       setLoading(false);
     };
     a();
-  }, [isAsc, sortWith, search, cust]);
+  }, [isAsc, sortWith, search, cust, token]);
 
   // infinite scroll
   useEffect(() => {
@@ -78,7 +97,7 @@ export default function InfinitePosts({
 
   return (
     <div className="flex flex-col w-full text-white mx-auto h-max">
-      {data.length > 0 ? (
+      {data?.length > 0 ? (
         data?.map((post, index) => {
           let diff = post.publishAt;
           let luxonDate;

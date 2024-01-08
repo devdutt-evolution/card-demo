@@ -10,6 +10,11 @@ export default function PostsWrapper() {
   const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
   const [cust, setCust] = useState(false);
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    setToken(window.localStorage.getItem("token") as string);
+  }, []);
 
   // for debounce and search
   useEffect(() => {
@@ -87,6 +92,7 @@ export default function PostsWrapper() {
             isAsc={isAsc}
             search={search}
             cust={cust}
+            token={token}
           />
         </div>
       </main>

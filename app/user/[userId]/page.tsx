@@ -1,21 +1,33 @@
+"use client";
 import CheckAuth from "@/components/CheckAuth";
 import { User } from "@/types/type.d";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const fetchUserDetails = async (userId: string) => {
-  let data = await fetch(
-    `${process.env.NEXT_PUBLIC_URL_BACKEND}/user/${userId}`
-  );
-  let user: { user: User } = await data.json();
-  return user.user;
+const fetchUserDetails = async (userId: string, token: string) => {
+  if (token) {
+    let data = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/user/${userId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    let user: { user: User } = await data.json();
+    return user.user;
+  }
 };
 
-export default async function UserDetails({
+export default function UserDetails({
   params,
 }: {
   params: { userId: string };
 }) {
-  const user = await fetchUserDetails(params.userId);
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    let token = window.localStorage.getItem("token") as string;
+    fetchUserDetails(params.userId, token).then((data) => {
+      setUser(data);
+    });
+  }, [params.userId]);
 
   if (!user) {
     return (

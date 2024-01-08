@@ -13,10 +13,15 @@ export default function Comment({ comments }: { comments: Comments }) {
   const params = useParams();
   const router = useRouter();
   const [data, setData] = useState(comments);
+  const [token, setToken] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    let token = window.localStorage.getItem("token");
+    setToken(token as string);
+  }, []);
   useEffect(() => {
     setData(comments);
   }, [comments]);
@@ -33,6 +38,9 @@ export default function Comment({ comments }: { comments: Comments }) {
           name: "custom user",
           email: "custom@user.com",
           body: comment,
+        },
+        {
+          headers: {Authorization: `Bearer ${token}`}
         }
       )
       .then(() => {

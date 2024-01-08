@@ -1,20 +1,31 @@
+"use client";
 import { PostComment } from "@/types/type.d";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import CheckAuth from "@/components/CheckAuth";
+import { useEffect, useState } from "react";
 
 export const revalidate = 0;
 
-export default async function Post({ params }: { params: { postId: string } }) {
-  const fetchPostDetail = async (postId: string) => {
-    let data = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}`
-    );
-    let post: { post: PostComment } = await data.json();
+export default function Post({ params }: { params: { postId: string } }) {
+  const [data, setData] = useState<PostComment>();
 
-    return post.post;
+  useEffect(() => {
+    let token = window.localStorage.getItem("token") as string;
+    fetchPostDetail(params.postId, token).then((data) => setData(data));
+  }, [params.postId]);
+
+  const fetchPostDetail = async (postId: string, token: string) => {
+    if (token) {
+      let data = await fetch(
+        `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      let post: { post: PostComment } = await data.json();
+
+      return post.post;
+    }
   };
-  const data: PostComment = await fetchPostDetail(params.postId);
 
   return (
     <CheckAuth>

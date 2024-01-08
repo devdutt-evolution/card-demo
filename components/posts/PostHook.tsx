@@ -20,7 +20,12 @@ export default function PostHook({
   const router = useRouter();
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const [token, setToken] = useState("");
 
+  useEffect(() => {
+    let token = window.localStorage.getItem("token");
+    setToken(token as string);
+  }, []);
   useEffect(() => {
     setSent(false);
     setError("");
@@ -32,12 +37,14 @@ export default function PostHook({
       title,
       body,
       tobePublished: isSchedule,
-      publishAt: isSchedule ? schedule.getTime() : 0
+      publishAt: isSchedule ? schedule.getTime() : 0,
     };
     // mutation.mutate(postData);
     setSent(true);
     axios
-      .post(`${process.env.NEXT_PUBLIC_URL_BACKEND}/posts`, postData)
+      .post(`${process.env.NEXT_PUBLIC_URL_BACKEND}/posts`, postData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((data) => {
         setError("");
         router.refresh();
