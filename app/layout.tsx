@@ -20,14 +20,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <header className="flex w-full h-[100px] bg-card justify-center items-center sticky top-0">
-          <div className="flex gap-2">
-            <Link href="/">
+          <Link href="/">
+            <div className="flex gap-2">
               <Image src="/logo.svg" alt="logo" width="65" height="61" />
-            </Link>
-            <div className="text-4xl flex justify-center items-center">
-              <p>Quotes</p>
+              <div className="text-4xl flex justify-center items-center">
+                <p>Quotes</p>
+              </div>
             </div>
-          </div>
+          </Link>
         </header>
         {children}
         <div id="modal-root"></div>
