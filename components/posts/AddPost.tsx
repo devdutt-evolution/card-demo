@@ -3,7 +3,7 @@ import { ChangeEventHandler, useState } from "react";
 import Modal from "./Modal";
 import PostHook from "./PostHook";
 
-export default function AddPost() {
+export default function AddPost({ setCust }: { setCust: Function }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [isSchedule, setIsSchedule] = useState(false);
@@ -66,6 +66,7 @@ export default function AddPost() {
               schedule={schedule}
               toggle={() => {
                 setOpen((t) => !t);
+                setCust((t: boolean) => !t);
                 setTitle("");
                 setIsSchedule(false);
                 setSchedule(new Date());
