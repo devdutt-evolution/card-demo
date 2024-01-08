@@ -35,12 +35,10 @@ export default function Comment({ comments }: { comments: Comments }) {
       .post(
         `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${params.postId}/comment`,
         {
-          name: "custom user",
-          email: "custom@user.com",
           body: comment,
         },
         {
-          headers: {Authorization: `Bearer ${token}`}
+          headers: { Authorization: `Bearer ${token}` },
         }
       )
       .then(() => {
