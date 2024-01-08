@@ -1,7 +1,8 @@
 "use client";
 import { ChangeEventHandler, useState } from "react";
-import Modal from "./Modal";
+import Modal from "../../components/Modal";
 import PostHook from "./PostHook";
+import TextRich from "@/components/textRich/TextRich";
 
 export default function AddPost({ setCust }: { setCust: Function }) {
   const [open, setOpen] = useState(false);
@@ -37,6 +38,9 @@ export default function AddPost({ setCust }: { setCust: Function }) {
               value={title}
               onChange={changeTitle}
             />
+            {/* <section className="w-3/5">
+            <TextRich />
+            </section> */}
             <textarea
               className="bg-divider p-2 font-[#FFF] rounded-lg block h-[12vh] w-3/5"
               placeholder="Post Body"

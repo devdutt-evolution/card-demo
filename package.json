@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.17.0",
+    "@tiptap/extension-color": "^2.1.13",
+    "@tiptap/extension-text-style": "^2.1.13",
+    "@tiptap/pm": "^2.1.13",
+    "@tiptap/react": "^2.1.13",
+    "@tiptap/starter-kit": "^2.1.13",
     "axios": "^1.6.4",
     "luxon": "^3.4.4",
     "next": "14.0.4",

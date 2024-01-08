@@ -2,7 +2,7 @@
 import axios from "axios";
 import { FormEventHandler, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Loader from "../Loader";
+import Loader from "../../components/Loader";
 
 export default function PostHook({
   title,

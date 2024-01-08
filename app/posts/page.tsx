@@ -1,6 +1,6 @@
 "use client";
-import InfinitePosts from "@/components/posts/InfintePosts";
-import AddPost from "../../components/posts/AddPost";
+import InfinitePosts from "./InfintePosts";
+import AddPost from "./AddPost";
 import { useEffect, useState } from "react";
 import CheckAuth from "@/components/CheckAuth";
 

@@ -1,0 +1,22 @@
+.ProseMirror {
+  border-radius: 0.5rem;
+  background-color: #121214;
+  padding: 0.5rem 1rem;
+}
+
+.ProseMirror > ul {
+  list-style: disc;
+}
+.ProseMirror > ol {
+  list-style: decimal;
+}
+
+div:has(.ProseMirror) {
+  background-color: #323238;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.5rem;
+}
+
+.is-active {
+  background-color: #00875f;
+}

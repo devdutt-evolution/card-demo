@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import type { Posts } from "../../types/type.d";
 import { DateTime } from "luxon";
-import Loader from "../Loader";
+import Loader from "../../components/Loader";
 
 const PAGE_SIZE = 10;
 const fetchNextPosts = async (

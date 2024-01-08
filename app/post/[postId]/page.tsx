@@ -1,7 +1,7 @@
 "use client";
 import { PostComment } from "@/types/type.d";
 import Link from "next/link";
-import Comment from "@/components/Comment";
+import Comment from "./Comment";
 import CheckAuth from "@/components/CheckAuth";
 import { useEffect, useState } from "react";
 
