@@ -56,7 +56,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-120px)] justify-center items-center w-3/5 text-white mx-auto">
+    <div className="flex flex-col h-[calc(100vh-120px)] justify-center items-center w-2/5 text-white mx-auto">
       <form className="w-full bg-card rounded-lg flex flex-col gap-4 justify-around items-center py-8 ">
         <input
           className="bg-divider p-2 font-[#FFF] rounded-lg block w-3/5"
