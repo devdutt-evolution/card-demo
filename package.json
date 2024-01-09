@@ -19,7 +19,9 @@
     "luxon": "^3.4.4",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "slate": "^0.101.5",
+    "slate-react": "^0.101.5"
   },
   "devDependencies": {
     "@types/luxon": "^3.3.8",
