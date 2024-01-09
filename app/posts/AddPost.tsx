@@ -32,7 +32,7 @@ export default function AddPost({ setCust }: { setCust: Function }) {
         <Modal open={open} toggle={() => setOpen((t) => !t)}>
           <form className="pt-[40px] px-8 pb-1 rounded-lg bg-card bg-opacity-80 h-max flex flex-col items-center gap-4">
             <input
-              className="bg-divider p-2 font-[#FFF] rounded-lg w-full"
+              className="outline-none focus:outline-green bg-divider p-2 font-[#FFF] rounded-lg w-full"
               placeholder="Post Title"
               type="text"
               value={title}
@@ -49,18 +49,18 @@ export default function AddPost({ setCust }: { setCust: Function }) {
             /> */}
             <div className="flex gap-2 w-full">
               <input
+                className="outline-none focus:outline-green accent-green hover:bg-green hover:bg-opacity-50"
                 type="checkbox"
                 id="isSchedule"
-                className="accent-green hover:bg-green hover:bg-opacity-50"
                 onChange={(e) => setIsSchedule(e.target.checked)}
               />
               <label htmlFor="isSchedule">Schedule</label>
             </div>
             {isSchedule && (
               <input
+              className="focus:outline-green text-place outline-none rounded-lg p-2 w-full bg-divider"
                 type="datetime-local"
                 placeholder=""
-                className="text-place outline-none rounded-lg p-2 w-full bg-divider"
                 onChange={(e) => setSchedule(new Date(e.target.value))}
               />
             )}
