@@ -6,13 +6,13 @@ import Loader from "../../components/Loader";
 
 export default function PostHook({
   title,
-  body,
+  // body,
   isSchedule,
   schedule,
   toggle,
 }: {
   title: string;
-  body: string;
+  // body: string;
   isSchedule: boolean;
   schedule: Date;
   toggle: () => void;
@@ -29,17 +29,17 @@ export default function PostHook({
   useEffect(() => {
     setSent(false);
     setError("");
-  }, [title, body, isSchedule, schedule]);
+  }, [title, isSchedule, schedule]);
   const createPost: FormEventHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    let elems = document.getElementsByClassName("ProseMirror");
     const postData = {
       title,
-      body,
+      body: elems[0].innerHTML,
       tobePublished: isSchedule,
       publishAt: isSchedule ? schedule.getTime() : 0,
     };
-    // mutation.mutate(postData);
     setSent(true);
     axios
       .post(`${process.env.NEXT_PUBLIC_URL_BACKEND}/posts`, postData, {

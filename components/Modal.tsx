@@ -28,9 +28,20 @@ export default function Modal({
   return (
     <Portal>
       {open && (
-        <div className="absolute flex flex-col justify-center items-center top-0 left-0 w-[calc(100vw-20px)] h-screen bg-opacity-80 bg-black" onClick={toggle}>
-          <div className="flex flex-col w-3/5 h-[50vh] relative" onClick={(e) => e.stopPropagation()}>
-            <button className="text-2xl absolute top-0 right-0 rounded-bl-[50%] rounded-tr-lg w-[40px] h-[40px] hover:bg-red" onClick={toggle}>&times;</button>
+        <div
+          className="absolute flex flex-col justify-center items-center top-0 left-0 w-[calc(100vw-20px)] h-screen bg-black bg-opacity-80"
+          onClick={toggle}
+        >
+          <div
+            className="flex flex-col w-3/5 p-0 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="text-2xl absolute top-0 right-0 rounded-bl-[50%] rounded-tr-lg w-[40px] h-[40px] hover:bg-red"
+              onClick={toggle}
+            >
+              &times;
+            </button>
             {children}
           </div>
         </div>

@@ -9,11 +9,11 @@ export default function AddPost({ setCust }: { setCust: Function }) {
   const [title, setTitle] = useState("");
   const [isSchedule, setIsSchedule] = useState(false);
   const [schedule, setSchedule] = useState(new Date());
-  const [body, setBody] = useState("");
+  // const [body, setBody] = useState("");
   const changeTitle: ChangeEventHandler<HTMLInputElement> = (e) =>
     setTitle(e.target.value);
-  const changeBody: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
-    setBody(e.target.value);
+  // const changeBody: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
+  //   setBody(e.target.value);
 
   return (
     <div className="bg-card h-[100px] rounded-lg mb-3 flex flex-col items-center justify-center">
@@ -38,15 +38,15 @@ export default function AddPost({ setCust }: { setCust: Function }) {
               value={title}
               onChange={changeTitle}
             />
-            {/* <section className="w-3/5">
-            <TextRich />
-            </section> */}
-            <textarea
+            <div className="w-3/5 bg-divider rounded-lg px-2 ">
+              <TextRich />
+            </div>
+            {/* <textarea
               className="bg-divider p-2 font-[#FFF] rounded-lg block h-[12vh] w-3/5"
               placeholder="Post Body"
               value={body}
               onChange={changeBody}
-            />
+            /> */}
             <div className="flex gap-2 justify-start w-3/5">
               <input
                 type="checkbox"
@@ -65,7 +65,7 @@ export default function AddPost({ setCust }: { setCust: Function }) {
             )}
             <PostHook
               title={title}
-              body={body}
+              // body={body}
               isSchedule={isSchedule}
               schedule={schedule}
               toggle={() => {
@@ -74,7 +74,7 @@ export default function AddPost({ setCust }: { setCust: Function }) {
                 setTitle("");
                 setIsSchedule(false);
                 setSchedule(new Date());
-                setBody("");
+                // setBody("");
               }}
             />
           </form>
