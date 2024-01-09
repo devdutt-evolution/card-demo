@@ -62,7 +62,7 @@ export default function PostsWrapper() {
           <div className="flex justify-end py-2 gap-2">
             <button
               onClick={handleRecent}
-              className={`py-2 px-3 bg-card rounded-lg border-2 border-card ${
+              className={`py-2 px-3 ${
                 isAsc == "desc" &&
                 sortWith == "createdAt" &&
                 "border-green text-green"
