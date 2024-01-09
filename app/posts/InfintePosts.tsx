@@ -117,7 +117,10 @@ export default function InfinitePosts({
               </Link>
               <Link href={`/post/${post._id}`}>
                 <h3 className="text-xl pb-4">{post.title}</h3>
-                <div dangerouslySetInnerHTML={{ __html: post.body }}></div>
+                <div
+                  className="ProseMirror nono"
+                  dangerouslySetInnerHTML={{ __html: post.body }}
+                ></div>
                 {/* <>{}</> */}
               </Link>
             </div>

@@ -30,24 +30,24 @@ export default function AddPost({ setCust }: { setCust: Function }) {
 
       {open && (
         <Modal open={open} toggle={() => setOpen((t) => !t)}>
-          <form className="pt-[40px] rounded-lg bg-card bg-opacity-80 h-max flex flex-col items-center gap-4">
+          <form className="pt-[40px] px-8 pb-1 rounded-lg bg-card bg-opacity-80 h-max flex flex-col items-center gap-4">
             <input
-              className="bg-divider p-2 font-[#FFF] rounded-lg block w-3/5"
+              className="bg-divider p-2 font-[#FFF] rounded-lg w-full"
               placeholder="Post Title"
               type="text"
               value={title}
               onChange={changeTitle}
             />
-            <div className="w-3/5 bg-divider rounded-lg px-2 ">
+            <div className=" bg-divider rounded-lg px-2 w-full">
               <TextRich />
             </div>
             {/* <textarea
-              className="bg-divider p-2 font-[#FFF] rounded-lg block h-[12vh] w-3/5"
+              className="bg-divider p-2 font-[#FFF] rounded-lg h-[12vh] w-full"
               placeholder="Post Body"
               value={body}
               onChange={changeBody}
             /> */}
-            <div className="flex gap-2 justify-start w-3/5">
+            <div className="flex gap-2 w-full">
               <input
                 type="checkbox"
                 id="isSchedule"
@@ -59,7 +59,8 @@ export default function AddPost({ setCust }: { setCust: Function }) {
             {isSchedule && (
               <input
                 type="datetime-local"
-                className="text-place outline-none rounded-lg p-2 bg-divider"
+                placeholder=""
+                className="text-place outline-none rounded-lg p-2 w-full bg-divider"
                 onChange={(e) => setSchedule(new Date(e.target.value))}
               />
             )}

@@ -29,11 +29,12 @@ export default function Modal({
     <Portal>
       {open && (
         <div
-          className="absolute flex flex-col justify-center items-center top-0 left-0 w-[calc(100vw-20px)] h-screen bg-black bg-opacity-80"
+          className="absolute flex flex-col justify-center items-center top-0 left-0 w-[calc(100vw-0.7em)] bg-black bg-opacity-80"
           onClick={toggle}
         >
+          <div className="h-[30vh]"></div>
           <div
-            className="flex flex-col w-3/5 p-0 relative"
+            className="flex flex-col p-0 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -44,6 +45,7 @@ export default function Modal({
             </button>
             {children}
           </div>
+          <div className="h-[30vh]"></div>
         </div>
       )}
     </Portal>

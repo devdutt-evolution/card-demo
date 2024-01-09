@@ -33,10 +33,13 @@ export default function PostHook({
   const createPost: FormEventHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    let elems = document.getElementsByClassName("ProseMirror");
+    let elems = document.querySelector(
+      ".ProseMirror:not(.nono)"
+    ) as HTMLElement;
+
     const postData = {
       title,
-      body: elems[0].innerHTML,
+      body: elems.innerHTML,
       tobePublished: isSchedule,
       publishAt: isSchedule ? schedule.getTime() : 0,
     };
