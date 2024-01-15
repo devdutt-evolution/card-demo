@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 let callapi = (postId: string) =>
   `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}/react`;
@@ -18,28 +18,6 @@ export default function Like({
   const [like, setLike] = useState(liked);
   const [likes, setLikes] = useState(totalLikes);
   const ref = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   if (!like) {
-  //     // if unliked
-  //     if (liked) setLikes(totalLikes - 1);
-  //     else if (!liked) setLikes(totalLikes);
-  //   } else {
-  //     // if liked
-  //     if (liked) setLikes(totalLikes);
-  //     else if (!liked) setLikes(totalLikes + 1);
-  //     setTimeout(() => {
-  //       if (ref.current) {
-  //         const firstChild = ref.current.firstChild as HTMLElement;
-  //         if (firstChild) firstChild.classList.remove("animate-ping");
-  //       }
-  //     }, 450);
-  //     if (ref.current) {
-  //       const firstChild = ref.current.firstChild as HTMLElement;
-  //       if (firstChild) firstChild.classList.add("animate-ping");
-  //     }
-  //   }
-  // }, [like, totalLikes, liked, id]);
 
   return (
     <div
