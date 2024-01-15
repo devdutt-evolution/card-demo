@@ -3,8 +3,8 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
-let callapi = (LIKE: string, postId: string) =>
-  `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}/${LIKE}`;
+let callapi = (postId: string) =>
+  `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}/react`;
 
 export default function Like({
   liked,
@@ -19,27 +19,27 @@ export default function Like({
   const [likes, setLikes] = useState(totalLikes);
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!like) {
-      // if unliked
-      if (liked) setLikes(totalLikes - 1);
-      else if (!liked) setLikes(totalLikes);
-    } else {
-      // if liked
-      if (liked) setLikes(totalLikes);
-      else if (!liked) setLikes(totalLikes + 1);
-      setTimeout(() => {
-        if (ref.current) {
-          const firstChild = ref.current.firstChild as HTMLElement;
-          if (firstChild) firstChild.classList.remove("animate-ping");
-        }
-      }, 450);
-      if (ref.current) {
-        const firstChild = ref.current.firstChild as HTMLElement;
-        if (firstChild) firstChild.classList.add("animate-ping");
-      }
-    }
-  }, [like, totalLikes, liked, id]);
+  // useEffect(() => {
+  //   if (!like) {
+  //     // if unliked
+  //     if (liked) setLikes(totalLikes - 1);
+  //     else if (!liked) setLikes(totalLikes);
+  //   } else {
+  //     // if liked
+  //     if (liked) setLikes(totalLikes);
+  //     else if (!liked) setLikes(totalLikes + 1);
+  //     setTimeout(() => {
+  //       if (ref.current) {
+  //         const firstChild = ref.current.firstChild as HTMLElement;
+  //         if (firstChild) firstChild.classList.remove("animate-ping");
+  //       }
+  //     }, 450);
+  //     if (ref.current) {
+  //       const firstChild = ref.current.firstChild as HTMLElement;
+  //       if (firstChild) firstChild.classList.add("animate-ping");
+  //     }
+  //   }
+  // }, [like, totalLikes, liked, id]);
 
   return (
     <div
@@ -49,19 +49,41 @@ export default function Like({
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         };
         if (like) {
+          if (liked) setLikes(totalLikes - 1);
+          else if (!liked) setLikes(totalLikes);
           axios
-            .get(callapi("unlike", id), {
-              headers,
-            })
+            .put(
+              callapi(id),
+              { reaction: "unlike" },
+              {
+                headers,
+              }
+            )
             .then((res) => {
               if (res.status != 200) throw new Error("Failed to like");
             })
             .catch((err) => console.error(err));
         } else {
+          if (liked) setLikes(totalLikes);
+          else if (!liked) setLikes(totalLikes + 1);
+          setTimeout(() => {
+            if (ref.current) {
+              const firstChild = ref.current.firstChild as HTMLElement;
+              if (firstChild) firstChild.classList.remove("animate-ping");
+            }
+          }, 450);
+          if (ref.current) {
+            const firstChild = ref.current.firstChild as HTMLElement;
+            if (firstChild) firstChild.classList.add("animate-ping");
+          }
           axios
-            .get(callapi("like", id), {
-              headers,
-            })
+            .put(
+              callapi(id),
+              { reaction: "like" },
+              {
+                headers,
+              }
+            )
             .then((res) => {
               if (res.status != 200) throw new Error("Failed to unlike");
             })
