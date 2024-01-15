@@ -51,6 +51,8 @@ export type Comment = {
   name: string;
   email: string;
   body: string;
+  numberOfLikes: number;
+  likedByUser: boolean;
 };
 export type Posts = Array<Post>;
 export type Comments = Array<Comment>;

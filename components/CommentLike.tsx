@@ -3,10 +3,10 @@
 import axios from "axios";
 import { useRef, useState } from "react";
 
-let callapi = (postId: string) =>
-  `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}/react`;
+let callapi = (commentId: string) =>
+  `${process.env.NEXT_PUBLIC_URL_BACKEND}/comments/${commentId}`;
 
-export default function Like({
+export default function CommentLike({
   liked,
   id,
   totalLikes,

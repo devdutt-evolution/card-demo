@@ -1,4 +1,5 @@
 "use client";
+import CommentLike from "@/components/CommentLike";
 import { Comments } from "@/types/type.d";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
@@ -82,10 +83,17 @@ export default function Comment({ comments }: { comments: Comments }) {
               className="bg-divider my-5 py-3 px-5 rounded-lg"
             >
               <h4 className="text-l font-bold">
-                <a href={`to:${comment.email}`}>{comment.name.split(" ")[0]}</a>
+                <a href={`to:${comment.email}`}>
+                  {comment?.name.split(" ")[0] || comment.name}
+                </a>
               </h4>
               <p className="text-sm text-place">{comment.email}</p>
-              <p className="pt-3">{comment.body}</p>
+              <p className="py-3">{comment.body}</p>
+              <CommentLike
+                liked={comment.likedByUser}
+                totalLikes={comment.numberOfLikes}
+                id={comment._id}
+              />
             </div>
           );
         })

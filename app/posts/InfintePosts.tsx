@@ -61,8 +61,9 @@ export default function InfinitePosts({
     setLoading(false);
     setPage((page) => page + 1);
     setData((prevPosts) => {
-      if (prevPosts) return [...prevPosts, ...data];
-      return [...data];
+      if (prevPosts && data) return [...prevPosts, ...data];
+      if (prevPosts || data) return [...data];
+      return [];
     });
   }, [page, sortWith, isAsc, search, token]);
 
