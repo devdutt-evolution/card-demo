@@ -33,8 +33,11 @@ export default function Post({ params }: { params: { postId: string } }) {
         {data && Object.keys(data).length > 0 ? (
           <div className="bg-card rounded-lg py-6 px-8 m-2">
             <h2 className="text-2xl pb-5 font-bold">{data?.title}</h2>
-            <p>{data?.body}</p>
-            <div className="border-2 border-divider my-8"></div>
+            <div
+              className="ProseMirror nono"
+              dangerouslySetInnerHTML={{ __html: data.body }}
+            ></div>
+            <div className="border-2 border-divider my-4"></div>
             <Comment comments={data?.comments} />
             <Link href="/posts">
               <button className="bg-green hover:bg-hgreen px-4 py-2 rounded-lg">

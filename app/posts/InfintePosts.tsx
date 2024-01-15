@@ -60,7 +60,10 @@ export default function InfinitePosts({
     )) as Posts;
     setLoading(false);
     setPage((page) => page + 1);
-    setData((prevPosts) => [...prevPosts, ...data]);
+    setData((prevPosts) => {
+      if (prevPosts) return [...prevPosts, ...data];
+      return [...data];
+    });
   }, [page, sortWith, isAsc, search, token]);
 
   useEffect(() => {
@@ -124,7 +127,11 @@ export default function InfinitePosts({
                 ></div>
                 {/* <>{}</> */}
               </Link>
-              <Like liked={true} id={post._id} />
+              <Like
+                liked={post.likedByUser}
+                id={post._id}
+                totalLikes={post.numberOfLikes}
+              />
             </div>
           );
         })
