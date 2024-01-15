@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { Posts } from "../../types/type.d";
 import { DateTime } from "luxon";
 import Loader from "../../components/Loader";
+import Like from "@/components/Like";
 
 const PAGE_SIZE = 10;
 const fetchNextPosts = async (
@@ -106,7 +107,7 @@ export default function InfinitePosts({
           return (
             <div
               key={post._id}
-              className="bg-card rounded-lg py-6 mb-2 px-8 border-2 border-black hover:border-2 hover:border-green"
+              className="bg-card rounded-lg py-6 mb-2 px-8 border-2 border-black hover:border-2 hover:border-green hover:shadow-sm hover:shadow-green"
             >
               <Link className="w-fit" href={`/user/${post.userId}`}>
                 <div className="flex justify-between">
@@ -118,11 +119,12 @@ export default function InfinitePosts({
               <Link href={`/post/${post._id}`}>
                 <h3 className="text-xl pb-4">{post.title}</h3>
                 <div
-                  className="ProseMirror nono"
+                  className="ProseMirror nono pb-4"
                   dangerouslySetInnerHTML={{ __html: post.body }}
                 ></div>
                 {/* <>{}</> */}
               </Link>
+              <Like liked={true} id={post._id} />
             </div>
           );
         })
