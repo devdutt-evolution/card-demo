@@ -19,12 +19,12 @@ export default function AddPost({ setCust }: { setCust: Function }) {
     <div className="bg-card h-[100px] rounded-lg mb-3 flex flex-col items-center justify-center">
       <div
         className="flex gap-2 bg-divider w-4/5 h-2/4 rounded-lg items-center justify-center text-place
-      cursor-pointer hover:text-[#FFF]"
+      cursor-pointer hover:text-[#FFF] border-2 border-dashed"
         onClick={() => setOpen((t) => !t)}
       >
         <p className="h-max">
           <span className="text-2xl">+</span>{" "}
-          <span className="text-xl">Add Post</span>
+          <span className="text-xl">Create Post</span>
         </p>
       </div>
 
@@ -58,7 +58,7 @@ export default function AddPost({ setCust }: { setCust: Function }) {
             </div>
             {isSchedule && (
               <input
-              className="focus:outline-green text-place outline-none rounded-lg p-2 w-full bg-divider"
+                className="focus:outline-green text-place outline-none rounded-lg p-2 w-full bg-divider"
                 type="datetime-local"
                 placeholder=""
                 onChange={(e) => setSchedule(new Date(e.target.value))}

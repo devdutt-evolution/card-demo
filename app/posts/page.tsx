@@ -43,6 +43,15 @@ export default function PostsWrapper() {
       setAsc("desc");
     }
   };
+  const handleMostLiked: React.MouseEventHandler = (e) => {
+    if (sortWith == "numberOfLikes" && isAsc == "desc") {
+      setSortWith("title");
+      setAsc("asc");
+    } else {
+      setSortWith("numberOfLikes");
+      setAsc("desc");
+    }
+  };
 
   return (
     <CheckAuth>
@@ -51,14 +60,14 @@ export default function PostsWrapper() {
           <AddPost setCust={setCust} />
           <input
             type="search"
-            className="outline-none focus:outline-green text-[#FFF] font-roboto rounded-lg bg-card p-2"
+            className="outline-none focus:outline-green text-[#FFF] font-roboto rounded-lg bg-card p-2 px-4"
             id="search"
             autoComplete="off"
             placeholder="Search"
             value={tempSearch}
             onChange={handleSearch}
           />
-          <div className="flex justify-end py-2 gap-2">
+          <div className="flex justify-end py-2 gap-2 text-sm font-semibold">
             <button
               onClick={handleRecent}
               className={`py-2 px-3 ${
@@ -81,6 +90,16 @@ export default function PostsWrapper() {
                 <path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
               </svg>
             </button>
+            <button
+              onClick={handleMostLiked}
+              className={`py-2 px-3 bg-card rounded-lg ${
+                isAsc == "desc" &&
+                sortWith == "numberOfLikes" &&
+                "border-green text-green"
+              }`}
+            >
+              Most Liked
+            </button>
             <select
               className="p-2 rounded-lg bg-card outline-none focus:outline-green"
               value={isAsc}
@@ -97,6 +116,7 @@ export default function PostsWrapper() {
               <option value="title">Title</option>
               <option value="body">Description</option>
               <option value="createdAt">Time</option>
+              <option value="numberOfLikes">Likes</option>
             </select>
           </div>
           <InfinitePosts
