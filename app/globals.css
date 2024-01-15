@@ -19,6 +19,11 @@ body {
   background: rgb(var(--background-start-rgb));
 }
 
+::selection {
+  background-color: #00875f;
+  color: #202024;
+}
+
 ::-webkit-scrollbar {
   display: block;
   background-color: #202024;

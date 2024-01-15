@@ -1,5 +1,6 @@
 "use client";
 import CheckAuth from "@/components/CheckAuth";
+import Loader from "@/components/Loader";
 import { User } from "@/types/type.d";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -21,13 +22,26 @@ export default function UserDetails({
   params: { userId: string };
 }) {
   const [user, setUser] = useState<User>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     let token = window.localStorage.getItem("token") as string;
     fetchUserDetails(params.userId, token).then((data) => {
+      setLoading(false);
       setUser(data);
     });
   }, [params.userId]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center w-3/5 text-white mx-auto h-[70vh]">
+        <CheckAuth>
+          <Loader />
+        </CheckAuth>
+      </div>
+    );
+  }
 
   if (!user) {
     return (

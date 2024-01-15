@@ -46,7 +46,7 @@ export default function InfinitePosts({
   cust: boolean;
   token: string;
 }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Posts>([]);
   const [page, setPage] = useState(2);
 
@@ -102,7 +102,11 @@ export default function InfinitePosts({
 
   return (
     <div className="flex flex-col w-full text-white mx-auto h-max">
-      {data?.length > 0 ? (
+      {loading ? (
+        <div className="h-[200px] flex justify-center items-center w-full">
+          <Loader />
+        </div>
+      ) : data?.length > 0 ? (
         data?.map((post, index) => {
           let diff = post.publishAt;
           let luxonDate;
@@ -139,11 +143,6 @@ export default function InfinitePosts({
       ) : (
         <div className="bg-card rounded-lg py-4 px-3 border-2 border-black">
           No Posts
-        </div>
-      )}
-      {loading && (
-        <div className="h-[200px] flex justify-center items-center w-full">
-          <Loader />
         </div>
       )}
     </div>
