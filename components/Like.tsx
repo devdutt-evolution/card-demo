@@ -25,58 +25,57 @@ export default function Like({
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      ref={ref}
-      onClick={(e) => {
-        let headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        if (like) {
-          if (liked) setLikes(totalLikes - 1);
-          else if (!liked) setLikes(totalLikes);
-          axios
-            .put(
-              callapi(id),
-              { reaction: "unlike" },
-              {
-                headers,
+    <div ref={ref} className="w-min flex gap-4 rounded-full bg-black p-1">
+      <div
+        className="w-min flex gap-3 rounded-full hover:bg-card hover:cursor-pointer p-1 px-2"
+        onClick={(e) => {
+          let headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          if (like) {
+            if (liked) setLikes(totalLikes - 1);
+            else if (!liked) setLikes(totalLikes);
+            axios
+              .put(
+                callapi(id),
+                { reaction: "unlike" },
+                {
+                  headers,
+                }
+              )
+              .then((res) => {
+                if (res.status != 200) throw new Error("Failed to like");
+              })
+              .catch((err) => console.error(err));
+          } else {
+            if (liked) setLikes(totalLikes);
+            else if (!liked) setLikes(totalLikes + 1);
+            setTimeout(() => {
+              if (ref.current) {
+                const firstChild = ref.current.firstChild as HTMLElement;
+                if (firstChild) firstChild.classList.remove("animate-ping");
               }
-            )
-            .then((res) => {
-              if (res.status != 200) throw new Error("Failed to like");
-            })
-            .catch((err) => console.error(err));
-        } else {
-          if (liked) setLikes(totalLikes);
-          else if (!liked) setLikes(totalLikes + 1);
-          setTimeout(() => {
+            }, 450);
             if (ref.current) {
               const firstChild = ref.current.firstChild as HTMLElement;
-              if (firstChild) firstChild.classList.remove("animate-ping");
+              if (firstChild) firstChild.classList.add("animate-ping");
             }
-          }, 450);
-          if (ref.current) {
-            const firstChild = ref.current.firstChild as HTMLElement;
-            if (firstChild) firstChild.classList.add("animate-ping");
+            axios
+              .put(
+                callapi(id),
+                { reaction: "like" },
+                {
+                  headers,
+                }
+              )
+              .then((res) => {
+                if (res.status != 200) throw new Error("Failed to unlike");
+              })
+              .catch((err) => console.error(err));
           }
-          axios
-            .put(
-              callapi(id),
-              { reaction: "like" },
-              {
-                headers,
-              }
-            )
-            .then((res) => {
-              if (res.status != 200) throw new Error("Failed to unlike");
-            })
-            .catch((err) => console.error(err));
-        }
-        setLike((l) => !l);
-      }}
-      className="w-min flex gap-4 rounded-full bg-black p-1"
-    >
-      <div className="w-min flex gap-3 rounded-full hover:bg-card p-1 px-2">
+          setLike((l) => !l);
+        }}
+      >
         {!like ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"

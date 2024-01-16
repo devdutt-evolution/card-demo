@@ -1,4 +1,5 @@
 "use client";
+
 import { ChangeEventHandler, useState } from "react";
 import Modal from "../../components/Modal";
 import PostHook from "./PostButton";
@@ -15,10 +16,10 @@ export default function AddPost({
   const [title, setTitle] = useState("");
   const [isSchedule, setIsSchedule] = useState(false);
   const [schedule, setSchedule] = useState(new Date());
-  
+
   const changeTitle: ChangeEventHandler<HTMLInputElement> = (e) =>
     setTitle(e.target.value);
-  
+
   return (
     <div className="bg-card h-[100px] rounded-lg mb-3 flex flex-col items-center justify-center">
       <div
@@ -45,12 +46,6 @@ export default function AddPost({
             <div className=" bg-divider rounded-lg px-2 w-full">
               <TextRich />
             </div>
-            {/* <textarea
-              className="bg-divider p-2 font-[#FFF] rounded-lg h-[12vh] w-full"
-              placeholder="Post Body"
-              value={body}
-              onChange={changeBody}
-            /> */}
             <div className="flex gap-2 w-full">
               <input
                 className="outline-none focus:outline-green accent-green hover:bg-green hover:bg-opacity-50"

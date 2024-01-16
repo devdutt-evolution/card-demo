@@ -1,4 +1,5 @@
 "use client";
+
 import InfinitePosts from "./InfintePosts";
 import AddPost from "./AddPost";
 import { useEffect, useState } from "react";
