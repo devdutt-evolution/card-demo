@@ -15,12 +15,10 @@ export default function AddPost({
   const [title, setTitle] = useState("");
   const [isSchedule, setIsSchedule] = useState(false);
   const [schedule, setSchedule] = useState(new Date());
-  // const [body, setBody] = useState("");
+  
   const changeTitle: ChangeEventHandler<HTMLInputElement> = (e) =>
     setTitle(e.target.value);
-  // const changeBody: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
-  //   setBody(e.target.value);
-
+  
   return (
     <div className="bg-card h-[100px] rounded-lg mb-3 flex flex-col items-center justify-center">
       <div

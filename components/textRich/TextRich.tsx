@@ -252,48 +252,17 @@ const MenuBar = () => {
   );
 };
 
-// const MenuBar2 = () => {
-//   const { editor } = useCurrentEditor();
-
-//   if (!editor) {
-//     return null;
-//   }
-
-//   return (
-//     <div className="flex flex-wrap gap-2 py-2">
-//       <button
-//         className=""
-//         onClick={() => editor.chain().focus().unsetAllMarks().run()}
-//       >
-//         clear marks
-//       </button>
-//       <button
-//         className=""
-//         onClick={() => editor.chain().focus().clearNodes().run()}
-//       >
-//         clear nodes
-//       </button>
-//       <button
-//         className="rounded-lg bg-card px-3 py-2"
-//         onClick={() => editor.chain().focus().setHardBreak().run()}
-//       >
-//         hard break
-//       </button>
-//     </div>
-//   );
-// };
-
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({ HTMLAttributes: [ListItem.name] }),
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false,
     },
     orderedList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false,
     },
   }),
 ];
@@ -311,7 +280,6 @@ export default function Name() {
     >
       <EditorProvider
         slotBefore={<MenuBar />}
-        // slotAfter={<MenuBar2 />}
         extensions={extensions}
         content={content}
       >

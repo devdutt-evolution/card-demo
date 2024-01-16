@@ -6,14 +6,12 @@ import Loader from "../../components/Loader";
 
 export default function PostHook({
   title,
-  // body,
   isSchedule,
   schedule,
   token,
   toggle,
 }: {
   title: string;
-  // body: string;
   isSchedule: boolean;
   schedule: Date;
   token: string;

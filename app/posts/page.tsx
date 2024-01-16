@@ -18,7 +18,6 @@ export default function PostsWrapper() {
   const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
   const [cust, setCust] = useState(false);
-  // const [token, setToken] = useState("");
 
   // for debounce and search
   useEffect(() => {
