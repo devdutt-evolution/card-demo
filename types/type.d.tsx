@@ -30,6 +30,7 @@ export type Post = {
   body: string;
   userId: string;
   numberOfLikes: number;
+  commentCount: number;
   likedByUser: boolean;
   publishAt?: number;
   user?: User;
@@ -44,6 +45,7 @@ export type PostComment = {
   likedByUser: boolean;
   publishAt?: number;
   comments: Comments;
+  commentCount: number;
 };
 export type Comment = {
   postId: string;

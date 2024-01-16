@@ -130,12 +130,12 @@ export default function InfinitePosts({
                   className="ProseMirror nono pb-4"
                   dangerouslySetInnerHTML={{ __html: post.body }}
                 ></div>
-                {/* <>{}</> */}
               </Link>
               <Like
                 liked={post.likedByUser}
                 id={post._id}
                 totalLikes={post.numberOfLikes}
+                totalComments={post.commentCount}
               />
             </div>
           );
