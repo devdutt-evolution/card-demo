@@ -12,11 +12,13 @@ export default function Like({
   id,
   totalLikes,
   totalComments,
+  token,
 }: {
   liked: boolean;
   id: string;
   totalLikes: number;
   totalComments: number;
+  token: any;
 }) {
   const [like, setLike] = useState(liked);
   const [likes, setLikes] = useState(totalLikes);
@@ -27,7 +29,7 @@ export default function Like({
       ref={ref}
       onClick={(e) => {
         let headers = {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         };
         if (like) {
           if (liked) setLikes(totalLikes - 1);

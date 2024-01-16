@@ -1,10 +1,16 @@
 "use client";
 import { ChangeEventHandler, useState } from "react";
 import Modal from "../../components/Modal";
-import PostHook from "./PostHook";
+import PostHook from "./PostButton";
 import TextRich from "@/components/textRich/TextRich";
 
-export default function AddPost({ setCust }: { setCust: Function }) {
+export default function AddPost({
+  setCust,
+  token,
+}: {
+  setCust: Function;
+  token: any;
+}) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [isSchedule, setIsSchedule] = useState(false);
@@ -66,8 +72,8 @@ export default function AddPost({ setCust }: { setCust: Function }) {
             )}
             <PostHook
               title={title}
-              // body={body}
               isSchedule={isSchedule}
+              token={token.token}
               schedule={schedule}
               toggle={() => {
                 setOpen((t) => !t);
@@ -75,7 +81,6 @@ export default function AddPost({ setCust }: { setCust: Function }) {
                 setTitle("");
                 setIsSchedule(false);
                 setSchedule(new Date());
-                // setBody("");
               }}
             />
           </form>

@@ -44,7 +44,7 @@ export default function InfinitePosts({
   sortWith: string;
   isAsc: string;
   cust: boolean;
-  token: string;
+  token: any;
 }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Posts>([]);
@@ -55,7 +55,7 @@ export default function InfinitePosts({
       page,
       sortWith,
       isAsc,
-      token,
+      token.token,
       search
     )) as Posts;
     setLoading(false);
@@ -74,7 +74,7 @@ export default function InfinitePosts({
         1,
         sortWith,
         isAsc,
-        token,
+        token.token,
         search
       )) as Posts;
       setData(data);
@@ -132,6 +132,7 @@ export default function InfinitePosts({
                 ></div>
               </Link>
               <Like
+                token={token.token}
                 liked={post.likedByUser}
                 id={post._id}
                 totalLikes={post.numberOfLikes}

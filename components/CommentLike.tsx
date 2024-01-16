@@ -10,33 +10,29 @@ export default function CommentLike({
   liked,
   id,
   totalLikes,
+  token,
 }: {
   liked: boolean;
   id: string;
   totalLikes: number;
+  token: any;
 }) {
   const [like, setLike] = useState(liked);
   const [likes, setLikes] = useState(totalLikes);
   const ref = useRef<HTMLDivElement>(null);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
   return (
     <div
       ref={ref}
       onClick={(e) => {
-        let headers = {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        };
         if (like) {
           if (liked) setLikes(totalLikes - 1);
           else if (!liked) setLikes(totalLikes);
           axios
-            .put(
-              callapi(id),
-              { reaction: "unlike" },
-              {
-                headers,
-              }
-            )
+            .put(callapi(id), { reaction: "unlike" }, { headers })
             .then((res) => {
               if (res.status != 200) throw new Error("Failed to like");
             })
@@ -55,13 +51,7 @@ export default function CommentLike({
             if (firstChild) firstChild.classList.add("animate-ping");
           }
           axios
-            .put(
-              callapi(id),
-              { reaction: "like" },
-              {
-                headers,
-              }
-            )
+            .put(callapi(id), { reaction: "like" }, { headers })
             .then((res) => {
               if (res.status != 200) throw new Error("Failed to unlike");
             })

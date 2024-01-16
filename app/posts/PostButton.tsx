@@ -9,23 +9,20 @@ export default function PostHook({
   // body,
   isSchedule,
   schedule,
+  token,
   toggle,
 }: {
   title: string;
   // body: string;
   isSchedule: boolean;
   schedule: Date;
+  token: string;
   toggle: () => void;
 }) {
   const router = useRouter();
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
-  const [token, setToken] = useState("");
 
-  useEffect(() => {
-    let token = window.localStorage.getItem("token");
-    setToken(token as string);
-  }, []);
   useEffect(() => {
     setSent(false);
     setError("");

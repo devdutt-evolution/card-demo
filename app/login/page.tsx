@@ -1,33 +1,15 @@
 "use client";
 import Loader from "@/components/Loader";
-import axios from "axios";
-import { redirect, useRouter } from "next/navigation";
-import {
-  ChangeEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { ChangeEventHandler, MouseEventHandler, useState } from "react";
 
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    let token = window.localStorage.getItem("token");
-    if (token) redirect("/posts");
-  }, [router]);
-
-  useEffect(() => {
-    if (token) {
-      window.localStorage.setItem("token", token);
-      redirect("/posts");
-    }
-  }, [token]);
 
   const onEmailChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);
@@ -37,22 +19,17 @@ export default function Login() {
     setPassword(e.target.value);
     setError("");
   };
-  const login: MouseEventHandler = (e) => {
+  const login: MouseEventHandler = async (e) => {
     setLoading(true);
-    axios
-      .post(`${process.env.NEXT_PUBLIC_URL_BACKEND}/signin`, {
-        email,
-        password,
-      })
-      .then((data) => {
-        setToken(data.data.token);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.name === "AxiosError") setError(err.response.data.message);
-        setLoading(false);
-      });
+    let result = await signIn("credentials", {
+      callbackUrl: "/posts",
+      redirect: false,
+      email,
+      password,
+    });
+    setLoading(false);
+    if (!result?.error) router.push("/posts");
+    else setError(result.error);
   };
 
   return (

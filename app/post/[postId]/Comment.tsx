@@ -10,19 +10,20 @@ import {
   useState,
 } from "react";
 
-export default function Comment({ comments }: { comments: Comments }) {
+export default function Comment({
+  comments,
+  token,
+}: {
+  comments: Comments;
+  token: any;
+}) {
   const params = useParams();
   const router = useRouter();
   const [data, setData] = useState(comments);
-  const [token, setToken] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    let token = window.localStorage.getItem("token");
-    setToken(token as string);
-  }, []);
   useEffect(() => {
     setData(comments);
   }, [comments]);
@@ -39,7 +40,7 @@ export default function Comment({ comments }: { comments: Comments }) {
           body: comment,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token.token}` },
         }
       )
       .then(() => {
@@ -90,6 +91,7 @@ export default function Comment({ comments }: { comments: Comments }) {
               <p className="text-sm text-place">{comment.email}</p>
               <p className="py-3">{comment.body}</p>
               <CommentLike
+                token={token.token}
                 liked={comment.likedByUser}
                 totalLikes={comment.numberOfLikes}
                 id={comment._id}
