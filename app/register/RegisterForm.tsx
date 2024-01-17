@@ -1,5 +1,8 @@
 "use client";
 
+import Button from "@/components/Button";
+import ErrorText from "@/components/ErrorText";
+import { Input } from "@/components/Input";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -40,39 +43,35 @@ export default function RegisterForm() {
 
   return (
     <form
-      className="w-full bg-card rounded-lg flex flex-col gap-4 justify-center items-center p-5"
+      className="w-full bg-card rounded-lg flex flex-col gap-4 justify-center items-start p-5"
       noValidate
       onSubmit={handleSubmit(registerUser)}
     >
-      <input
+      <Input
         className="outline-none focus:outline-green bg-divider px-3 p-2 font-[#FFF] rounded-lg w-full"
         type="text"
         autoComplete="off"
         placeholder="username"
         {...register("username", { required: "Username is required" })}
       />
-      {errors.username && (
-        <p className="text-red p-2">{errors.username.message}</p>
-      )}
-      <input
+      {errors.username && <ErrorText>{errors.username.message}</ErrorText>}
+      <Input
         className="outline-none focus:outline-green bg-divider px-3 p-2 font-[#FFF] rounded-lg w-full"
         type="text"
         autoComplete="off"
         placeholder="email"
         {...register("email", { required: "Email is required" })}
       />
-      {errors.email && <p className="text-red p-2">{errors.email.message}</p>}
-      <input
+      {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
+      <Input
         className="outline-none focus:outline-green bg-divider px-3 p-2 font-[#FFF] rounded-lg w-full"
         type="password"
         autoComplete="off"
         placeholder="password"
         {...register("password", { required: "Password is required" })}
       />
-      {errors.password && (
-        <p className="text-red p-2">{errors.password.message}</p>
-      )}
-      <input
+      {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
+      <Input
         className="outline-none focus:outline-green bg-divider px-3 p-2 font-[#FFF] rounded-lg w-full"
         type="text"
         placeholder="confirm password"
@@ -81,25 +80,22 @@ export default function RegisterForm() {
           required: "Confirm the password",
           validate: {
             checkPassword: (value, values) => {
-              if (value == values.password) return value;
-              else throw new Error("Passwords does not match");
+              if (value == values.password) return true;
+              else return "Passwords does not match";
             },
           },
         })}
       />
       {errors.confirmPassword && (
-        <p className="text-red p-2">{errors.confirmPassword.message}</p>
+        <ErrorText>{errors.confirmPassword.message}</ErrorText>
       )}
-      {error && <p className="text-red p-2">{error}</p>}
+      {error && <ErrorText>{error}</ErrorText>}
       {isLoading ? (
         <Loader />
       ) : (
-        <button
-          className="bg-green hover:bg-opacity-20 px-4 py-2 rounded-lg w-full"
-          type="submit"
-        >
+        <Button type="submit" className="w-full">
           Register
-        </button>
+        </Button>
       )}
     </form>
   );
