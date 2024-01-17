@@ -43,7 +43,7 @@ export default function AddComment({ postId }: { postId: string }) {
   }
 
   return (
-    <div className="h-min flex flex-col gap-4 justify-between">
+    <div className="flex flex-col gap-2 justify-between mb-4">
       <textarea
         className="bg-black w-full rounded-lg p-2 outline-none border-2 border-black focus:border-2 focus:border-green"
         placeholder="create comment ..."

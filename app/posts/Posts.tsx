@@ -1,9 +1,9 @@
 "use client";
 
 import InfinitePosts from "./InfintePosts";
-import AddPost from "./AddPost";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import AddPost from "./AddPost";
 
 export default function Posts() {
   const { data } = useSession({
@@ -44,7 +44,7 @@ export default function Posts() {
   };
 
   return (
-    <div className="h-max flex flex-col w-3/5 p-2 mx-auto text-white">
+    <div className="flex flex-col w-3/5 mx-auto gap-2 justify-around mt-2">
       <AddPost />
       <input
         type="search"
@@ -55,7 +55,7 @@ export default function Posts() {
         value={tempSearch}
         onChange={(e) => setTempSearch(e.target.value)}
       />
-      <div className="flex justify-end gap-2 py-2 text-sm font-semibold">
+      <div className="flex justify-end gap-2 text-sm font-semibold">
         <button
           onClick={handleRecent}
           className={`py-2 px-3 ${

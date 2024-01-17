@@ -24,8 +24,8 @@ export default async function PostData({ postId }: { postId: string }) {
   const postData = await fetchPostDetail(postId, token.token);
 
   return (
-    <div className="bg-card rounded-lg py-6 px-8 m-2">
-      <h2 className="text-2xl pb-5 font-bold">{postData?.title}</h2>
+    <div className="bg-card w-full rounded-lg p-5">
+      <h2 className="text-2xl font-bold">{postData?.title}</h2>
       <div
         className="ProseMirror nono"
         dangerouslySetInnerHTML={{ __html: postData?.body || <p></p> }}
@@ -39,7 +39,7 @@ export default async function PostData({ postId }: { postId: string }) {
           return (
             <div
               key={comment._id}
-              className="bg-divider my-5 py-3 px-5 rounded-lg"
+              className="bg-divider rounded-lg p-3 my-2"
             >
               <h4 className="text-l font-bold">
                 <a href={`to:${comment.email}`}>

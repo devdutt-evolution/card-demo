@@ -95,7 +95,7 @@ export default function InfinitePosts({
   }, [loadMore]);
 
   return (
-    <div className="h-max flex flex-col w-full mx-auto text-white">
+    <div className="flex flex-col w-full mx-auto gap-2">
       {loading ? (
         <div className="h-[200px] flex justify-center items-center w-full">
           <Loader />
@@ -109,7 +109,7 @@ export default function InfinitePosts({
           return (
             <div
               key={post._id}
-              className="bg-card hover:border-2 hover:border-green hover:shadow-sm hover:shadow-green px-8 py-6 mb-2 border-2 border-black rounded-lg"
+              className="bg-card hover:border-2 hover:border-green hover:shadow-sm hover:shadow-green px-8 py-6 border-2 border-card rounded-lg"
             >
               <Link className="w-fit" href={`/user/${post.userId}`}>
                 <div className="flex justify-between">
@@ -126,7 +126,7 @@ export default function InfinitePosts({
                 ></div>
               </Link>
               <Like
-                token={token.token}
+                token={token?.token}
                 liked={post.likedByUser}
                 id={post._id}
                 totalLikes={post.numberOfLikes}

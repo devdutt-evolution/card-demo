@@ -77,7 +77,7 @@ const MenuBar = () => {
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={`${
-          editor.isActive("paragraph") ? "text-green" : "text-white"
+          editor.isActive("paragraph") ? "text-green" : "text-[#fff]"
         } font-bold`}
       >
         P
@@ -272,7 +272,7 @@ const content = `<br /><br />`;
 export default function Name() {
   return (
     <div
-      className="flex flex-col text-white"
+      className="flex flex-col"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

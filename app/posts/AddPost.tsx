@@ -74,7 +74,7 @@ export default function AddPost() {
   }
 
   return (
-    <div className="bg-card h-[100px] rounded-lg mb-3 flex flex-col items-center justify-center">
+    <div className="bg-card h-[100px] rounded-lg flex items-center justify-center">
       <div
         className="flex gap-2 bg-divider w-4/5 h-2/4 rounded-lg items-center justify-center text-place cursor-pointer hover:text-[#FFF] border-2 border-dashed"
         onClick={() => setOpen((t) => !t)}
