@@ -30,7 +30,6 @@ export default function LoginForm() {
   }, [setFocus]);
 
   async function login(data: FormData) {
-      console.log(data);
       let result = await signIn("credentials", {
         callbackUrl: "/posts",
         redirect: false,

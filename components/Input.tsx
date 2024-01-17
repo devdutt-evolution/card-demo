@@ -4,7 +4,6 @@ export const Input = forwardRef(function Input(
   { className, ...props }: any,
   ref
 ) {
-  // console.log(props);
   return (
     <input
       ref={ref}
