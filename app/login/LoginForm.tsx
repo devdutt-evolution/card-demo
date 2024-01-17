@@ -1,68 +1,70 @@
 "use client";
 
+import Button from "@/components/Button";
+import ErrorText from "@/components/ErrorText";
+import { Input } from "@/components/Input";
 import Loader from "@/components/Loader";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+
+type FormData = {
+  email?: string;
+  password?: string;
+};
 
 export default function LoginForm() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    formState: { errors, isLoading },
+    handleSubmit,
+    setFocus,
+  } = useForm<FormData>();
+
   const [error, setError] = useState("");
 
-  async function login() {
-    try {
-      setLoading(true);
+  useEffect(() => {
+    setFocus("email");
+  }, [setFocus]);
+
+  async function login(data: FormData) {
+      console.log(data);
       let result = await signIn("credentials", {
         callbackUrl: "/posts",
         redirect: false,
-        email,
-        password,
+        email: data.email,
+        password: data.password,
       });
-      setLoading(false);
       if (!result?.error) router.push("/posts");
       else setError(result.error);
-    } catch (err: any) {
-      setLoading(false);
-      setError(err);
-    }
   }
+  const what = register("email", { required: "Email is required" });
 
   return (
-    <form className="w-full bg-card rounded-lg flex flex-col gap-4 justify-around items-center py-8 ">
-      <input
-        className="bg-divider p-2 font-[#FFF] rounded-lg w-4/5 outline-none focus:outline-green"
+    <form
+      className="bg-card flex flex-col items-start justify-around w-full gap-4 px-4 py-8 rounded-lg"
+      noValidate
+      onSubmit={handleSubmit(login)}
+    >
+      <Input
+        className={errors.email ? "outline-red" : ""}
         type="text"
+        autoComplete="off"
         placeholder="email"
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-          setError("");
-        }}
+        {...what}
       />
-      <input
-        className="bg-divider p-2 font-[#FFF] rounded-lg w-4/5 outline-none focus:outline-green"
+      {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
+      <Input
+        // className="bg-divider p-2 font-[#FFF] rounded-lg w-4/5 outline-none focus:outline-green"
         type="password"
         placeholder="password"
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-          setError("");
-        }}
+        {...register("password", { required: "Password is required" })}
       />
-      {error && <p className="text-red p-2">{error}</p>}
-      {loading ? (
-        <Loader />
-      ) : (
-        <button
-          className="bg-green hover:bg-hgreen px-4 py-2 rounded-lg outline-none focus:outline-green"
-          onClick={(e) => login()}
-        >
-          Login
-        </button>
-      )}
+      {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
+      {error && <ErrorText>{error}</ErrorText>}
+      {isLoading ? <Loader /> : <Button type="submit">Login</Button>}
     </form>
   );
 }

@@ -10,10 +10,10 @@ export default function UserDetails({
 }) {
   if (!params.userId) {
     return (
-      <div className="flex justify-center items-center w-3/5 text-white mx-auto h-max">
+      <div className="h-max flex items-center justify-center w-3/5 mx-auto text-white">
         <div className="bg-card rounded-lg py-6 px-8 m-2 w-full text-2xl h-[calc(100vh-130px)] flex gap-2 justify-center items-center">
           <Link href="/posts">
-            <p className="py-1 px-3 rounded-lg bg-green">&larr;</p>
+            <p className="bg-green px-3 py-1 rounded-lg">&larr;</p>
           </Link>
           <p>No Such User</p>
         </div>
@@ -22,8 +22,8 @@ export default function UserDetails({
   }
 
   return (
-    <div className="flex flex-col w-3/5 text-white mx-auto h-max">
-      <div className="flex flex-col gap-y-2 bg-card rounded-lg py-6 px-8 m-2">
+    <div className="h-max flex flex-col w-3/5 mx-auto text-white">
+      <div className="gap-y-2 bg-card flex flex-col px-8 py-6 m-2 rounded-lg">
         {/* show users detais */}
         <Suspense
           fallback={

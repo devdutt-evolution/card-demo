@@ -36,20 +36,23 @@ export const options: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        try {
-          const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_URL_BACKEND}/signin`,
-            {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_URL_BACKEND}/signin`,
+          {
+            method: "post",
+            body: JSON.stringify({
               email: credentials?.email,
               password: credentials?.password,
-            }
-          );
-
-          const user = res.data;
-          return user;
-        } catch (err) {
-          console.log(err);
-          return null;
+            }),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (res.status == 200) {
+          let data = await res.json();
+          return data;
+        } else {
+          let error = await res.json();
+          throw new Error(error?.message || "Failed authentication");
         }
       },
     }),

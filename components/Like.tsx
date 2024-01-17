@@ -25,9 +25,9 @@ export default function Like({
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={ref} className="w-min flex gap-4 rounded-full bg-black p-1">
+    <div ref={ref} className="w-min flex gap-4 p-1 bg-black rounded-full">
       <div
-        className="w-min flex gap-3 rounded-full hover:bg-card hover:cursor-pointer p-1 px-2"
+        className="w-min hover:bg-card hover:cursor-pointer flex gap-3 p-1 px-2 rounded-full"
         onClick={(e) => {
           let headers = {
             Authorization: `Bearer ${token}`,
@@ -36,13 +36,7 @@ export default function Like({
             if (liked) setLikes(totalLikes - 1);
             else if (!liked) setLikes(totalLikes);
             axios
-              .put(
-                callapi(id),
-                { reaction: "unlike" },
-                {
-                  headers,
-                }
-              )
+              .put(callapi(id), { reaction: "unlike" }, { headers })
               .then((res) => {
                 if (res.status != 200) throw new Error("Failed to like");
               })
@@ -61,13 +55,7 @@ export default function Like({
               if (firstChild) firstChild.classList.add("animate-ping");
             }
             axios
-              .put(
-                callapi(id),
-                { reaction: "like" },
-                {
-                  headers,
-                }
-              )
+              .put(callapi(id), { reaction: "like" }, { headers })
               .then((res) => {
                 if (res.status != 200) throw new Error("Failed to unlike");
               })
@@ -103,7 +91,7 @@ export default function Like({
         <p className="text-md">{likes}</p>
       </div>
       <Link
-        className="w-min flex gap-3 rounded-full hover:bg-card p-1 px-2"
+        className="w-min hover:bg-card flex gap-3 p-1 px-2 rounded-full"
         href={`/post/${id}`}
       >
         <svg

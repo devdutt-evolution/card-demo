@@ -1,30 +1,82 @@
 "use client";
 
-import { ChangeEventHandler, useState } from "react";
-import Modal from "../../components/Modal";
-import PostHook from "./PostButton";
+import { useEffect, useState } from "react";
+import Modal from "@/components/Modal";
 import TextRich from "@/components/textRich/TextRich";
+import Loader from "@/components/Loader";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-export default function AddPost({
-  setCust,
-  token,
-}: {
-  setCust: Function;
-  token: any;
-}) {
+async function sendPostRequest(
+  postData: {
+    title: string;
+    body: string;
+    tobePublished: boolean;
+    publishAt: number;
+  },
+  token: any
+) {
+  try {
+    let res = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/posts`, {
+      method: "post",
+      headers: {
+        authorization: `Bearer ${token.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    });
+    if (res.status == 201) return ["success", null];
+    return [null, "Failed"];
+  } catch (err) {
+    return [null, err as string];
+  }
+}
+
+export default function AddPost() {
+  const router = useRouter();
+  const { data } = useSession({ required: true });
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [isSchedule, setIsSchedule] = useState(false);
   const [schedule, setSchedule] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const changeTitle: ChangeEventHandler<HTMLInputElement> = (e) =>
-    setTitle(e.target.value);
+  useEffect(() => {
+    setLoading(false);
+    setError("");
+  }, [title, isSchedule, schedule]);
+
+  async function createPost() {
+    let elems = document.querySelector(
+      ".ProseMirror:not(.nono)"
+    ) as HTMLElement;
+
+    const postData = {
+      title,
+      body: elems.innerHTML,
+      tobePublished: isSchedule,
+      publishAt: isSchedule ? schedule.getTime() : 0,
+    };
+    setLoading(true);
+    let result = await sendPostRequest(postData, data?.expires);
+    setLoading(false);
+    if (result[0]) {
+      setError("");
+      router.refresh();
+      setTitle("");
+      setIsSchedule(false);
+      setSchedule(new Date());
+      setOpen((t) => !t);
+    } else {
+      setError(result[1]);
+    }
+  }
 
   return (
     <div className="bg-card h-[100px] rounded-lg mb-3 flex flex-col items-center justify-center">
       <div
-        className="flex gap-2 bg-divider w-4/5 h-2/4 rounded-lg items-center justify-center text-place
-      cursor-pointer hover:text-[#FFF] border-2 border-dashed"
+        className="flex gap-2 bg-divider w-4/5 h-2/4 rounded-lg items-center justify-center text-place cursor-pointer hover:text-[#FFF] border-2 border-dashed"
         onClick={() => setOpen((t) => !t)}
       >
         <p className="h-max">
@@ -41,14 +93,14 @@ export default function AddPost({
               placeholder="Post Title"
               type="text"
               value={title}
-              onChange={changeTitle}
+              onChange={(e) => setTitle(e.target.value)}
             />
-            <div className=" bg-divider rounded-lg px-2 w-full">
+            <div className=" bg-divider w-full px-2 rounded-lg">
               <TextRich />
             </div>
-            <div className="flex gap-2 w-full">
+            <div className="flex w-full gap-2">
               <input
-                className="outline-none focus:outline-green accent-green hover:bg-green hover:bg-opacity-50"
+                className="focus:outline-green accent-green hover:bg-green hover:bg-opacity-50 outline-none"
                 type="checkbox"
                 id="isSchedule"
                 onChange={(e) => setIsSchedule(e.target.checked)}
@@ -57,25 +109,35 @@ export default function AddPost({
             </div>
             {isSchedule && (
               <input
-                className="focus:outline-green text-place outline-none rounded-lg p-2 w-full bg-divider"
+                className="focus:outline-green text-place bg-divider w-full p-2 rounded-lg outline-none"
                 type="datetime-local"
                 placeholder=""
                 onChange={(e) => setSchedule(new Date(e.target.value))}
               />
             )}
-            <PostHook
-              title={title}
-              isSchedule={isSchedule}
-              token={token.token}
-              schedule={schedule}
-              toggle={() => {
-                setOpen((t) => !t);
-                setCust((t: boolean) => !t);
-                setTitle("");
-                setIsSchedule(false);
-                setSchedule(new Date());
-              }}
-            />
+            {loading ? (
+              <div className="flex items-center justify-center w-full mb-4">
+                <Loader />
+              </div>
+            ) : (
+              <>
+                {error ? (
+                  <p className="text-red px-4 py-2 mb-2 rounded-lg">{error}</p>
+                ) : (
+                  <button
+                    className="bg-green hover:bg-hgreen px-4 py-2 mb-4 rounded-lg"
+                    type="submit"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      createPost();
+                    }}
+                  >
+                    Post
+                  </button>
+                )}
+              </>
+            )}
           </form>
         </Modal>
       )}
