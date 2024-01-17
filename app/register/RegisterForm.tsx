@@ -47,6 +47,7 @@ export default function RegisterForm() {
       <input
         className="outline-none focus:outline-green bg-divider px-3 p-2 font-[#FFF] rounded-lg w-full"
         type="text"
+        autoComplete="off"
         placeholder="username"
         {...register("username", { required: "Username is required" })}
       />
@@ -56,6 +57,7 @@ export default function RegisterForm() {
       <input
         className="outline-none focus:outline-green bg-divider px-3 p-2 font-[#FFF] rounded-lg w-full"
         type="text"
+        autoComplete="off"
         placeholder="email"
         {...register("email", { required: "Email is required" })}
       />
@@ -63,6 +65,7 @@ export default function RegisterForm() {
       <input
         className="outline-none focus:outline-green bg-divider px-3 p-2 font-[#FFF] rounded-lg w-full"
         type="password"
+        autoComplete="off"
         placeholder="password"
         {...register("password", { required: "Password is required" })}
       />
@@ -73,6 +76,7 @@ export default function RegisterForm() {
         className="outline-none focus:outline-green bg-divider px-3 p-2 font-[#FFF] rounded-lg w-full"
         type="text"
         placeholder="confirm password"
+        autoComplete="off"
         {...register("confirmPassword", {
           required: "Confirm the password",
           validate: {

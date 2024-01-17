@@ -24,8 +24,9 @@ export default function Like({
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={ref} className="w-min flex gap-4 p-1 bg-black rounded-full">
+    <div className="w-min flex gap-4 p-1 bg-black rounded-full">
       <div
+        ref={ref}
         className="w-min hover:bg-card hover:cursor-pointer flex gap-3 p-1 px-2 rounded-full"
         onClick={async (e) => {
           if (like) {

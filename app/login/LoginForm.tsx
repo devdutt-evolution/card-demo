@@ -43,7 +43,7 @@ export default function LoginForm() {
 
   return (
     <form
-      className="bg-card flex flex-col items-start justify-around w-full gap-4 px-4 py-8 rounded-lg"
+      className="bg-card flex flex-col items-start justify-around w-full gap-4 p-5 rounded-lg"
       noValidate
       onSubmit={handleSubmit(login)}
     >
