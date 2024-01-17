@@ -34,3 +34,6 @@ body {
   background-color: #00875f;
   border-radius: 0.2rem;
 }
+.bg-black__input {
+  outline: none;
+}

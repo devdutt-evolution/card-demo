@@ -3,7 +3,9 @@
 import Loader from "@/components/Loader";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ChangeEventHandler, useState } from "react";
+import { useEffect, useState } from "react";
+import { createComment, fetchUsers } from "./commentUtils";
+import { Mention, MentionsInput } from "react-mentions";
 
 export default function AddComment({ postId }: { postId: string }) {
   const router = useRouter();
@@ -12,49 +14,96 @@ export default function AddComment({ postId }: { postId: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleComment: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
-    setComment(e.target.value);
+  useEffect(() => {
+    let timeoutRef = setTimeout(() => {}, 1500);
 
-  async function createComment(postId: string) {
-    try {
-      setLoading(true);
-      const token: any = data?.user;
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}/comment`,
-        {
-          method: "post",
-          headers: {
-            authorization: `Bearer ${token.token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ comment }),
-        }
-      );
+    return () => clearTimeout(timeoutRef);
+  }, [comment]);
 
-      setLoading(false);
-      setComment("");
-      setError("");
-      if (res.status === 201) router.refresh();
-      else setError("Failed");
-    } catch (err: any) {
-      setLoading(false);
-      setError(err);
-    }
-  }
+  const fetchUser = async (query: string, callback: any) => {
+    if (!query) return;
+
+    setTimeout(async () => {
+      const [users, error] = (await fetchUsers(query, data?.user)) as any;
+
+      if (error) setError(error);
+      callback(users);
+    }, 1500);
+  };
 
   return (
     <div className="flex flex-col gap-2 justify-between mb-4">
-      <textarea
+      {/* <textarea
         className="bg-black w-full rounded-lg p-2 outline-none border-2 border-black focus:border-2 focus:border-green"
         placeholder="create comment ..."
         value={comment}
-        onChange={handleComment}
-      />
+        onChange={(e) => setComment(e.target.value)}
+      /> */}
+      <MentionsInput
+        // singleLine
+        value={comment}
+        onChange={(e) => {
+          console.log(e.target.value);
+          setComment(e.target.value);
+        }}
+        placeholder={"Mention people using '@'"}
+        a11ySuggestionsListLabel={"Suggested mentions"}
+        style={{
+          "&multiLine": {
+            control: {
+              minHeight: 63,
+            },
+            highlighter: {
+              padding: "0.5rem",
+            },
+            input: {
+              padding: 9,
+            },
+          },
+          suggestions: {
+            list: {
+              backgroundColor: "#202024",
+            },
+            item: {
+              padding: "5px 15px",
+              "&focused": {
+                backgroundColor: "#00875F",
+              },
+            },
+          },
+        }}
+        className="bg-black rounded-lg outline-none focus:outline-none border-0 text-sm"
+      >
+        <Mention
+          trigger="@"
+          data={fetchUser}
+          onAdd={(id, value) => {
+            console.log("onAdd", id, value);
+          }}
+          displayTransform={(id, name) => `@${name}`}
+          appendSpaceOnAdd
+          style={{
+            backgroundColor: "#00875F",
+            padding: "1px",
+            borderRadius: "0.3rem",
+          }}
+        />
+      </MentionsInput>
       <div>
         {error && <p className="text-red pb-2">{error}</p>}
         <button
           className="py-2 px-3 bg-green hover:bg-hgreen rounded-lg text-sm"
-          onClick={(e) => createComment(postId)}
+          onClick={async (e) => {
+            setLoading(true);
+            const [success, failed] = await createComment(
+              postId,
+              data?.user,
+              comment
+            );
+            setLoading(false);
+            if (failed) setError(failed);
+            else router.refresh();
+          }}
         >
           {!loading ? <p>Comment</p> : <Loader />}
         </button>
