@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
@@ -28,19 +27,10 @@ export default function Like({
     <div ref={ref} className="w-min flex gap-4 p-1 bg-black rounded-full">
       <div
         className="w-min hover:bg-card hover:cursor-pointer flex gap-3 p-1 px-2 rounded-full"
-        onClick={(e) => {
-          let headers = {
-            Authorization: `Bearer ${token}`,
-          };
+        onClick={async (e) => {
           if (like) {
             if (liked) setLikes(totalLikes - 1);
             else if (!liked) setLikes(totalLikes);
-            axios
-              .put(callapi(id), { reaction: "unlike" }, { headers })
-              .then((res) => {
-                if (res.status != 200) throw new Error("Failed to like");
-              })
-              .catch((err) => console.error(err));
           } else {
             if (liked) setLikes(totalLikes);
             else if (!liked) setLikes(totalLikes + 1);
@@ -54,13 +44,16 @@ export default function Like({
               const firstChild = ref.current.firstChild as HTMLElement;
               if (firstChild) firstChild.classList.add("animate-ping");
             }
-            axios
-              .put(callapi(id), { reaction: "like" }, { headers })
-              .then((res) => {
-                if (res.status != 200) throw new Error("Failed to unlike");
-              })
-              .catch((err) => console.error(err));
           }
+          const res = await fetch(callapi(id), {
+            method: "put",
+            body: JSON.stringify({ reaction: like ? "unlike" : "like" }),
+            headers: {
+              authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+          if (res.status != 200) console.error("Failed to like");
           setLike((l) => !l);
         }}
       >

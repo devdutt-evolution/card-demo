@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const BASE = process.env.NEXT_PUBLIC_URL_BACKEND;
 export const SIGNIN = BASE + "/signin";
 export const REGISTER = BASE + "/register";
@@ -8,18 +6,17 @@ export const CREATE_COMMENT = (postId: string) =>
 export const CREATE_POSTS = (postId: string) => BASE + "/posts/" + postId;
 
 export const getWrapper = async (url: string, token: string) => {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((data) => resolve(data.data))
-      .catch((err) => {
-        if (err.name === "AxiosError") reject(err.response.data?.message);
-        else reject(err.toString());
-      });
+  return new Promise(async (resolve, reject) => {
+    const result = await fetch(url, {
+      headers: { authorization: `Bearer ${token}` },
+    });
+
+    let data = await result.json();
+    if (result.status == 200) {
+      resolve(data);
+    } else {
+      reject(data);
+    }
   });
 };
 
@@ -28,17 +25,20 @@ export const postWrapper = async (
   token: string,
   payload: Object
 ) => {
-  return new Promise((resolve, reject) => {
-    axios
-      .post(url, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((data) => resolve(data.data))
-      .catch((err) => {
-        if (err.name === "AxiosError") reject(err.response.data?.message);
-        else reject(err.toString());
-      });
+  return new Promise(async (resolve, reject) => {
+    const result = await fetch(url, {
+      method: "post",
+      body: JSON.stringify(payload),
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (result.status == 200 || result.status == 201) {
+      return resolve(await result.json());
+    } else {
+      return reject(await result.json());
+    }
   });
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useRef, useState } from "react";
 
 let callapi = (commentId: string) =>
@@ -20,46 +19,43 @@ export default function CommentLike({
   const [like, setLike] = useState(liked);
   const [likes, setLikes] = useState(totalLikes);
   const ref = useRef<HTMLDivElement>(null);
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
 
   return (
     <div
       ref={ref}
-      onClick={(e) => {
+      onClick={async (e) => {
         if (like) {
           if (liked) setLikes(totalLikes - 1);
           else if (!liked) setLikes(totalLikes);
-          axios
-            .put(callapi(id), { reaction: "unlike" }, { headers })
-            .then((res) => {
-              if (res.status != 200) throw new Error("Failed to like");
-            })
-            .catch((err) => console.error(err));
         } else {
           if (liked) setLikes(totalLikes);
           else if (!liked) setLikes(totalLikes + 1);
+          // remove class to remove animation
           setTimeout(() => {
             if (ref.current) {
               const firstChild = ref.current.firstChild as HTMLElement;
               if (firstChild) firstChild.classList.remove("animate-ping");
             }
           }, 450);
+          // add class to animate like
           if (ref.current) {
             const firstChild = ref.current.firstChild as HTMLElement;
             if (firstChild) firstChild.classList.add("animate-ping");
           }
-          axios
-            .put(callapi(id), { reaction: "like" }, { headers })
-            .then((res) => {
-              if (res.status != 200) throw new Error("Failed to unlike");
-            })
-            .catch((err) => console.error(err));
         }
+        
+        const res = await fetch(callapi(id), {
+          method: "put",
+          body: JSON.stringify({ reaction: like ? "unlike" : "like" }),
+          headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (res.status != 200) console.error("Failed to like");
         setLike((l) => !l);
       }}
-      className="w-min flex gap-4 rounded-full bg-black p-2 px-3"
+      className="w-min flex gap-4 p-2 px-3 bg-black rounded-full"
     >
       {!like ? (
         <svg
