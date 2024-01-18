@@ -1,21 +1,9 @@
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import CommentLike from "./CommentLike";
-import { PostComment } from "@/types/type.d";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import AddComment from "./AddComment";
-
-async function fetchPostDetail(postId: string, token: string) {
-  try {
-    const data = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    const post: { post: PostComment } = await data.json();
-
-    return post.post;
-  } catch (err) {}
-}
+import { fetchPostDetail, transformText } from "./commentUtils";
 
 export default async function PostData({ postId }: { postId: string }) {
   const session = await getServerSession(options);
@@ -36,18 +24,19 @@ export default async function PostData({ postId }: { postId: string }) {
       {/* comments list */}
       {postData?.comments && postData.comments.length > 0 ? (
         postData.comments?.map((comment) => {
+          const commentBody = transformText(comment.body);
           return (
-            <div
-              key={comment._id}
-              className="bg-divider rounded-lg p-3 my-2"
-            >
-              <h4 className="text-l font-bold">
+            <div key={comment._id} className="bg-divider rounded-lg p-3 my-2">
+              <h4 className="text-l font-bold ">
                 <a href={`to:${comment.email}`}>
                   {comment?.name.split(" ")[0] || comment.name}
                 </a>
               </h4>
               <p className="text-sm text-place">{comment.email}</p>
-              <p className="py-3">{comment.body}</p>
+              <div
+                className="py-3"
+                dangerouslySetInnerHTML={{ __html: commentBody }}
+              ></div>
               <CommentLike
                 token={token.token}
                 liked={comment.likedByUser}

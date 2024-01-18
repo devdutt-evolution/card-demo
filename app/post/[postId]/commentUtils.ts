@@ -1,3 +1,5 @@
+import { PostComment } from "@/types/type.d";
+
 const URL = process.env.NEXT_PUBLIC_URL_BACKEND;
 
 export const createComment = async (
@@ -34,4 +36,37 @@ export const fetchUsers = async (query: string, token: any) => {
       return [null, data.message || "Failed to fetch users"];
     }
   }
+};
+
+export const transformText = (comment: string): string => {
+  const matchTag = new RegExp(/\s@\[\w+\]\(\w+\)/, "g");
+
+  const matched = comment.match(matchTag);
+
+  if (matched && matched?.length > 0) {
+    matched.map((str) => {
+      const lastNameIndex = str.indexOf("]");
+      const username = str.substring(3, lastNameIndex);
+      const id = str.substring(lastNameIndex + 2, str.length - 1);
+      comment = comment.replace(
+        str,
+        ` <span class="text-green cursor-pointer hover:underline"><a href='/user/${id}' target="_blank">${username}</a></span>`
+      );
+    });
+  }
+
+  return comment;
+};
+
+export const fetchPostDetail = async (postId: string, token: string) => {
+  try {
+    const data = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    const post = await data.json();
+
+    return post.post as PostComment;
+  } catch (err) {}
 };
