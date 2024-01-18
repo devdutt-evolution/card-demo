@@ -69,19 +69,6 @@ export const fetchPostDetail = async (postId: string, token: string) => {
   } catch (err) {}
 };
 
-export const getInitials = (name: string | undefined): string => {
-  if (!name) return "DN";
-  const splitted = name.split(" ");
-  let initials = "";
-  if (splitted.length == 1) initials = splitted[0][0].toUpperCase();
-  else if (splitted.length > 1)
-    initials =
-      splitted[0][0].toUpperCase() +
-      splitted[splitted.length - 1][0].toUpperCase();
-
-  return initials;
-};
-
 // dump
 
 // mentioned styling

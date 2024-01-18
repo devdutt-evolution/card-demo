@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createComment, fetchUsers } from "./commentUtils";
 import { Mention, MentionsInput } from "react-mentions";
-import { SuggestionBox, SuggestionItem } from "./Suggestion";
+import SuggestionBox from "../../../components/Suggestion";
+import SuggestionItem from "@/components/SuggestItem";
 
 export default function AddComment({ postId }: { postId: string }) {
   const router = useRouter();
@@ -50,7 +51,7 @@ export default function AddComment({ postId }: { postId: string }) {
         <Mention
           trigger="@"
           data={fetchUser}
-          renderSuggestion={SuggestionItem}
+          renderSuggestion={(data) => <SuggestionItem displayText={data.display} />}
           displayTransform={(_id, name) => `@${name}`}
           appendSpaceOnAdd
         />

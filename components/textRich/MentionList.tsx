@@ -1,10 +1,10 @@
-import { getInitials } from "@/app/post/[postId]/commentUtils";
 import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
   useState,
 } from "react";
+import SuggestionItem from "@/components/SuggestItem";
 
 export const MentionList = forwardRef(function AnyName(props: any, ref) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -60,18 +60,12 @@ export const MentionList = forwardRef(function AnyName(props: any, ref) {
       {props?.items?.length ? (
         props.items.map(
           (item: { id: string; display: string }, index: number) => (
-            <div
-              className={`${
-                index === selectedIndex ? "bg-green" : ""
-              } hover:bg-green cursor-pointer rounded-lg flex items-center w-full p-2`}
+            <SuggestionItem
               key={index}
+              displayText={item.display}
+              classname={index === selectedIndex ? "bg-green" : ""}
               onClick={() => selectItem(index)}
-            >
-              <div className="rounded-full w-8 h-8 bg-place flex justify-center items-center mr-2">
-                {getInitials(item.display)}
-              </div>
-              <p className="">{item.display}</p>
-            </div>
+            />
           )
         )
       ) : (
