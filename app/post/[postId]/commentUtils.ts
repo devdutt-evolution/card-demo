@@ -37,7 +37,7 @@ export const fetchUsers = async (query: string, token: any) => {
 };
 
 export const transformText = (comment: string): string => {
-  const matchTag = new RegExp(/\s@\[\w+\]\(\w+\)/, "g");
+  const matchTag = new RegExp(/\s@\[([^\]]+)\]\(\w+\)/, "g");
 
   const matched = comment.match(matchTag);
 
