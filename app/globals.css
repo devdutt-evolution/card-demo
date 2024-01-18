@@ -36,4 +36,17 @@ body {
 }
 .bg-black__input {
   outline: none;
+  padding: 10px;
 }
+.bg-black__highlighter {
+  padding: 10px;
+}
+.bg-black__highlighter > strong {
+  background-color: #00875f;
+  border-radius: 0.2rem;
+  padding: 1px;
+}
+/* 
+.bg-black__suggestions__item:focus {
+  background-color: #00875f;
+}  */

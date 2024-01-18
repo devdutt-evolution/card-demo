@@ -21,20 +21,18 @@ export const createComment = async (
 };
 
 export const fetchUsers = async (query: string, token: any) => {
-  if (query) {
-    const res = await fetch(`${URL}/users?_q=${query}`, {
-      headers: {
-        authorization: `Bearer ${token.token}`,
-      },
-    });
+  const res = await fetch(`${URL}/users?_q=${query}`, {
+    headers: {
+      authorization: `Bearer ${token.token}`,
+    },
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    if (res.status == 200) {
-      return [data.users, null];
-    } else {
-      return [null, data.message || "Failed to fetch users"];
-    }
+  if (res.status == 200) {
+    return [data.users, null];
+  } else {
+    return [null, data.message || "Failed to fetch users"];
   }
 };
 
@@ -50,7 +48,7 @@ export const transformText = (comment: string): string => {
       const id = str.substring(lastNameIndex + 2, str.length - 1);
       comment = comment.replace(
         str,
-        ` <span class="text-green cursor-pointer hover:underline"><a href='/user/${id}' target="_blank">${username}</a></span>`
+        ` <span class="text-green cursor-pointer hover:underline"><a href='/user/${id}' target="_blank">@${username}</a></span>`
       );
     });
   }
@@ -70,3 +68,51 @@ export const fetchPostDetail = async (postId: string, token: string) => {
     return post.post as PostComment;
   } catch (err) {}
 };
+
+export const getInitials = (name: string | undefined): string => {
+  if (!name) return "DN";
+  const splitted = name.split(" ");
+  let initials = "";
+  if (splitted.length == 1) initials = splitted[0][0].toUpperCase();
+  else if (splitted.length > 1)
+    initials =
+      splitted[0][0].toUpperCase() +
+      splitted[splitted.length - 1][0].toUpperCase();
+
+  return initials;
+};
+
+// dump
+
+// mentioned styling
+// const mentionStyling = {
+//   backgroundColor: "#00875F",
+//   padding: "1px",
+//   borderRadius: "0.3rem",
+// };
+
+// text area and suggestion styling
+// const mentionAreaStyling = {
+//   "&multiLine": {
+//     control: {
+//       minHeight: 90,
+//     },
+//     highlighter: {
+//       padding: "0.5rem",
+//     },
+//     input: {
+//       padding: 9,
+//     },
+//   },
+//   suggestions: {
+//     list: {
+//       backgroundColor: "#202024",
+//     },
+//     item: {
+//       padding: "5px 15px",
+//       "&focused": {
+//         backgroundColor: "#00875F",
+//       },
+//     },
+//   },
+// };
