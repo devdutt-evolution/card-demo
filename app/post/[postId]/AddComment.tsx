@@ -17,12 +17,12 @@ export default function AddComment({ postId }: { postId: string }) {
   async function fetchUser(query: string, callback: any) {
     if (!query) return;
 
-    setTimeout(async () => {
-      const [users, error] = (await fetchUsers(query, data?.user)) as any;
+    // setTimeout(async () => {
+    const [users, error] = (await fetchUsers(query, data?.user)) as any;
 
-      if (error) setError(error);
-      callback(users);
-    }, 700);
+    if (error) setError(error);
+    callback(users);
+    // }, 700);
   }
 
   async function postComment() {

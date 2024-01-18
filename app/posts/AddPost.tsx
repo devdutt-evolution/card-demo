@@ -59,7 +59,7 @@ export default function AddPost() {
       publishAt: isSchedule ? schedule.getTime() : 0,
     };
     setLoading(true);
-    let result = await sendPostRequest(postData, data?.expires);
+    let result = await sendPostRequest(postData, data?.user);
     setLoading(false);
     if (result[0]) {
       setError("");
@@ -86,7 +86,16 @@ export default function AddPost() {
       </div>
 
       {open && (
-        <Modal open={open} toggle={() => setOpen((t) => !t)}>
+        <Modal
+          open={open}
+          toggle={() => {
+            setOpen((t) => !t);
+            setError("");
+            setTitle("");
+            setIsSchedule(false);
+            setSchedule(new Date());
+          }}
+        >
           <form className="pt-[40px] px-8 pb-1 rounded-lg bg-card bg-opacity-80 h-max flex flex-col items-center gap-4">
             <input
               className="outline-none focus:outline-green bg-divider p-2 font-[#FFF] rounded-lg w-full"

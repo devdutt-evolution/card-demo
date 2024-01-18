@@ -1,11 +1,13 @@
 "use client";
 
+import StarterKit from "@tiptap/starter-kit";
+import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
-import { EditorProvider, useCurrentEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import Mention from "@tiptap/extension-mention";
 import "./rich.css";
+import { suggestion } from "./suggestion";
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
@@ -255,6 +257,12 @@ const MenuBar = () => {
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({ HTMLAttributes: [ListItem.name] }),
+  Mention.configure({
+    HTMLAttributes: {
+      class: "bg-green rounded-md",
+    },
+    suggestion,
+  }),
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
@@ -267,9 +275,9 @@ const extensions = [
   }),
 ];
 
-const content = `<br /><br />`;
+const content = `<br/>Mention people using '@'<br />`;
 
-export default function Name() {
+export default function TextRich() {
   return (
     <div
       className="flex flex-col"

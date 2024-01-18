@@ -20,10 +20,10 @@ export const createComment = async (
   return [null, data?.message || "Failed to create Comment"];
 };
 
-export const fetchUsers = async (query: string, token: any) => {
+export const fetchUsers = async (query: string, token?: any) => {
   const res = await fetch(`${URL}/users?_q=${query}`, {
     headers: {
-      authorization: `Bearer ${token.token}`,
+      authorization: `Bearer ${token?.token}`,
     },
   });
 
