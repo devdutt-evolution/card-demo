@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.17.0",
     "@tiptap/extension-color": "^2.1.13",
     "@tiptap/extension-mention": "^2.1.16",
     "@tiptap/extension-text-style": "^2.1.13",
@@ -17,7 +16,6 @@
     "@tiptap/react": "^2.1.13",
     "@tiptap/starter-kit": "^2.1.13",
     "@tiptap/suggestion": "^2.1.16",
-    "@types/react-mentions": "^4.1.13",
     "luxon": "^3.4.4",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
@@ -32,6 +30,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-mentions": "^4.1.13",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
