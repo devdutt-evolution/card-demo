@@ -1,10 +1,3 @@
-const BASE = process.env.NEXT_PUBLIC_URL_BACKEND;
-export const SIGNIN = BASE + "/signin";
-export const REGISTER = BASE + "/register";
-export const CREATE_COMMENT = (postId: string) =>
-  BASE + "/posts/" + postId + "/comment";
-export const CREATE_POSTS = (postId: string) => BASE + "/posts/" + postId;
-
 export const getWrapper = async (url: string, token: string) => {
   return new Promise(async (resolve, reject) => {
     const result = await fetch(url, {
