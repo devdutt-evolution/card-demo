@@ -1,5 +1,3 @@
-"use client";
-
 export default function Offers() {
   return (
     <div className="w-full flex justify-center items-center h-[70vh]">

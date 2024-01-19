@@ -1,39 +1,29 @@
-"use client";
-
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA6Hmckf6fNw1zWuT3iDyKlwsRdAFHDXuA",
-  authDomain: "tagging-a9f03.firebaseapp.com",
-  projectId: "tagging-a9f03",
-  storageBucket: "tagging-a9f03.appspot.com",
-  messagingSenderId: "70333029107",
-  appId: "1:70333029107:web:589e7de09bafb48286f586",
-  measurementId: "G-Q9YWGTTQ55",
+  apiKey: process.env.FIREBASE_apiKey,
+  authDomain: process.env.FIREBASE_authDomain,
+  projectId: process.env.FIREBASE_projectId,
+  storageBucket: process.env.FIREBASE_storageBucket,
+  messagingSenderId: process.env.FIREBASE_messagingSenderId,
+  appId: process.env.FIREBASE_appId,
+  measurementId: process.env.FIREBASE_measurementId,
 };
-
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
+initializeApp(firebaseConfig);
+const messaging = getMessaging();
+
+export { messaging };
 
 export const requestForToken = () => {
-  let token = localStorage.getItem("fcm_token");
-
-  if (token) return token;
-
   return getToken(messaging, {
-    vapidKey:
-      "BKbw8G0qVh4zY9RCpBjgvUGLT3fuMzTAWQNqDGhqENdJQWJzLjwt85ba_QWzisTboNWEN0q0RJI1EWGBTlVBt2w",
+    vapidKey: process.env.FIREBASE_vapidKey,
   })
     .then((currentToken) => {
       if (currentToken) {
         console.log("current token for client: ", currentToken);
-        localStorage.setItem("fcm_token", currentToken);
-        return currentToken;
-        // Perform any other neccessary action with the token
       } else {
-        // Show permission request UI console.log('No registration token available. Request permission to generate one.');
         console.log("failed to get token");
       }
     })
@@ -42,9 +32,11 @@ export const requestForToken = () => {
     });
 };
 
-export const onMessageListener = () => {
-  onMessage(messaging, (payload) => {
-    console.log("Message received. ", payload);
-    alert("Notificacion");
+export const onMessageListener = () =>
+  new Promise((resolve) => {
+    onMessage(messaging, (payload) => {
+      console.log("payload", payload);
+      // {"from":"1079809265173","messageId":"8322e519-86a3-4696-a280-a55aeb1bc2bc","data":{"title":"50% offer for T shirts","message":"Get extra 10% on your first order. Hurry! offer expires in 2 hours","url":"/offers"}}
+      resolve(payload);
+    });
   });
-}
