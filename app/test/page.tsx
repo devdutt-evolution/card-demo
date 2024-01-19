@@ -1,5 +1,6 @@
 // import styles from "../styles/Home.module.css";
 "use client";
+
 export default function Home() {
   return (
     <div className="w-full bg-card flex justify-center items-center p-5 h-[70vh]">
