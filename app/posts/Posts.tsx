@@ -4,6 +4,7 @@ import InfinitePosts from "./InfintePosts";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import AddPost from "./AddPost";
+// import { requestForToken } from "@/utils/firebase";
 
 export default function Posts() {
   const { data } = useSession({
@@ -13,6 +14,7 @@ export default function Posts() {
   const [sortWith, setSortWith] = useState("title");
   const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
+  // requestForToken();
 
   // for debounce and search
   useEffect(() => {

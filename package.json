@@ -16,6 +16,8 @@
     "@tiptap/react": "^2.1.13",
     "@tiptap/starter-kit": "^2.1.13",
     "@tiptap/suggestion": "^2.1.16",
+    "firebase": "^10.7.2",
+    "localforage": "^1.10.0",
     "luxon": "^3.4.4",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
@@ -23,6 +25,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.49.3",
     "react-mentions": "^4.4.10",
+    "react-toastify": "^10.0.3",
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
