@@ -30,14 +30,15 @@ export default function LoginForm() {
   }, [setFocus]);
 
   async function login(data: FormData) {
-      let result = await signIn("credentials", {
-        callbackUrl: "/posts",
-        redirect: false,
-        email: data.email,
-        password: data.password,
-      });
-      if (!result?.error) router.push("/posts");
-      else setError(result.error);
+    let result = await signIn("credentials", {
+      callbackUrl: "/posts",
+      redirect: false,
+      email: data.email,
+      password: data.password,
+      fcmToken: localStorage.getItem("fcm_token"),
+    });
+    if (!result?.error) router.push("/posts");
+    else setError(result.error);
   }
   const what = register("email", { required: "Email is required" });
 

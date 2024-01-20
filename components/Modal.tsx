@@ -2,6 +2,8 @@
 
 import { createPortal } from "react-dom";
 import { useEffect, useState, ReactNode, MouseEventHandler } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 function Portal({ children }: { children: ReactNode }) {
   const modalRoot: HTMLElement | null = document.getElementById("modal-root");
@@ -16,6 +18,7 @@ function Portal({ children }: { children: ReactNode }) {
 
   return createPortal(children, element);
 }
+
 export default function Modal({
   children,
   toggle,
@@ -49,5 +52,48 @@ export default function Modal({
         </div>
       )}
     </Portal>
+  );
+}
+
+export function Banner({
+  title,
+  body,
+  url,
+  open,
+  toggle,
+}: {
+  title: string;
+  body: string;
+  url: string;
+  open: boolean;
+  toggle: Function;
+}) {
+  return (
+    open && (
+      <Portal>
+        <div
+          className="absolute mt-4 w-full h-full top-0 left-0"
+          onClick={(e) => toggle()}
+        >
+          <div className="min-w-60 flex p-5 gap-2 items-center rounded-lg bg-divider bg-opacity-90 mx-auto w-max">
+            <Link href={url}>
+              <Image
+                width={100}
+                height={100}
+                src="/logo.svg"
+                alt="logo"
+                className="rounded-lg"
+              />
+            </Link>
+            <Link href={url} className="min-w-36">
+              <div className="w-max">
+                <h3 className="mb-2 text-lg">{title}</h3>
+                <p className="text-sm">{body}</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </Portal>
+    )
   );
 }

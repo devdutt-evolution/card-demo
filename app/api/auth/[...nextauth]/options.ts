@@ -33,6 +33,7 @@ export const options: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "text", placeholder: "Email" },
         password: { label: "Password", type: "password" },
+        fcmToken: { label: "fcmToken", type: "text", placeholder: "fcmToken" },
       },
       async authorize(credentials, req) {
         const res = await fetch(
@@ -42,6 +43,7 @@ export const options: NextAuthOptions = {
             body: JSON.stringify({
               email: credentials?.email,
               password: credentials?.password,
+              fcmToken: credentials?.fcmToken,
             }),
             headers: { "Content-Type": "application/json" },
           }

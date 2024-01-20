@@ -2,41 +2,45 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_apiKey,
-  authDomain: process.env.FIREBASE_authDomain,
-  projectId: process.env.FIREBASE_projectId,
-  storageBucket: process.env.FIREBASE_storageBucket,
-  messagingSenderId: process.env.FIREBASE_messagingSenderId,
-  appId: process.env.FIREBASE_appId,
-  measurementId: process.env.FIREBASE_measurementId,
+  apiKey: "AIzaSyCEpUqGpcZdc081pG2ma9OqT2Nm18DcR24",
+  authDomain: "newpro-4d81b.firebaseapp.com",
+  projectId: "newpro-4d81b",
+  storageBucket: "newpro-4d81b.appspot.com",
+  messagingSenderId: "1079809265173",
+  appId: "1:1079809265173:web:004c55b0fac638529bc81c",
+  measurementId: "G-YHCKX9BWNY",
 };
-// Initialize Firebase
+
 initializeApp(firebaseConfig);
 const messaging = getMessaging();
 
 export { messaging };
 
-export const requestForToken = () => {
-  return getToken(messaging, {
-    vapidKey: process.env.FIREBASE_vapidKey,
-  })
-    .then((currentToken) => {
+export const requestForToken = async () => {
+  try {
+    let token = localStorage.getItem("fcm_token");
+    if (token) return [true, false];
+    else {
+      let currentToken = await getToken(messaging, {
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPIDKEY,
+      });
       if (currentToken) {
         console.log("current token for client: ", currentToken);
+        localStorage.setItem("fcm_token", currentToken);
+        return [true, false];
       } else {
-        console.log("failed to get token");
+        return [false, true];
       }
-    })
-    .catch((err) => {
-      console.log("An error occurred while retrieving token. ", err);
-    });
+    }
+  } catch (err) {
+    console.log("An error occurred while retrieving token. ", err);
+    return [false, true];
+  }
 };
 
 export const onMessageListener = () =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {
-      console.log("payload", payload);
-      // {"from":"1079809265173","messageId":"8322e519-86a3-4696-a280-a55aeb1bc2bc","data":{"title":"50% offer for T shirts","message":"Get extra 10% on your first order. Hurry! offer expires in 2 hours","url":"/offers"}}
       resolve(payload);
     });
   });
