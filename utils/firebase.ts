@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "@firebase/messaging";
+import { type Messaging } from "@firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCEpUqGpcZdc081pG2ma9OqT2Nm18DcR24",
@@ -10,9 +11,14 @@ const firebaseConfig = {
   appId: "1:1079809265173:web:004c55b0fac638529bc81c",
   measurementId: "G-YHCKX9BWNY",
 };
-
-initializeApp(firebaseConfig);
-const messaging = getMessaging();
+let messaging: Messaging;
+export const init = () => {
+  return new Promise((resolve) => {
+    initializeApp(firebaseConfig);
+    messaging = getMessaging();
+    resolve(true);
+  });
+};
 
 export { messaging };
 

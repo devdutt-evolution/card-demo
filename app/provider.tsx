@@ -2,7 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 import { ReactNode, useEffect, useState } from "react";
-import { requestForToken, onMessageListener } from "@/utils/firebase";
+import { requestForToken, onMessageListener, init } from "@/utils/firebase";
 import { Banner } from "@/components/Modal";
 
 type NotificationBody = {
@@ -19,7 +19,7 @@ export default function NextProvider({ children }: { children?: ReactNode }) {
     url: "",
   });
   useEffect(() => {
-    (async () => {
+    init().then(async () => {
       let [success, failed] = await requestForToken();
       if (success) {
         onMessageListener()
@@ -33,7 +33,7 @@ export default function NextProvider({ children }: { children?: ReactNode }) {
           })
           .catch((err) => console.log("failed: ", err));
       }
-    })();
+    });
   });
 
   return (
