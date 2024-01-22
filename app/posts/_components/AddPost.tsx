@@ -6,31 +6,7 @@ import TextRich from "@/components/textRich/TextRich";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-
-async function sendPostRequest(
-  postData: {
-    title: string;
-    body: string;
-    tobePublished: boolean;
-    publishAt: number;
-  },
-  token: any
-) {
-  try {
-    let res = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/posts`, {
-      method: "post",
-      headers: {
-        authorization: `Bearer ${token.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    });
-    if (res.status == 201) return ["success", null];
-    return [null, "Failed"];
-  } catch (err) {
-    return [null, err as string];
-  }
-}
+import { sendPostRequest } from "../pageUtils";
 
 export default function AddPost() {
   const router = useRouter();
