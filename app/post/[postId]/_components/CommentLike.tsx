@@ -24,7 +24,6 @@ export default function CommentLike({
   id: string;
   totalLikes: number;
 }) {
-  // const router = useRouter();
   const [_isPending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
   const params: { postId: string } = useParams();
@@ -41,7 +40,7 @@ export default function CommentLike({
     },
     (currentState: LikeObject, optimisticVal: LikeObject) => {
       let total = currentState.totalLikes + optimisticVal.totalLikes;
-      console.log("updating", total);
+      
       return {
         liked: !currentState.liked,
         totalLikes: total,

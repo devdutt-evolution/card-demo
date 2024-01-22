@@ -18,16 +18,4 @@ messaging.onBackgroundMessage(function (payload) {
     "[firebase-messaging-sw.js] Received background message ",
     payload
   );
-  // Customize notification here
-  /**
-   * {collapseKey :  undefined, data :  {title: '50% offer for T shirts', message: 'Get extra 10% on your first order. Hurry! offer expires in 2 hours', url: '/offers'}, from :  "1079809265173"}
-   */
-
-  const notificationTitle = "Background Message Title";
-  const notificationOptions = {
-    body: "Background Message body.",
-    icon: "/logo.svg",
-  };
-
-  // self.registration.showNotification(notificationTitle, notificationOptions);
 });

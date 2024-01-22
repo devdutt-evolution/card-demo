@@ -34,7 +34,6 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
           search
         );
         if (data?.length == 0) setHasMore(false);
-        // setLoading(false);
         setPage((page) => page + 1);
         setData((prevPosts) => {
           return [...prevPosts, ...(data || [])];

@@ -57,7 +57,7 @@ export default function Like({
               "Content-Type": "application/json",
             },
           });
-          if (res.status != 200) console.error("Failed to like");
+          // if (res.status != 200) console.error("Failed to like");
           setLike((l) => !l);
         }}
       >

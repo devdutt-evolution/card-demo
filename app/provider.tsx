@@ -24,14 +24,12 @@ export default function NextProvider({ children }: { children?: ReactNode }) {
       if (success) {
         onMessageListener()
           .then((payload: any) => {
-            console.log("received", payload);
             setOpen(true);
             setObj({
               title: payload?.notification?.title,
               body: payload?.notification?.body,
               url: payload?.data?.url,
             });
-            // alert(JSON.stringify(payload));
           })
           .catch((err) => console.log("failed: ", err));
       }

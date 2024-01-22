@@ -57,7 +57,6 @@ export default function LoginForm() {
       />
       {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
       <Input
-        // className="bg-divider p-2 font-[#FFF] rounded-lg w-4/5 outline-none focus:outline-green"
         type="password"
         placeholder="password"
         {...register("password", { required: "Password is required" })}

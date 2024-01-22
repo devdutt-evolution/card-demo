@@ -25,7 +25,7 @@ export const requestForToken = async () => {
         vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPIDKEY,
       });
       if (currentToken) {
-        console.log("current token for client: ", currentToken);
+        // console.log("current token for client: ", currentToken);
         localStorage.setItem("fcm_token", currentToken);
         return [true, false];
       } else {
