@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useRef, useState, useTransition } from "react";
+import { useOptimistic, useRef, useTransition } from "react";
 import { reactOnComment } from "../action";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
@@ -9,6 +9,11 @@ import FilledLike from "@/components/icons/FilledLike";
 
 let callapi = (commentId: string) =>
   `${process.env.NEXT_PUBLIC_URL_BACKEND}/comments/${commentId}`;
+
+type LikeObject = {
+  liked?: boolean;
+  totalLikes: number;
+};
 
 export default function CommentLike({
   initLiked,
@@ -21,21 +26,28 @@ export default function CommentLike({
 }) {
   // const router = useRouter();
   const [_isPending, startTransition] = useTransition();
+  const ref = useRef<HTMLDivElement>(null);
+  const params: { postId: string } = useParams();
   const { data } = useSession({ required: true });
   const tokener: any = data?.user;
-  const [numberOfLikes, addOptimisticLike] = useOptimistic<number, number>(
-    totalLikes,
-    (currentState: number, optimisticVal: number) => {
-      let temp = currentState;
-      temp += optimisticVal;
-      return temp;
+
+  const [optimisticState, addOptimisticLike] = useOptimistic<
+    LikeObject,
+    LikeObject
+  >(
+    {
+      liked: initLiked,
+      totalLikes: totalLikes,
+    },
+    (currentState: LikeObject, optimisticVal: LikeObject) => {
+      let total = currentState.totalLikes + optimisticVal.totalLikes;
+      console.log("updating", total);
+      return {
+        liked: !currentState.liked,
+        totalLikes: total,
+      };
     }
   );
-
-  const [liked, setLiked] = useState<boolean>(initLiked);
-  const params: { postId: string } = useParams();
-
-  const ref = useRef<HTMLDivElement>(null);
 
   const animateFav = () => {
     // remove class to remove animation
@@ -53,16 +65,14 @@ export default function CommentLike({
   };
 
   const handleLike = async () => {
-    if (liked) {
-      setLiked(false);
-      addOptimisticLike(-1);
+    if (optimisticState.liked) {
+      addOptimisticLike({ totalLikes: optimisticState.totalLikes-- });
     } else {
-      setLiked(true);
-      addOptimisticLike(1);
+      addOptimisticLike({ totalLikes: optimisticState.totalLikes++ });
       animateFav();
     }
 
-    reactOnComment(callapi(id), liked, tokener.token, params.postId);
+    reactOnComment(callapi(id), initLiked, tokener.token, params.postId);
   };
 
   return (
@@ -74,8 +84,8 @@ export default function CommentLike({
       }}
       className="w-min flex gap-4 py-2 px-3 bg-black rounded-full"
     >
-      {!liked ? <OutlineLike /> : <FilledLike />}
-      <p className="text-md">{numberOfLikes}</p>
+      {!optimisticState.liked ? <OutlineLike /> : <FilledLike />}
+      <p className="text-md">{optimisticState.totalLikes}</p>
     </div>
   );
 }

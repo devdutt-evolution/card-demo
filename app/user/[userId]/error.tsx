@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import FallbackLayout from "./_component/FallbackLayout";
+import FallbackLayout from "@/components/FallbackLayout";
 
 export default function Error() {
   const router = useRouter();

@@ -1,5 +1,6 @@
 "use client";
 
+import FallbackLayout from "@/components/FallbackLayout";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -11,8 +12,8 @@ export default function Error() {
     }, 1500);
   });
   return (
-    <div className="w-full flex h-[50vh] justify-center items-center">
+    <FallbackLayout>
       <h2 className="text-5xl">Some Error Occured</h2>
-    </div>
+    </FallbackLayout>
   );
 }

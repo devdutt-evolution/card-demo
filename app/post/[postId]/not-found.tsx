@@ -1,7 +1,9 @@
+import FallbackLayout from "@/components/FallbackLayout";
+
 export default function PostNotFound() {
   return (
-    <div className="w-full h-[50vh] flex justify-center items-center">
+    <FallbackLayout>
       <h2 className="text-4xl font-bold text-green">Post Not Found</h2>
-    </div>
+    </FallbackLayout>
   );
 }

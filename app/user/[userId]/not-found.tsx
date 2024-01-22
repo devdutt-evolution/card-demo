@@ -1,4 +1,4 @@
-import FallbackLayout from "./_component/FallbackLayout";
+import FallbackLayout from "@/components/FallbackLayout";
 
 export default function UserNotFound() {
   return (

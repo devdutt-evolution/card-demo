@@ -1,106 +1,69 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import type { Posts } from "../../types/type.d";
+import { useEffect, useState } from "react";
+import type { Posts } from "@/types/type.d";
 import { DateTime } from "luxon";
-import Loader from "../../components/Loader";
 import Like from "@/components/Like";
+import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { fetchNextPosts } from "../pageUtils";
 
-const PAGE_SIZE = 10;
-async function fetchNextPosts(
-  pageNumber: number,
-  sortWith: string,
-  isAsc: string,
-  token: any,
-  search: string = ""
-) {
-  if (token) {
-    let url;
-    if (!search)
-      url = `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}&_sort=${sortWith}&_order=${isAsc}&_expand=user`;
-    else
-      url = `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_q=${search}&_limit=${PAGE_SIZE}&_expand=user`;
-
-    const res = await fetch(url, {
-      headers: { authorization: `Bearer ${token}` },
-    });
-    if (res.status != 200) throw new Error("failed to fetch");
-
-    const data: { posts: Posts } = await res.json();
-    return data.posts;
-  }
-}
-
-export default function InfinitePosts({
-  search,
-  sortWith,
-  isAsc,
-  token,
-}: {
-  search: string;
-  sortWith: string;
-  isAsc: string;
-  token: any;
-}) {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<Posts>([]);
+export default function InfinitePosts({ posts }: { posts: Posts }) {
+  const params = useSearchParams();
+  const [data, setData] = useState<Posts>(posts);
   const [page, setPage] = useState(2);
+  const [hasMore, setHasMore] = useState(true);
 
-  const loadMore = useCallback(async () => {
-    let data = (await fetchNextPosts(
-      page,
-      sortWith,
-      isAsc,
-      token?.token,
-      search
-    )) as Posts;
-    setLoading(false);
-    setPage((page) => page + 1);
-    setData((prevPosts) => {
-      return [...(prevPosts || []), ...(data || [])];
-    });
-  }, [page, sortWith, isAsc, search, token]);
+  const sortWith = params.get("field") || "title";
+  const isAsc = params.get("order") || "asc";
+  const search = params.get("q") || "";
 
-  useEffect(() => {
-    setLoading(true);
-    (async () => {
-      let data = (await fetchNextPosts(
-        1,
-        sortWith,
-        isAsc,
-        token?.token,
-        search
-      )) as Posts;
-      setData(data);
-      setPage(2);
-      setLoading(false);
-    })();
-  }, [isAsc, sortWith, search, token]);
+  const { data: authData } = useSession({ required: true });
+  const tokener: any = authData?.user;
 
   // infinite scroll
   useEffect(() => {
+    async function loadMore() {
+      if (hasMore) {
+        let data: Posts | undefined = await fetchNextPosts(
+          page,
+          sortWith,
+          isAsc,
+          tokener?.token,
+          search
+        );
+        if (data?.length == 0) setHasMore(false);
+        // setLoading(false);
+        setPage((page) => page + 1);
+        setData((prevPosts) => {
+          return [...prevPosts, ...(data || [])];
+        });
+      } else {
+        return [];
+      }
+    }
+
     const handleScroll = (e: Event) => {
       const target = e.target as Document;
       const ta = target.documentElement as Document["documentElement"];
       const scrollHeight = ta.scrollHeight;
       const currentHeight = ta.scrollTop + window.innerHeight;
       if (currentHeight + 1 >= scrollHeight) {
-        loadMore();
-        setLoading(true);
+        if (hasMore) loadMore();
       }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loadMore]);
+  }, [hasMore, isAsc, tokener, sortWith, page, search]);
+
+  useEffect(() => {
+    setData(posts);
+  }, [posts]);
 
   return (
     <div className="flex flex-col w-full mx-auto gap-2">
-      {loading ? (
-        <div className="h-[200px] flex justify-center items-center w-full">
-          <Loader />
-        </div>
-      ) : data?.length > 0 ? (
+      {data?.length > 0 &&
         data?.map((post, index) => {
           let diff = post.publishAt;
           let luxonDate;
@@ -130,7 +93,7 @@ export default function InfinitePosts({
                 />
               </div>
               <Like
-                token={token?.token}
+                token={tokener?.token}
                 liked={post.likedByUser}
                 id={post._id}
                 totalLikes={post.numberOfLikes}
@@ -138,8 +101,8 @@ export default function InfinitePosts({
               />
             </div>
           );
-        })
-      ) : (
+        })}
+      {data.length == 0 && (
         <div className="bg-card px-3 py-4 border-2 border-black rounded-lg">
           No Posts
         </div>
@@ -147,3 +110,8 @@ export default function InfinitePosts({
     </div>
   );
 }
+// loading && (
+// <div className="h-[200px] flex justify-center items-center w-full">
+//   <Loader />
+// </div>
+// )
