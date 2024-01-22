@@ -1,20 +1,14 @@
-import { options } from "@/app/api/auth/[...nextauth]/options";
-import { User } from "@/types/type.d";
+import { options } from "@/utils/options";
 import { getServerSession } from "next-auth";
+import { getUserDetails } from "../getUserDetails";
+import { notFound } from "next/navigation";
 
-async function getData(id: string, token: string) {
-  let data = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/user/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  let user: { user: User } = await data.json();
-
-  return user?.user;
-}
-
-export default async function UserData({ userId }: { userId: string }) {
+export default async function UserDetails({ userId }: { userId: string }) {
   const session = await getServerSession(options);
   const token: any = session?.user;
-  const user = await getData(userId, token?.token);
+  const user = await getUserDetails(userId, token?.token);
+
+  if (!user) return notFound();
 
   return (
     <>

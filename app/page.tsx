@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { options } from "./api/auth/[...nextauth]/options";
+import { options } from "@/utils/options";
 import { redirect } from "next/navigation";
 
 export default async function Home() {

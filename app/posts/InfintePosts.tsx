@@ -120,12 +120,14 @@ export default function InfinitePosts({
               </Link>
               <div>
                 <Link href={`/post/${post._id}`}>
-                  <h3 className="pb-4 text-xl">{post.title}</h3>
+                  <h3 className="pb-4 text-xl hover:text-green">
+                    {post.title}
+                  </h3>
                 </Link>
                 <div
                   className="ProseMirror nono pb-4"
                   dangerouslySetInnerHTML={{ __html: post.body }}
-                ></div>
+                />
               </div>
               <Like
                 token={token?.token}

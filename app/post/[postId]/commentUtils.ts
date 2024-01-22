@@ -68,38 +68,3 @@ export const fetchPostDetail = async (postId: string, token: string) => {
     return post.post as PostComment;
   } catch (err) {}
 };
-
-// dump
-
-// mentioned styling
-// const mentionStyling = {
-//   backgroundColor: "#00875F",
-//   padding: "1px",
-//   borderRadius: "0.3rem",
-// };
-
-// text area and suggestion styling
-// const mentionAreaStyling = {
-//   "&multiLine": {
-//     control: {
-//       minHeight: 90,
-//     },
-//     highlighter: {
-//       padding: "0.5rem",
-//     },
-//     input: {
-//       padding: 9,
-//     },
-//   },
-//   suggestions: {
-//     list: {
-//       backgroundColor: "#202024",
-//     },
-//     item: {
-//       padding: "5px 15px",
-//       "&focused": {
-//         backgroundColor: "#00875F",
-//       },
-//     },
-//   },
-// };
