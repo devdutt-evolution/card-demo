@@ -6,6 +6,7 @@ export type Notification = {
   _id: string;
   title: string;
   description: string;
+  url: string
 };
 
 async function getNotificationsCount(token: string) {

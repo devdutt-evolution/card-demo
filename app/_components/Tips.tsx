@@ -6,11 +6,16 @@ import { ReactNode } from "react";
 import type { Notification } from "./Notifications";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function createJsx(notifications: Notification[]): ReactNode {
   return notifications.map((notificationObj) => (
-    <li key={notificationObj._id} className="cursor-default w-full ">
-      <h4 className="text-sm font-bold text-green">{notificationObj.title}</h4>
+    <li key={notificationObj._id} className="cursor-default w-full">
+      <Link href={notificationObj.url}>
+        <h4 className="text-sm font-bold text-green">
+          {notificationObj.title}
+        </h4>
+      </Link>
       <p className="text-sm">{notificationObj.description}</p>
     </li>
   ));
@@ -53,11 +58,11 @@ export default function ContentElement({
             </p>
           </div>
           {notificationsCount > 0 ? (
-              <ul className="flex flex-col gap-2 w-full py-2">
-                {createJsx(notifications)}
-              </ul>
+            <ul className="flex flex-col gap-2 w-full py-2">
+              {createJsx(notifications)}
+            </ul>
           ) : (
-            <p className="text-sm pt-2">No Recent Notifications</p>
+            <p className="text-sm pt-2">No Recent Activity</p>
           )}
         </div>
       }
