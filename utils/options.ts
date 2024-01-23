@@ -28,16 +28,6 @@ export const options: NextAuthOptions = {
       return decodedToken;
     },
     session: ({ session, token }) => {
-      console.log({
-        ...session,
-        user: {
-          ...session.user,
-          token: token.token,
-          id: token.id,
-          name: token.name,
-          email: token.email,
-        },
-      });
       return {
         ...session,
         user: {

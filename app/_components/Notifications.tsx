@@ -1,6 +1,6 @@
 import { options } from "@/utils/options";
 import { getServerSession } from "next-auth";
-import ContentElement from "./Tips";
+import Tip from "./Tip";
 
 export type Notification = {
   _id: string;
@@ -30,5 +30,5 @@ export default async function Notifications() {
   const authData = await getServerSession(options);
   const notifications = await getNotificationsCount(authData?.user?.token);
 
-  return <ContentElement notifications={notifications} />;
+  return <Tip notifications={notifications} />;
 }

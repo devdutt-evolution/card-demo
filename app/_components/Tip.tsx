@@ -10,12 +10,12 @@ import Link from "next/link";
 
 function createJsx(notifications: Notification[]): ReactNode {
   return notifications.map((notificationObj) => (
-    <li key={notificationObj._id} className="cursor-default w-full">
-      <Link href={notificationObj.url}>
+    <li key={notificationObj?._id} className="cursor-default w-full">
+      <Link href={notificationObj?.url || ""}>
         <h4 className="text-sm font-bold text-green">
-          {notificationObj.title}
+          {notificationObj?.title}
         </h4>
-        <p className="text-sm">{notificationObj.description}</p>
+        <p className="text-sm">{notificationObj?.description}</p>
       </Link>
     </li>
   ));
