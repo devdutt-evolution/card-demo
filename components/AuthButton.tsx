@@ -10,7 +10,7 @@ export default function AuthButton() {
   const tokenWrapper = data?.user as any;
 
   return (
-    <div className="flex justify-center items-center w-min px-3 py-2 text-[#fff] bg-green rounded-lg absolute top-50% translate-x-[-50%] right-0 hover:bg-hgreen">
+    <div className="flex justify-center items-center w-max px-3 py-2 text-[#fff] bg-green rounded-lg hover:bg-hgreen">
       {path.startsWith("/register") && !tokenWrapper?.token ? (
         <p className="cursor-pointer" onClick={(e) => signIn()}>
           Login

@@ -4,7 +4,8 @@ import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
 import AuthButton from "@/components/AuthButton";
-import NextProvider from "./provider";
+import NextProvider from "./_components/NextProvider";
+import Notifications from "./_components/Notifications";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,10 @@ export default function RootLayout({
                 <p>Quotes</p>
               </div>
             </Link>
-            <AuthButton />
+            <div className="absolute top-50% mr-4 right-0 w-max flex gap-4">
+              <Notifications />
+              <AuthButton />
+            </div>
           </header>
           {children}
           <div id="modal-root"></div>

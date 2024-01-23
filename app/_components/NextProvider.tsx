@@ -18,6 +18,7 @@ export default function NextProvider({ children }: { children?: ReactNode }) {
     body: "",
     url: "",
   });
+
   useEffect(() => {
     init().then(async () => {
       let [success, failed] = await requestForToken();
