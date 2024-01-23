@@ -1,3 +1,16 @@
+declare module "next-auth" {
+  interface Session {
+    user: {
+      token: string;
+    };
+  }
+  interface User {
+    email: string;
+    name: string;
+    token: string;
+  }
+}
+
 type Address = {
   street: string;
   suite: string;

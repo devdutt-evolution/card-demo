@@ -1,42 +1,65 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+type UserResponse = {
+  id: string;
+  name: string;
+  email: string;
+  token: string;
+};
+
 export const options: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
   callbacks: {
-    session: ({ session, token, user }) => {
+    jwt: ({ token: decodedToken, user }) => {
+      // if first login
+      if (user) {
+        return {
+          ...decodedToken,
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          token: user.token,
+        };
+      }
+      // else
+      return decodedToken;
+    },
+    session: ({ session, token }) => {
+      console.log({
+        ...session,
+        user: {
+          ...session.user,
+          token: token.token,
+          id: token.id,
+          name: token.name,
+          email: token.email,
+        },
+      });
       return {
         ...session,
         user: {
           ...session.user,
           token: token.token,
           id: token.id,
+          name: token.name,
+          email: token.email,
         },
       };
-    },
-    jwt: ({ token, user }: { token: any; user: any }) => {
-      if (user) {
-        return {
-          ...token,
-          id: user.id,
-          token: user.token,
-        };
-      }
-      return token;
     },
   },
   providers: [
     CredentialsProvider({
-      name: "Sign In",
+      name: "Credential",
       type: "credentials",
       credentials: {
         email: { label: "Email", type: "text", placeholder: "Email" },
         password: { label: "Password", type: "password" },
         fcmToken: { label: "fcmToken", type: "text", placeholder: "fcmToken" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials): Promise<UserResponse> {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_URL_BACKEND}/signin`,
           {
