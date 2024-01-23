@@ -2,14 +2,14 @@ import { Comment } from "@/types/type.d";
 import { transformText } from "../commentUtils";
 import CommentLike from "./CommentLike";
 
-export default function Comment({
-  comment,
-}: {
-  comment: Comment;
-}) {
+export default function Comment({ comment }: { comment: Comment }) {
   const commentBody = transformText(comment.body);
   return (
-    <div key={comment._id} className="bg-divider rounded-lg p-3">
+    <div
+      key={comment._id}
+      id={comment._id}
+      className="bg-divider rounded-lg p-3"
+    >
       <h4 className="text-l font-bold ">
         <a href={`to:${comment.email}`}>
           {comment?.name.split(" ")[0] || comment.name}

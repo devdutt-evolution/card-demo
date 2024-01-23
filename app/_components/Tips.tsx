@@ -15,8 +15,8 @@ function createJsx(notifications: Notification[]): ReactNode {
         <h4 className="text-sm font-bold text-green">
           {notificationObj.title}
         </h4>
-      </Link>
       <p className="text-sm">{notificationObj.description}</p>
+      </Link>
     </li>
   ));
 }
