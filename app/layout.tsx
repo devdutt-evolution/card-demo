@@ -6,6 +6,8 @@ import Link from "next/link";
 import AuthButton from "@/components/AuthButton";
 import NextProvider from "./_components/NextProvider";
 import Notifications from "./_components/Notifications";
+import { getServerSession } from "next-auth";
+import { options } from "@/utils/options";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,11 +16,13 @@ export const metadata: Metadata = {
   description: "Default description",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const authData = await getServerSession(options);
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -31,7 +35,7 @@ export default function RootLayout({
               </div>
             </Link>
             <div className="absolute top-50% mr-4 right-0 w-max flex gap-4">
-              <Notifications />
+              {authData?.user && <Notifications />}
               <AuthButton />
             </div>
           </header>

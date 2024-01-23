@@ -15,7 +15,7 @@ function createJsx(notifications: Notification[]): ReactNode {
         <h4 className="text-sm font-bold text-green">
           {notificationObj.title}
         </h4>
-      <p className="text-sm">{notificationObj.description}</p>
+        <p className="text-sm">{notificationObj.description}</p>
       </Link>
     </li>
   ));
@@ -26,10 +26,10 @@ export default function ContentElement({
 }: {
   notifications: Notification[];
 }) {
-  const { data: authData } = useSession({ required: true });
+  const { data: authData } = useSession();
   const router = useRouter();
   const tokener: any = authData?.user;
-  const notificationsCount = notifications.length;
+  const notificationsCount = notifications ? notifications.length : 0;
 
   async function markSeen() {
     const res = await fetch(

@@ -6,7 +6,7 @@ export type Notification = {
   _id: string;
   title: string;
   description: string;
-  url: string
+  url: string;
 };
 
 async function getNotificationsCount(token: string) {
@@ -19,7 +19,7 @@ async function getNotificationsCount(token: string) {
     }
   );
 
-  if (res.status != 200) throw new Error("failed to fetch notifications");
+  // if (res.status != 200) throw new Error("failed to fetch notifications");
 
   const data: { notifications: Notification[] } = await res.json();
 
@@ -30,7 +30,7 @@ export default async function Notifications() {
   const authData = await getServerSession(options);
   const tokener: any = authData?.user;
 
-  const notifications = await getNotificationsCount(tokener.token);
+  const notifications = await getNotificationsCount(tokener?.token);
 
   return <ContentElement notifications={notifications} />;
 }
