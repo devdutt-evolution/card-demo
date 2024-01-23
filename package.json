@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tippyjs/react": "^4.2.6",
     "@tiptap/extension-color": "^2.1.13",
     "@tiptap/extension-mention": "^2.1.16",
     "@tiptap/extension-text-style": "^2.1.13",
