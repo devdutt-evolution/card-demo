@@ -20,7 +20,6 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
   const search = params.get("q") || "";
 
   const { data: authData } = useSession({ required: true });
-  const tokener: any = authData?.user;
 
   // infinite scroll
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
           page,
           sortWith,
           isAsc,
-          tokener?.token,
+          authData?.user?.token,
           search
         );
         if (data?.length == 0) setHasMore(false);
@@ -54,7 +53,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore, isAsc, tokener, sortWith, page, search]);
+  }, [hasMore, isAsc, authData, sortWith, page, search]);
 
   useEffect(() => {
     setData(posts);
@@ -92,7 +91,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
                 />
               </div>
               <Like
-                token={tokener?.token}
+                token={authData?.user?.token}
                 liked={post.likedByUser}
                 id={post._id}
                 totalLikes={post.numberOfLikes}

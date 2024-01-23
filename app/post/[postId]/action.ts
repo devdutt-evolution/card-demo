@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 export async function reactOnComment(
   url: string,
   like: boolean,
-  token: string,
+  token: string | undefined,
   postId: string
 ) {
   const res = await fetch(url, {
@@ -14,9 +14,6 @@ export async function reactOnComment(
     headers: {
       authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
-    },
-    next: {
-      revalidate: 0,
     },
   });
 

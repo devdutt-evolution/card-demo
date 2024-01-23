@@ -20,7 +20,7 @@ export default function Like({
   id: string;
   totalLikes: number;
   totalComments: number;
-  token: any;
+  token?: string;
 }) {
   const [like, setLike] = useState(liked);
   const [likes, setLikes] = useState(totalLikes);

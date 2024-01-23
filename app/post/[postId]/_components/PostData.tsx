@@ -7,8 +7,8 @@ import { fetchPostDetail } from "../commentUtils";
 export default async function PostData({ postId }: { postId: string }) {
   const session = await getServerSession(options);
 
-  const token = session?.user as any;
-  const postData = await fetchPostDetail(postId, token.token);
+  const token = session?.user;
+  const postData = await fetchPostDetail(postId, token?.token);
 
   return (
     <>

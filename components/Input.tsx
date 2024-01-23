@@ -1,8 +1,8 @@
-import { forwardRef } from "react";
+import { type Ref, forwardRef } from "react";
 
 export const Input = forwardRef(function Input(
   { className, ...props }: any,
-  ref
+  ref: Ref<HTMLInputElement>
 ) {
   return (
     <input
@@ -12,4 +12,3 @@ export const Input = forwardRef(function Input(
     />
   );
 });
-

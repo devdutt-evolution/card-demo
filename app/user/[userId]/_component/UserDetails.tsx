@@ -5,8 +5,7 @@ import { notFound } from "next/navigation";
 
 export default async function UserDetails({ userId }: { userId: string }) {
   const session = await getServerSession(options);
-  const token: any = session?.user;
-  const user = await getUserDetails(userId, token?.token);
+  const user = await getUserDetails(userId, session?.user?.token);
 
   if (!user) return notFound();
 

@@ -17,9 +17,8 @@ export default async function Page({
   const { q = "", order = "asc", field = "title" } = searchParams;
 
   const authData = await getServerSession(options);
-  const tokener: any = authData?.user;
 
-  const posts = await getInitialPosts(q, order, field, tokener?.token);
-  
+  const posts = await getInitialPosts(q, order, field, authData?.user?.token);
+
   return <Posts posts={posts} />;
 }

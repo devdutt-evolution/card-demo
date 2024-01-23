@@ -6,7 +6,7 @@ export default function Search() {
   const router = useRouter();
   const params = useSearchParams();
   const query = params.get("q") || "";
-  
+
   const [search, setSearch] = useState<string>(query);
 
   useEffect(() => {

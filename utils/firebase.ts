@@ -1,6 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "@firebase/messaging";
-import { type Messaging } from "@firebase/messaging";
+import {
+  getMessaging,
+  getToken,
+  onMessage,
+  type Messaging,
+  type MessagePayload,
+} from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCEpUqGpcZdc081pG2ma9OqT2Nm18DcR24",
@@ -45,7 +50,7 @@ export const requestForToken = async () => {
 };
 
 export const onMessageListener = () =>
-  new Promise((resolve) => {
+  new Promise<MessagePayload>((resolve) => {
     onMessage(messaging, (payload) => {
       resolve(payload);
     });

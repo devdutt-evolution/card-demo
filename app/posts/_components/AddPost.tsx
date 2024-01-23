@@ -35,7 +35,7 @@ export default function AddPost() {
       publishAt: isSchedule ? schedule.getTime() : 0,
     };
     setLoading(true);
-    let result = await sendPostRequest(postData, data?.user);
+    let result = await sendPostRequest(postData, data?.user?.token);
     setLoading(false);
     if (result[0]) {
       setError("");

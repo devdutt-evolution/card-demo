@@ -7,6 +7,7 @@ import { createComment, fetchUsers } from "../commentUtils";
 import { Mention, MentionsInput } from "react-mentions";
 import SuggestionBox from "@/components/Suggestion";
 import SuggestionItem from "@/components/SuggestItem";
+import { User } from "@/types/type.d";
 
 export default function AddComment({ postId }: { postId: string }) {
   const router = useRouter();
@@ -17,10 +18,13 @@ export default function AddComment({ postId }: { postId: string }) {
   const [error, setError] = useState("");
 
   // fetch users for suggestion
-  async function fetchUser(query: string, callback: any) {
+  async function fetchUser(query: string, callback: Function) {
     if (!query) return;
 
-    const [users, error] = (await fetchUsers(query, data?.user)) as any;
+    const [users, error] = (await fetchUsers(query, data?.user?.token)) as [
+      User[],
+      ""
+    ];
 
     if (error) setError(error);
     callback(users);
@@ -28,7 +32,11 @@ export default function AddComment({ postId }: { postId: string }) {
 
   async function postComment() {
     setLoading(true);
-    const [success, failed] = await createComment(postId, data?.user, comment);
+    const [success, failed] = await createComment(
+      postId,
+      data?.user?.token,
+      comment
+    );
     setLoading(false);
     if (failed) setError(failed);
     else {

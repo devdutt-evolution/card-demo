@@ -4,13 +4,13 @@ const URL = process.env.NEXT_PUBLIC_URL_BACKEND;
 
 export const createComment = async (
   postId: string,
-  token: any,
+  token: string | undefined,
   comment: string
 ) => {
   const res = await fetch(`${URL}/posts/${postId}/comment`, {
     method: "post",
     headers: {
-      authorization: `Bearer ${token.token}`,
+      authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ comment }),
@@ -20,10 +20,10 @@ export const createComment = async (
   return [null, data?.message || "Failed to create Comment"];
 };
 
-export const fetchUsers = async (query: string, token?: any) => {
+export const fetchUsers = async (query: string, token?: string) => {
   const res = await fetch(`${URL}/users?_q=${query}`, {
     headers: {
-      authorization: `Bearer ${token?.token}`,
+      authorization: `Bearer ${token}`,
     },
   });
 
@@ -56,7 +56,7 @@ export const transformText = (comment: string): string => {
   return comment;
 };
 
-export const fetchPostDetail = async (postId: string, token: string) => {
+export const fetchPostDetail = async (postId: string, token?: string) => {
   try {
     const data = await fetch(
       `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}`,

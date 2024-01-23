@@ -9,7 +9,7 @@ export type Notification = {
   url: string;
 };
 
-async function getNotificationsCount(token: string) {
+async function getNotificationsCount(token?: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_URL_BACKEND}/notifications`,
     {
@@ -28,9 +28,7 @@ async function getNotificationsCount(token: string) {
 
 export default async function Notifications() {
   const authData = await getServerSession(options);
-  const tokener: any = authData?.user;
-
-  const notifications = await getNotificationsCount(tokener?.token);
+  const notifications = await getNotificationsCount(authData?.user?.token);
 
   return <ContentElement notifications={notifications} />;
 }

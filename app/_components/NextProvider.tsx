@@ -6,9 +6,9 @@ import { requestForToken, onMessageListener, init } from "@/utils/firebase";
 import { Banner } from "@/components/Modal";
 
 type NotificationBody = {
-  title: string;
-  body: string;
-  url: string;
+  title?: string;
+  body?: string;
+  url?: string;
 };
 
 export default function NextProvider({ children }: { children?: ReactNode }) {
@@ -24,7 +24,7 @@ export default function NextProvider({ children }: { children?: ReactNode }) {
       let [success, failed] = await requestForToken();
       if (success) {
         onMessageListener()
-          .then((payload: any) => {
+          .then((payload) => {
             setOpen(true);
             setObj({
               title: payload?.notification?.title,

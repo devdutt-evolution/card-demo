@@ -28,7 +28,6 @@ export default function ContentElement({
 }) {
   const { data: authData } = useSession();
   const router = useRouter();
-  const tokener: any = authData?.user;
   const notificationsCount = notifications ? notifications.length : 0;
 
   async function markSeen() {
@@ -37,7 +36,7 @@ export default function ContentElement({
       {
         method: "PUT",
         headers: {
-          authorization: `Bearer ${tokener.token}`,
+          authorization: `Bearer ${authData?.user?.token}`,
         },
       }
     );

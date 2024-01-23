@@ -7,15 +7,14 @@ import { usePathname } from "next/navigation";
 export default function AuthButton() {
   const { data } = useSession({ required: false });
   const path = usePathname();
-  const tokenWrapper = data?.user as any;
 
   return (
     <div className="flex justify-center items-center w-max px-3 py-2 text-[#fff] bg-green rounded-lg hover:bg-hgreen">
-      {path.startsWith("/register") && !tokenWrapper?.token ? (
+      {path.startsWith("/register") && !data?.user?.token ? (
         <p className="cursor-pointer" onClick={(e) => signIn()}>
           Login
         </p>
-      ) : path.startsWith("/login") && !tokenWrapper?.token ? (
+      ) : path.startsWith("/login") && !data?.user?.token ? (
         <Link href="/register">Register</Link>
       ) : (
         <p className="cursor-pointer" onClick={(e) => signOut()}>

@@ -62,10 +62,10 @@ export function Banner({
   open,
   toggle,
 }: {
-  title: string;
-  body: string;
-  url: string;
-  open: boolean;
+  title?: string;
+  body?: string;
+  url?: string;
+  open?: boolean;
   toggle: Function;
 }) {
   return (
@@ -76,7 +76,7 @@ export function Banner({
           onClick={(e) => toggle()}
         >
           <div className="min-w-60 flex p-5 gap-2 items-center rounded-lg bg-divider bg-opacity-90 mx-auto w-max">
-            <Link href={url}>
+            <Link href={url as string}>
               <Image
                 width={100}
                 height={100}
@@ -85,7 +85,7 @@ export function Banner({
                 className="rounded-lg"
               />
             </Link>
-            <Link href={url} className="min-w-36">
+            <Link href={url as string} className="min-w-36">
               <div className="w-max">
                 <h3 className="mb-2 text-lg">{title}</h3>
                 <p className="text-sm">{body}</p>

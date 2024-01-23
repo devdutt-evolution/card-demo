@@ -28,7 +28,6 @@ export default function CommentLike({
   const ref = useRef<HTMLDivElement>(null);
   const params: { postId: string } = useParams();
   const { data } = useSession({ required: true });
-  const tokener: any = data?.user;
 
   const [optimisticState, addOptimisticLike] = useOptimistic<
     LikeObject,
@@ -40,7 +39,7 @@ export default function CommentLike({
     },
     (currentState: LikeObject, optimisticVal: LikeObject) => {
       let total = currentState.totalLikes + optimisticVal.totalLikes;
-      
+
       return {
         liked: !currentState.liked,
         totalLikes: total,
@@ -71,7 +70,7 @@ export default function CommentLike({
       animateFav();
     }
 
-    reactOnComment(callapi(id), initLiked, tokener.token, params.postId);
+    reactOnComment(callapi(id), initLiked, data?.user?.token, params.postId);
   };
 
   return (

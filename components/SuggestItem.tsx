@@ -15,7 +15,12 @@ export default function SuggestionItem({
   displayText,
   classname,
   ...props
-}: any) {
+}:
+  | {
+      displayText: string;
+      classname: string;
+    }
+  | any) {
   return (
     <div
       className={` hover:bg-green rounded-lg flex items-center w-full p-2 ${classname}`}

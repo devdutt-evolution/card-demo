@@ -1,6 +1,6 @@
 import { User } from "@/types/type.d";
 
-export async function getUserDetails(id: string, token: string) {
+export async function getUserDetails(id: string, token?: string) {
   let data = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/user/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
