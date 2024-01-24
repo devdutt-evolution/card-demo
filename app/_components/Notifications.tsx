@@ -7,11 +7,12 @@ export type Notification = {
   title: string;
   description: string;
   url: string;
+  seen: boolean;
 };
 
 async function getNotificationsCount(token?: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_URL_BACKEND}/notifications`,
+    `${process.env.NEXT_PUBLIC_URL_BACKEND}/notifications?_page=1&_limit=10`,
     {
       headers: {
         authorization: `Bearer ${token}`,
