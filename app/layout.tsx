@@ -32,7 +32,7 @@ export default async function RootLayout({
             <Link className="flex gap-2" href="/">
               <Image src="/logo.svg" alt="logo" width="65" height="61" />
               <div className="text-4xl flex justify-center items-center">
-                <p>Quotes</p>
+                <p>Kathanak</p>
               </div>
             </Link>
             <div className="absolute top-50% mr-4 right-0 w-max flex gap-4">

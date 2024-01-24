@@ -130,7 +130,7 @@ export default function ContentElement({
       <div className="relative w-max flex justify-center items-center cursor-pointer">
         <NotificationIcon />
         {notificationsCount > 0 && (
-          <p className="absolute top-[4px] right-0 bg-red rounded-full text-xs w-4 h-4 text-center">
+          <p className="absolute top-[4px] right-0 bg-red rounded-full text-xs min-w-4 h-4 text-center px-1">
             {notificationsCount > 9 ? "9+" : notificationsCount}
           </p>
         )}
