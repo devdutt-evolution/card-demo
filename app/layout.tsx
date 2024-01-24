@@ -8,6 +8,7 @@ import NextProvider from "./_components/NextProvider";
 import Notifications from "./_components/Notifications";
 import { getServerSession } from "next-auth";
 import { options } from "@/utils/options";
+import Avatar from "./_components/Avatar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,7 @@ export default async function RootLayout({
             <div className="absolute top-50% mr-4 right-0 w-max flex gap-4">
               {authData?.user && <Notifications />}
               <AuthButton />
+              {authData?.user && <Avatar username={authData?.user?.name} userId={authData?.user?.id} />}
             </div>
           </header>
           {children}
