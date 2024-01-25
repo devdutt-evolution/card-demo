@@ -90,6 +90,7 @@ export default function ContentElement({
   return (
     <Tippy
       placement="bottom-end"
+      hideOnClick={true}
       content={
         <div
           className="bg-card rounded-lg p-2 w-80 max-h-80 shadow-[0_0_30px_2px_#00875F] overflow-y-auto"
