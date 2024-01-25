@@ -4,65 +4,59 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Posts } from "@/types/type.d";
 import { DateTime } from "luxon";
-import Like from "@/components/Like";
 import { useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { fetchNextPosts } from "../pageUtils";
+import CustomLike from "@/components/Like";
+import CommentIcon from "@/components/icons/Comment";
+import { getMorePosts } from "@/utils/action";
+import Loader from "@/components/Loader";
 
 export default function InfinitePosts({ posts }: { posts: Posts }) {
   const params = useSearchParams();
   const [data, setData] = useState<Posts>(posts);
   const [page, setPage] = useState(2);
   const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const sortWith = params.get("field") || "title";
   const isAsc = params.get("order") || "asc";
   const search = params.get("q") || "";
 
-  const { data: authData } = useSession({ required: true });
-
-  // infinite scroll
   useEffect(() => {
-    async function loadMore() {
-      if (hasMore) {
-        let data: Posts | undefined = await fetchNextPosts(
-          page,
-          sortWith,
-          isAsc,
-          authData?.user?.token,
-          search
-        );
-        if (data?.length == 0) setHasMore(false);
-        setPage((page) => page + 1);
-        setData((prevPosts) => {
-          return [...prevPosts, ...(data || [])];
-        });
-      } else {
-        return [];
+    const scrollHandler = (e: Event) => {
+      if (!hasMore) {
+        return;
       }
-    }
-
-    const handleScroll = (e: Event) => {
       const target = e.target as Document;
-      const ta = target.documentElement as Document["documentElement"];
-      const scrollHeight = ta.scrollHeight;
-      const currentHeight = ta.scrollTop + window.innerHeight;
-      if (currentHeight + 1 >= scrollHeight) {
-        if (hasMore) loadMore();
+      const doc = target.documentElement;
+      const scrollHeight = doc.scrollHeight;
+      const currentHeight = doc.scrollTop + window.innerHeight;
+
+      if (currentHeight + 1 > scrollHeight) {
+        setLoading(true);
+        loadMore();
       }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore, isAsc, authData, sortWith, page, search]);
 
-  useEffect(() => {
-    setData(posts);
-  }, [posts]);
+    window.addEventListener("scroll", scrollHandler);
+
+    return () => window.removeEventListener("scroll", scrollHandler);
+  });
+
+  async function loadMore() {
+    if (hasMore) {
+      let data: Posts = await getMorePosts(page, sortWith, isAsc, search);
+
+      if (data?.length == 0 || data?.length < 9) setHasMore(false);
+      setPage((page) => page + 1);
+      setData((prevPosts) => [...prevPosts, ...data]);
+    }
+    setLoading(false);
+  }
 
   return (
     <div className="flex flex-col w-full mx-auto gap-2">
       {data?.length > 0 &&
-        data?.map((post, index) => {
+        data?.map((post) => {
           let diff = post.publishAt;
           let luxonDate;
           if (diff && diff > 0) luxonDate = DateTime.fromMillis(diff);
@@ -90,16 +84,30 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
                   dangerouslySetInnerHTML={{ __html: post.body }}
                 />
               </div>
-              <Like
-                token={authData?.user?.token}
-                liked={post.likedByUser}
-                id={post._id}
-                totalLikes={post.numberOfLikes}
-                totalComments={post.commentCount}
-              />
+              <div className="w-min flex gap-4 p-1 bg-black rounded-full">
+                <CustomLike
+                  liked={post.likedByUser}
+                  likeCount={post.numberOfLikes}
+                  postId={post._id}
+                  varient="post"
+                  commentId=""
+                />
+                <Link
+                  className="w-min hover:bg-card flex gap-3 p-1 px-2 rounded-full"
+                  href={`/post/${post._id}`}
+                >
+                  <CommentIcon />
+                  <p className="text-md">{post.commentCount}</p>
+                </Link>
+              </div>
             </div>
           );
         })}
+      {loading && (
+        <div className="h-[200px] flex justify-center items-center w-full">
+          <Loader />
+        </div>
+      )}
       {data.length == 0 && (
         <div className="bg-card px-3 py-4 border-2 border-black rounded-lg">
           No Posts
@@ -108,8 +116,3 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
     </div>
   );
 }
-// loading && (
-// <div className="h-[200px] flex justify-center items-center w-full">
-//   <Loader />
-// </div>
-// )

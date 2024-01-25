@@ -7,8 +7,7 @@ import { fetchPostDetail } from "../commentUtils";
 export default async function PostData({ postId }: { postId: string }) {
   const session = await getServerSession(options);
 
-  const token = session?.user;
-  const postData = await fetchPostDetail(postId, token?.token);
+  const postData = await fetchPostDetail(postId, session?.user?.token);
 
   return (
     <>
@@ -24,7 +23,7 @@ export default async function PostData({ postId }: { postId: string }) {
       <div className="my-4 flex gap-2 flex-col">
         {postData?.comments && postData.comments.length > 0 ? (
           postData.comments?.map((comment) => (
-            <Comment key={comment._id} comment={comment} />
+            <Comment key={comment._id} comment={comment} postId={postId} />
           ))
         ) : (
           <div className="bg-divider py-3 px-5 rounded-lg">No Comments</div>

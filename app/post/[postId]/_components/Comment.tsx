@@ -1,8 +1,14 @@
 import { Comment } from "@/types/type.d";
 import { transformText } from "../commentUtils";
-import CommentLike from "./CommentLike";
+import CustomLike from "@/components/Like";
 
-export default function Comment({ comment }: { comment: Comment }) {
+export default function Comment({
+  comment,
+  postId,
+}: {
+  comment: Comment;
+  postId: string;
+}) {
   const commentBody = transformText(comment.body);
   return (
     <div
@@ -17,10 +23,12 @@ export default function Comment({ comment }: { comment: Comment }) {
       </h4>
       <p className="text-sm text-place">{comment.email}</p>
       <div className="py-3" dangerouslySetInnerHTML={{ __html: commentBody }} />
-      <CommentLike
-        initLiked={comment.likedByUser}
-        totalLikes={comment.numberOfLikes}
-        id={comment._id}
+      <CustomLike
+        commentId={comment._id}
+        likeCount={comment.numberOfLikes}
+        liked={comment.likedByUser}
+        postId={postId}
+        varient="comment"
       />
     </div>
   );
