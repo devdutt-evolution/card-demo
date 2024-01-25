@@ -25,8 +25,8 @@ export default function Comment({
       <div className="py-3" dangerouslySetInnerHTML={{ __html: commentBody }} />
       <CustomLike
         commentId={comment._id}
+        reactionType={comment?.userLike?.reactionType || "unlike"}
         likeCount={comment.numberOfLikes}
-        liked={comment.likedByUser}
         postId={postId}
         varient="comment"
       />

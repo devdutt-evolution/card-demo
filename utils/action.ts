@@ -8,7 +8,7 @@ const PAGE_SIZE = 10;
 
 export async function likeAction(
   postId: string,
-  liked: boolean,
+  reaction: string,
   varient: string,
   commentId?: string
 ) {
@@ -18,10 +18,19 @@ export async function likeAction(
       : `${process.env.NEXT_PUBLIC_URL_BACKEND}/comments/${commentId}`;
 
   const session = await getServerSession(options);
-
+  console.log(
+    "reaction " +
+      reaction +
+      " " +
+      varient +
+      " Id " +
+      (commentId || postId) +
+      " " +
+      commentId
+  );
   const res = await fetch(url, {
     method: "PUT",
-    body: JSON.stringify({ reaction: liked ? "unlike" : "like" }),
+    body: JSON.stringify({ reaction }),
     headers: {
       authorization: `Bearer ${session?.user?.token}`,
       "Content-Type": "application/json",
@@ -30,7 +39,7 @@ export async function likeAction(
 
   if (!res.ok) throw new Error("Something went wrong !");
 
-  if (varient == "post") revalidatePath("/posts");
+  if (varient === "post") revalidatePath("/posts");
   else revalidatePath("/post/" + postId);
 }
 

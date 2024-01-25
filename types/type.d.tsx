@@ -29,7 +29,7 @@ type Company = {
   catchPhrase: string;
   bs: string;
 };
-
+type LikeObject = { userId: string; reactionType: string }
 export type User = {
   _id: string;
   name: string;
@@ -48,21 +48,13 @@ export type Post = {
   numberOfLikes: number;
   commentCount: number;
   likedByUser: boolean;
+  userLike?: LikeObject;
   publishAt?: number;
   user?: User;
 };
 export type PostComment = {
-  _id: string;
-  title: string;
-  body: string;
-  userId: string;
-  user?: User;
-  numberOfLikes: number;
-  likedByUser: boolean;
-  publishAt?: number;
   comments: Comments;
-  commentCount: number;
-};
+} & Post;
 export type Comment = {
   postId: string;
   _id: string;
@@ -71,6 +63,7 @@ export type Comment = {
   body: string;
   numberOfLikes: number;
   likedByUser: boolean;
+  userLike?: LikeObject
 };
 export type Posts = Array<Post>;
 export type Comments = Array<Comment>;

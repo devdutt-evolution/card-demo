@@ -4,7 +4,6 @@ import { useOptimistic } from "react";
 import { likeAction } from "@/utils/action";
 import {
   Angry,
-  FilledLike,
   Happy,
   OutlineLike,
   Reaction,
@@ -13,30 +12,32 @@ import {
   Verified,
 } from "./icons/Reaction";
 import Tippy from "@tippyjs/react";
+import AvailableReactions from "./AvailableReactions";
+// import { useRouter } from "next/navigation";
 
 type LikeObject = {
-  liked: boolean;
+  reaction: string;
   likeCount: number;
 };
 
 export default function Like({
   likeCount,
-  liked,
+  reactionType,
   varient,
   postId,
   commentId,
 }: {
   likeCount: number;
-  liked: boolean;
+  reactionType?: string;
   varient: string;
   postId: string;
   commentId: string;
 }) {
   const [optimisticLike, optimisticUpdate] = useOptimistic(
-    { likeCount, liked },
+    { likeCount, reaction: reactionType },
     (prevCount, newCount: LikeObject) => {
       return {
-        ...newCount,
+        reaction: newCount.reaction,
         likeCount: prevCount.likeCount + newCount.likeCount,
       };
     }
@@ -44,49 +45,48 @@ export default function Like({
 
   return (
     <Tippy
-      animateFill={true}
       placement="top"
-      content={AvailableReactions()}
+      content={
+        reactionType === "unlike" ? (
+          <AvailableReactions
+            optimisticUpdate={optimisticUpdate}
+            postId={postId}
+            varient={varient}
+            commentId={commentId}
+          />
+        ) : (
+          <></>
+        )
+      }
       interactive={true}
     >
       <div
         className="w-max flex gap-3 p-1 px-2 rounded-full bg-black hover:bg-opacity-50"
         onClick={(e) => {
           optimisticUpdate({
-            likeCount: optimisticLike.likeCount ? -1 : 1,
-            liked: !optimisticLike.liked,
+            likeCount: -1,
+            reaction: "unlike",
           });
-          likeAction(postId, liked, varient, commentId);
+          likeAction(postId, "unlike", varient, commentId);
         }}
       >
-        {!optimisticLike.liked ? <Reaction /> : <FilledLike />}
+        {optimisticLike?.reaction === "heart" ? (
+          <OutlineLike active={true} />
+        ) : optimisticLike?.reaction === "like" ? (
+          <Thumb active={true} />
+        ) : optimisticLike?.reaction === "happy" ? (
+          <Happy active={true} />
+        ) : optimisticLike?.reaction === "sad" ? (
+          <Sad active={true} />
+        ) : optimisticLike?.reaction === "verified" ? (
+          <Verified active={true} />
+        ) : optimisticLike?.reaction === "angry" ? (
+          <Angry active={true} />
+        ) : (
+          <Reaction />
+        )}
         <p className="text-md">{optimisticLike.likeCount}</p>
       </div>
     </Tippy>
-  );
-}
-
-function AvailableReactions() {
-  return (
-    <ul className="rounded-full flex gap-3 w-max p-2">
-      <li className="rounded-full delay-75 hover:scale-125">
-        <OutlineLike />
-      </li>
-      <li className="rounded-full hover:scale-125">
-        <Thumb />
-      </li>
-      <li className="rounded-full hover:scale-125">
-        <Happy />
-      </li>
-      <li className="rounded-full hover:scale-125 hover:[--gcolor:#1496d9]">
-        <Verified />
-      </li>
-      <li className="rounded-full hover:scale-125">
-        <Sad />
-      </li>
-      <li className="rounded-full hover:scale-125 hover:[--gcolor:#F75A68]">
-        <Angry />
-      </li>
-    </ul>
   );
 }

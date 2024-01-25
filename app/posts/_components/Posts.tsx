@@ -63,7 +63,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
 
           return (
             <div
-              key={post._id}
+              key={post.body}
               className="bg-card hover:border-2 hover:border-green hover:shadow-sm hover:shadow-green px-8 py-6 border-2 border-card rounded-lg"
             >
               <Link className="w-fit" href={`/user/${post.userId}`}>
@@ -86,7 +86,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
               </div>
               <div className="w-min flex gap-4 p-1 bg-black rounded-full">
                 <CustomLike
-                  liked={post.likedByUser}
+                  reactionType={post?.userLike?.reactionType}
                   likeCount={post.numberOfLikes}
                   postId={post._id}
                   varient="post"
