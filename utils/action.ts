@@ -60,6 +60,9 @@ export async function getMorePosts(
 
   const res = await fetch(url, {
     headers: { authorization: `Bearer ${session?.user?.token}` },
+    next: {
+      revalidate: 0,
+    },
   });
   if (res.status != 200) throw new Error("failed to fetch");
 

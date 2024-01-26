@@ -42,6 +42,10 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
     return () => window.removeEventListener("scroll", scrollHandler);
   });
 
+  useEffect(() => {
+    setData(posts);
+  }, [posts]);
+
   async function loadMore() {
     if (hasMore) {
       let data: Posts = await getMorePosts(page, sortWith, isAsc, search);
@@ -86,7 +90,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
               </div>
               <div className="w-min flex gap-4 p-1 bg-black rounded-full">
                 <CustomLike
-                  reactionType={post?.userLike?.reactionType}
+                  reactionType={post?.userLike?.reactionType || "unlike"}
                   likeCount={post.numberOfLikes}
                   postId={post._id}
                   varient="post"

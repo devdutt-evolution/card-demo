@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "Post lists",
 };
 
+export const revalidate = 0;
+
 export default async function Page({
   searchParams,
 }: {

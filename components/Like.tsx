@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic } from "react";
+import { useCallback, useEffect, useOptimistic, useTransition } from "react";
 import { likeAction } from "@/utils/action";
 import {
   Angry,
@@ -28,7 +28,7 @@ export default function Like({
   commentId,
 }: {
   likeCount: number;
-  reactionType?: string;
+  reactionType: string;
   varient: string;
   postId: string;
   commentId: string;
@@ -42,18 +42,34 @@ export default function Like({
       };
     }
   );
+  
+  useEffect(() => {
+    startTransition(() =>
+      optimisticUpdate({ likeCount, reaction: reactionType })
+    );
+  }, [optimisticUpdate, likeCount, reactionType]);
+
+  const [_ispending, startTransition] = useTransition();
+
+  const handleClicks = useCallback(
+    (count: number, react: string) => {
+      startTransition(() => {
+        optimisticUpdate({
+          likeCount: count,
+          reaction: react,
+        });
+        likeAction(postId, react, varient, commentId);
+      });
+    },
+    [postId, commentId, varient, optimisticUpdate]
+  );
 
   return (
     <Tippy
       placement="top"
       content={
-        reactionType === "unlike" ? (
-          <AvailableReactions
-            optimisticUpdate={optimisticUpdate}
-            postId={postId}
-            varient={varient}
-            commentId={commentId}
-          />
+        !reactionType || reactionType === "unlike" ? (
+          <AvailableReactions onReact={handleClicks} />
         ) : (
           <></>
         )
@@ -63,11 +79,7 @@ export default function Like({
       <div
         className="w-max flex gap-3 p-1 px-2 rounded-full bg-black hover:bg-opacity-50"
         onClick={(e) => {
-          optimisticUpdate({
-            likeCount: -1,
-            reaction: "unlike",
-          });
-          likeAction(postId, "unlike", varient, commentId);
+          handleClicks(-1, "unlike");
         }}
       >
         {optimisticLike?.reaction === "heart" ? (
