@@ -14,9 +14,9 @@ export default function AvailableReactions({
   onReact: (count: number, reaction: REACTIONS) => void;
 }) {
   return (
-    <ul className="rounded-l-full flex flex-col box-content">
+    <ul className="rounded-l-full flex flex-col w-[100px] translate-x-[80px] relative bg-black [clip-path:polygon(84%_20%,_63%_28%,_44%_42%,_46%_59%,_66%_73%,_84%_80%,_84%_100%,_0_100%,_0_0,_84%_0)]">
       <li
-        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[2.5rem] translate-y-[0.5rem]"
+        className="rounded-full hover:scale-150 p-2 transition-all duration-300 w-min translate-x-[2.75rem] translate-y-[0.5rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.HEART);
         }}
@@ -24,7 +24,7 @@ export default function AvailableReactions({
         <OutlineLike active={true} className="scale-125" />
       </li>
       <li
-        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[1rem]"
+        className="rounded-full hover:scale-150 p-2 transition-all duration-300 w-min translate-x-[1rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.LIKE);
         }}
@@ -32,7 +32,7 @@ export default function AvailableReactions({
         <Thumb active={true} className="scale-125" />
       </li>
       <li
-        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[0rem] mb-1"
+        className="rounded-full hover:scale-150 p-2 transition-all duration-300 w-min translate-x-[0rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.HAPPY);
         }}
@@ -40,7 +40,7 @@ export default function AvailableReactions({
         <Happy active={true} className="scale-125" />
       </li>
       {/* <li
-        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[0rem]"
+        className="rounded-full hover:scale-150 p-2 transition-all duration-300 w-min translate-x-[0rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.VERIFIED);
         }}
@@ -48,7 +48,7 @@ export default function AvailableReactions({
         <Verified />
       </li> */}
       <li
-        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[1rem]"
+        className="rounded-full hover:scale-150 p-2 transition-all duration-300 w-min translate-x-[1rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.SAD);
         }}
@@ -56,7 +56,7 @@ export default function AvailableReactions({
         <Sad active={true} className="scale-125" />
       </li>
       <li
-        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[2.5rem] translate-y-[-0.5rem]"
+        className="rounded-full hover:scale-150 p-2 transition-all duration-300 w-min translate-x-[2.75rem] translate-y-[-0.5rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.ANGRY);
         }}

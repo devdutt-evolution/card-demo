@@ -67,6 +67,9 @@ export default function Like({
   return (
     <Tippy
       placement="left"
+      // onHide={() => {}}
+      // trigger="manual"
+      // showOnCreate={true}
       content={
         !reactionType || reactionType === REACTIONS.UNLIKE ? (
           <AvailableReactions onReact={handleClicks} />
