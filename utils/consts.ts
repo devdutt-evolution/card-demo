@@ -15,6 +15,7 @@ export enum REACTIONS {
   HAPPY = "happy",
   VERIFIED = "verified",
   ANGRY = "angry",
+  UNLIKE = "unlike",
 }
 
 export enum SORTORDER {
@@ -23,7 +24,7 @@ export enum SORTORDER {
 }
 
 export enum SORTFIELD {
-  title = "username",
+  title = "title",
   time = "createAt",
   likes = "numberOfLikes",
 }

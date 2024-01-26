@@ -40,7 +40,7 @@ export default function LoginForm() {
     if (!result?.error) router.push("/posts");
     else setError(result.error);
   }
-  const what = register("email", { required: "Email is required" });
+  const emailHandler = register("email", { required: "Email is required" });
 
   return (
     <form
@@ -53,7 +53,7 @@ export default function LoginForm() {
         type="text"
         autoComplete="off"
         placeholder="email"
-        {...what}
+        {...emailHandler}
       />
       {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
       <Input

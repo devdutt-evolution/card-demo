@@ -28,12 +28,18 @@ export function FilledLike() {
   );
 }
 
-export function OutlineLike({ active }: { active?: boolean }) {
+export function OutlineLike({
+  active,
+  className,
+}: {
+  active?: boolean;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       height="24"
-      className={`cursor-pointer hover:fill-red transition-all duration-300 ${
+      className={`cursor-pointer hover:fill-red transition-all duration-300 ${className} ${
         active ? "fill-red" : "fill-white"
       }`}
       viewBox="0 -960 960 960"
@@ -44,14 +50,20 @@ export function OutlineLike({ active }: { active?: boolean }) {
   );
 }
 
-export function Thumb({ active }: { active?: boolean }) {
+export function Thumb({
+  active,
+  className,
+}: {
+  active?: boolean;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       height="24"
       viewBox="0 -960 960 960"
       width="24"
-      className={`cursor-pointer hover:fill-[#de963e] transition-all duration-300 ${
+      className={`cursor-pointer hover:fill-[#de963e] transition-all duration-300 ${className} ${
         active ? "fill-[#de963e]" : "fill-white"
       }`}
     >
@@ -60,14 +72,20 @@ export function Thumb({ active }: { active?: boolean }) {
   );
 }
 
-export function Sad({ active }: { active?: boolean }) {
+export function Sad({
+  active,
+  className,
+}: {
+  active?: boolean;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       height="24"
       viewBox="0 -960 960 960"
       width="24"
-      className={`cursor-pointer hover:fill-[#1d7d16] transition-all duration-300 ${
+      className={`cursor-pointer hover:fill-[#1d7d16] transition-all duration-300 ${className} ${
         active ? "fill-[#1d7d16]" : "fill-white"
       }`}
     >
@@ -76,14 +94,20 @@ export function Sad({ active }: { active?: boolean }) {
   );
 }
 
-export function Verified({ active }: { active?: boolean }) {
+export function Verified({
+  active,
+  className,
+}: {
+  active?: boolean;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       height="24"
       viewBox="0 -960 960 960"
       width="24"
-      className={`cursor-pointer hover:fill-[#198ce8] transition-all duration-300 ${
+      className={`cursor-pointer hover:fill-[#198ce8] transition-all duration-300 ${className} ${
         active ? "fill-[#198ce8]" : "fill-white"
       }`}
     >
@@ -92,14 +116,20 @@ export function Verified({ active }: { active?: boolean }) {
   );
 }
 
-export function Angry({ active }: { active?: boolean }) {
+export function Angry({
+  active,
+  className,
+}: {
+  active?: boolean;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       height="24"
       viewBox="0 -960 960 960"
       width="24"
-      className={`cursor-pointer hover:fill-[#da1818] transition-all duration-300 ${
+      className={`cursor-pointer hover:fill-[#da1818] transition-all duration-300 ${className} ${
         active ? "fill-[#da1818]" : "fill-white"
       }`}
     >
@@ -108,14 +138,20 @@ export function Angry({ active }: { active?: boolean }) {
   );
 }
 
-export function Happy({ active }: { active?: boolean }) {
+export function Happy({
+  active,
+  className,
+}: {
+  active?: boolean;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       height="24"
       viewBox="0 -960 960 960"
       width="24"
-      className={`cursor-pointer hover:fill-red transition-all duration-300 ${
+      className={`cursor-pointer hover:fill-red transition-all duration-300 ${className} ${
         active ? "fill-red" : "fill-white"
       }`}
     >

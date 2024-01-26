@@ -9,7 +9,7 @@ import CustomLike from "@/components/Like";
 import CommentIcon from "@/components/icons/Comment";
 import { getMorePosts } from "@/utils/action";
 import Loader from "@/components/Loader";
-import { SORTFIELD, SORTORDER } from "@/utils/consts";
+import { REACTIONS, SORTFIELD, SORTORDER } from "@/utils/consts";
 
 export default function InfinitePosts({ posts }: { posts: Post[] }) {
   const params = useSearchParams();
@@ -91,7 +91,7 @@ export default function InfinitePosts({ posts }: { posts: Post[] }) {
               </div>
               <div className="w-min flex gap-4 p-1 bg-black rounded-full">
                 <CustomLike
-                  reactionType={post?.userLike?.reactionType || "unlike"}
+                  reactionType={post?.userLike?.reactionType || REACTIONS.UNLIKE}
                   likeCount={post.numberOfLikes}
                   postId={post._id}
                   varient="post"

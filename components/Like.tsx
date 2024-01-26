@@ -66,9 +66,9 @@ export default function Like({
 
   return (
     <Tippy
-      placement="top"
+      placement="left"
       content={
-        !reactionType || reactionType === "unlike" ? (
+        !reactionType || reactionType === REACTIONS.UNLIKE ? (
           <AvailableReactions onReact={handleClicks} />
         ) : (
           <></>
@@ -79,7 +79,7 @@ export default function Like({
       <div
         className="w-max flex gap-3 p-1 px-2 rounded-full bg-black hover:bg-opacity-50"
         onClick={(e) => {
-          handleClicks(-1, REACTIONS.LIKE);
+          handleClicks(-1, REACTIONS.UNLIKE);
         }}
       >
         {optimisticLike?.reaction === "heart" ? (

@@ -1,6 +1,7 @@
 import type { Comment } from "@/types/type.d";
 import { transformText } from "../commentUtils";
 import CustomLike from "@/components/Like";
+import { REACTIONS } from "@/utils/consts";
 
 export default function Comment({
   comment,
@@ -25,7 +26,7 @@ export default function Comment({
       <div className="py-3" dangerouslySetInnerHTML={{ __html: commentBody }} />
       <CustomLike
         commentId={comment._id}
-        reactionType={comment?.userLike?.reactionType || "unlike"}
+        reactionType={comment?.userLike?.reactionType || REACTIONS.UNLIKE}
         likeCount={comment.numberOfLikes}
         postId={postId}
         varient="comment"

@@ -14,54 +14,54 @@ export default function AvailableReactions({
   onReact: (count: number, reaction: REACTIONS) => void;
 }) {
   return (
-    <ul className="rounded-full flex gap-3 w-max p-2 bg-black">
+    <ul className="rounded-l-full flex flex-col box-content">
       <li
-        className="rounded-full delay-75 hover:scale-150 transition-all duration-300"
+        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[2.5rem] translate-y-[0.5rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.HEART);
         }}
       >
-        <OutlineLike />
+        <OutlineLike active={true} className="scale-125" />
       </li>
       <li
-        className="rounded-full hover:scale-150 transition-all duration-300"
+        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[1rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.LIKE);
         }}
       >
-        <Thumb />
+        <Thumb active={true} className="scale-125" />
       </li>
       <li
-        className="rounded-full hover:scale-150 transition-all duration-300"
+        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[0rem] mb-1"
         onClick={(e) => {
           onReact(1, REACTIONS.HAPPY);
         }}
       >
-        <Happy />
+        <Happy active={true} className="scale-125" />
       </li>
-      <li
-        className="rounded-full hover:scale-150 transition-all duration-300 hover:[--gcolor:#1496d9]"
+      {/* <li
+        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[0rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.VERIFIED);
         }}
       >
         <Verified />
-      </li>
+      </li> */}
       <li
-        className="rounded-full hover:scale-150 transition-all duration-300"
+        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[1rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.SAD);
         }}
       >
-        <Sad />
+        <Sad active={true} className="scale-125" />
       </li>
       <li
-        className="rounded-full hover:scale-150 transition-all duration-300 hover:[--gcolor:#F75A68]"
+        className="rounded-full hover:scale-150 p-1 transition-all duration-300 w-min translate-x-[2.5rem] translate-y-[-0.5rem]"
         onClick={(e) => {
           onReact(1, REACTIONS.ANGRY);
         }}
       >
-        <Angry />
+        <Angry active={true} className="scale-125" />
       </li>
     </ul>
   );
