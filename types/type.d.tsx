@@ -24,12 +24,15 @@ type Address = {
     lng: string;
   };
 };
+
 type Company = {
   name: string;
   catchPhrase: string;
   bs: string;
 };
-type LikeObject = { userId: string; reactionType: string }
+
+type LikeObject = { userId: string; reactionType: string };
+
 export type User = {
   _id: string;
   name: string;
@@ -40,6 +43,7 @@ export type User = {
   address: Address;
   company: Company;
 };
+
 export type Post = {
   _id: string;
   title: string;
@@ -52,18 +56,18 @@ export type Post = {
   publishAt?: number;
   user?: User;
 };
+
 export type PostComment = {
-  comments: Comments;
+  comments: Comment[];
 } & Post;
+
 export type Comment = {
-  postId: string;
   _id: string;
+  postId: string;
   name: string;
   email: string;
   body: string;
   numberOfLikes: number;
   likedByUser: boolean;
-  userLike?: LikeObject
+  userLike?: LikeObject;
 };
-export type Posts = Array<Post>;
-export type Comments = Array<Comment>;

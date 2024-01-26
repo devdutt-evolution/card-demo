@@ -1,4 +1,4 @@
-import { Posts } from "@/types/type.d";
+import type { Post } from "@/types/type.d";
 
 const url = (sortWith: string, isAsc: string, q?: string) =>
   `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_q=${q}&_limit=10&_page=1&_sort=${sortWith}&_order=${isAsc}&_expand=user`;
@@ -15,7 +15,7 @@ export async function getInitialPosts(
 
   if (res.status !== 200) throw new Error("Failed to fetch posts");
 
-  const data: { posts: Posts } = await res.json();
+  const data: { posts: Post[] } = await res.json();
   return data.posts;
 }
 

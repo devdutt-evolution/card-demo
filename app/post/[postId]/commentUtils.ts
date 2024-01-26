@@ -1,4 +1,4 @@
-import { PostComment } from "@/types/type.d";
+import type { PostComment } from "@/types/type.d";
 
 const URL = process.env.NEXT_PUBLIC_URL_BACKEND;
 

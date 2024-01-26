@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Posts from "./_components/Posts";
 import { getServerSession } from "next-auth";
 import { options } from "@/utils/options";

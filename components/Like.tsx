@@ -13,7 +13,6 @@ import {
 } from "./icons/Reaction";
 import Tippy from "@tippyjs/react";
 import AvailableReactions from "./AvailableReactions";
-// import { useRouter } from "next/navigation";
 
 type LikeObject = {
   reaction: string;

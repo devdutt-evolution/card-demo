@@ -1,7 +1,7 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
-import { ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { requestForToken, onMessageListener, init } from "@/utils/firebase";
 import { Banner } from "@/components/Modal";
 

@@ -1,4 +1,4 @@
-import { Comment } from "@/types/type.d";
+import type { Comment } from "@/types/type.d";
 import { transformText } from "../commentUtils";
 import CustomLike from "@/components/Like";
 

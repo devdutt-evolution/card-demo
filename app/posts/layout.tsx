@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import AddPost from "./_components/AddPost";
 import Search from "./_components/Search";
 import Filter from "./_components/Filter";

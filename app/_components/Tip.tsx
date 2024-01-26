@@ -2,7 +2,7 @@
 
 import NotificationIcon from "@/components/icons/NotificationIcon";
 import Tippy from "@tippyjs/react";
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 import type { Notification } from "./Notifications";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

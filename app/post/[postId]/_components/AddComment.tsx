@@ -7,7 +7,7 @@ import { createComment, fetchUsers } from "../commentUtils";
 import { Mention, MentionsInput } from "react-mentions";
 import SuggestionBox from "@/components/Suggestion";
 import SuggestionItem from "@/components/SuggestItem";
-import { User } from "@/types/type.d";
+import type { User } from "@/types/type.d";
 
 export default function AddComment({ postId }: { postId: string }) {
   const router = useRouter();

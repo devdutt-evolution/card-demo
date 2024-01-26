@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { Posts } from "@/types/type.d";
+import type { Post } from "@/types/type.d";
 import { DateTime } from "luxon";
 import { useSearchParams } from "next/navigation";
 import CustomLike from "@/components/Like";
@@ -10,9 +10,9 @@ import CommentIcon from "@/components/icons/Comment";
 import { getMorePosts } from "@/utils/action";
 import Loader from "@/components/Loader";
 
-export default function InfinitePosts({ posts }: { posts: Posts }) {
+export default function InfinitePosts({ posts }: { posts: Post[] }) {
   const params = useSearchParams();
-  const [data, setData] = useState<Posts>(posts);
+  const [data, setData] = useState<Post[]>(posts);
   const [page, setPage] = useState(2);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ export default function InfinitePosts({ posts }: { posts: Posts }) {
 
   async function loadMore() {
     if (hasMore) {
-      let data: Posts = await getMorePosts(page, sortWith, isAsc, search);
+      let data: Post[] = await getMorePosts(page, sortWith, isAsc, search);
 
       if (data?.length == 0 || data?.length < 9) setHasMore(false);
       setPage((page) => page + 1);

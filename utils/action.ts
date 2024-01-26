@@ -1,6 +1,6 @@
 "use server";
 
-import type { Posts } from "@/types/type.d";
+import type { Post } from "@/types/type.d";
 import { options } from "@/utils/options";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
@@ -66,6 +66,6 @@ export async function getMorePosts(
   });
   if (res.status != 200) throw new Error("failed to fetch");
 
-  const data: { posts: Posts } = await res.json();
+  const data: { posts: Post[] } = await res.json();
   return data.posts;
 }
