@@ -13,6 +13,7 @@ import {
 } from "./icons/Reaction";
 import Tippy from "@tippyjs/react";
 import AvailableReactions from "./AvailableReactions";
+import { REACTIONS } from "@/utils/consts";
 
 type LikeObject = {
   reaction: string;
@@ -41,7 +42,7 @@ export default function Like({
       };
     }
   );
-  
+
   useEffect(() => {
     startTransition(() =>
       optimisticUpdate({ likeCount, reaction: reactionType })
@@ -51,7 +52,7 @@ export default function Like({
   const [_ispending, startTransition] = useTransition();
 
   const handleClicks = useCallback(
-    (count: number, react: string) => {
+    (count: number, react: REACTIONS) => {
       startTransition(() => {
         optimisticUpdate({
           likeCount: count,
@@ -78,7 +79,7 @@ export default function Like({
       <div
         className="w-max flex gap-3 p-1 px-2 rounded-full bg-black hover:bg-opacity-50"
         onClick={(e) => {
-          handleClicks(-1, "unlike");
+          handleClicks(-1, REACTIONS.LIKE);
         }}
       >
         {optimisticLike?.reaction === "heart" ? (

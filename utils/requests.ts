@@ -1,37 +1,69 @@
-export const getWrapper = async (url: string, token: string) => {
-  return new Promise(async (resolve, reject) => {
-    const result = await fetch(url, {
+"use server";
+
+import { RedirectType, redirect } from "next/navigation";
+import { METHODS } from "./consts";
+
+export const GET = async (url: string, token?: string) => {
+  const headers = {};
+
+  if (token)
+    Object.assign(headers, {
       headers: { authorization: `Bearer ${token}` },
     });
 
-    let data = await result.json();
-    if (result.status == 200) {
-      resolve(data);
-    } else {
-      reject(data);
-    }
-  });
+  const res = await fetch(url);
+
+  if (res.status == 200) {
+    const data = await res.json();
+    return { data, error: null };
+  } else if (res.status == 401) {
+    redirect("/login");
+  } else {
+    const error = await res.json();
+    return { data: null, error: error?.message || "Request Failed" };
+  }
 };
 
-export const postWrapper = async (
+export const METHOD = async (
+  method: METHODS,
   url: string,
   token: string,
-  payload: Object
+  payload?: Object,
+  ...other: Object[]
 ) => {
-  return new Promise(async (resolve, reject) => {
-    const result = await fetch(url, {
-      method: "post",
+  const options = {
+    method,
+  };
+
+  if (payload)
+    Object.assign(options, {
       body: JSON.stringify(payload),
       headers: {
-        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
 
-    if (result.status == 200 || result.status == 201) {
-      return resolve(await result.json());
-    } else {
-      return reject(await result.json());
-    }
-  });
+  if (token) {
+    Object.assign(options, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+  }
+  if (other) {
+    Object.assign(options, {
+      ...other,
+    });
+  }
+  const res = await fetch(url, options);
+
+  if (res.status == 200 || res.status == 201) {
+    const data = await res.json();
+    return { data, error: null };
+  } else if (res.status == 401) {
+    redirect("/login", RedirectType.replace);
+  } else {
+    const error = await res.json();
+    return { data: null, error: error?.message || "Request Failed" };
+  }
 };

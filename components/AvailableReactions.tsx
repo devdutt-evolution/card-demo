@@ -1,3 +1,4 @@
+import { REACTIONS } from "@/utils/consts";
 import {
   Angry,
   Happy,
@@ -7,19 +8,17 @@ import {
   Verified,
 } from "./icons/Reaction";
 
-type Reaction = "like" | "heart" | "sad" | "happy" | "verified" | "angry";
-
 export default function AvailableReactions({
   onReact,
 }: {
-  onReact: (count: number, reaction: Reaction) => void;
+  onReact: (count: number, reaction: REACTIONS) => void;
 }) {
   return (
     <ul className="rounded-full flex gap-3 w-max p-2 bg-black">
       <li
         className="rounded-full delay-75 hover:scale-150 transition-all duration-300"
         onClick={(e) => {
-          onReact(1, "heart");
+          onReact(1, REACTIONS.HEART);
         }}
       >
         <OutlineLike />
@@ -27,7 +26,7 @@ export default function AvailableReactions({
       <li
         className="rounded-full hover:scale-150 transition-all duration-300"
         onClick={(e) => {
-          onReact(1, "like");
+          onReact(1, REACTIONS.LIKE);
         }}
       >
         <Thumb />
@@ -35,7 +34,7 @@ export default function AvailableReactions({
       <li
         className="rounded-full hover:scale-150 transition-all duration-300"
         onClick={(e) => {
-          onReact(1, "happy");
+          onReact(1, REACTIONS.HAPPY);
         }}
       >
         <Happy />
@@ -43,7 +42,7 @@ export default function AvailableReactions({
       <li
         className="rounded-full hover:scale-150 transition-all duration-300 hover:[--gcolor:#1496d9]"
         onClick={(e) => {
-          onReact(1, "verified");
+          onReact(1, REACTIONS.VERIFIED);
         }}
       >
         <Verified />
@@ -51,7 +50,7 @@ export default function AvailableReactions({
       <li
         className="rounded-full hover:scale-150 transition-all duration-300"
         onClick={(e) => {
-          onReact(1, "sad");
+          onReact(1, REACTIONS.SAD);
         }}
       >
         <Sad />
@@ -59,7 +58,7 @@ export default function AvailableReactions({
       <li
         className="rounded-full hover:scale-150 transition-all duration-300 hover:[--gcolor:#F75A68]"
         onClick={(e) => {
-          onReact(1, "angry");
+          onReact(1, REACTIONS.ANGRY);
         }}
       >
         <Angry />

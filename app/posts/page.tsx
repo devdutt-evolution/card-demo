@@ -3,6 +3,7 @@ import Posts from "./_components/Posts";
 import { getServerSession } from "next-auth";
 import { options } from "@/utils/options";
 import { getInitialPosts } from "./pageUtils";
+import { SORTFIELD, SORTORDER } from "@/utils/consts";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -16,7 +17,11 @@ export default async function Page({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) {
-  const { q = "", order = "asc", field = "title" } = searchParams;
+  const {
+    q = "",
+    order = SORTORDER.asc,
+    field = SORTFIELD.title,
+  } = searchParams;
 
   const authData = await getServerSession(options);
 

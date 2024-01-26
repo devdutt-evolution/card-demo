@@ -1,18 +1,28 @@
 const BASE = process.env.NEXT_PUBLIC_URL_BACKEND;
 const PAGE_SIZE = 10;
 
-enum METHODS {
+export enum METHODS {
   get = "GET",
   post = "POST",
   put = "PUT",
+  delete = "DELETE",
 }
 
-enum SORTORDER {
+export enum REACTIONS {
+  LIKE = "like",
+  HEART = "heart",
+  SAD = "sad",
+  HAPPY = "happy",
+  VERIFIED = "verified",
+  ANGRY = "angry",
+}
+
+export enum SORTORDER {
   asc = "asc",
   desc = "desc",
 }
 
-enum SORTFIELD {
+export enum SORTFIELD {
   title = "username",
   time = "createAt",
   likes = "numberOfLikes",

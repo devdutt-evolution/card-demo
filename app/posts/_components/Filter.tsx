@@ -1,14 +1,17 @@
 "use client";
 
 import Clock from "@/components/icons/Clock";
+import { SORTFIELD, SORTORDER } from "@/utils/consts";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Filter() {
   const params = useSearchParams();
   const router = useRouter();
-  const [orderBy, setOrderBy] = useState(params.get("order") || "asc");
-  const [fieldName, setFieldName] = useState(params.get("field") || "title");
+  const [orderBy, setOrderBy] = useState(params.get("order") || SORTORDER.asc);
+  const [fieldName, setFieldName] = useState(
+    params.get("field") || SORTFIELD.title
+  );
 
   useEffect(() => {
     const current = new URLSearchParams(Array.from(params.entries()));
@@ -23,22 +26,22 @@ export default function Filter() {
   }, [orderBy, fieldName, router, params]);
 
   const handleRecent = () => {
-    if (fieldName == "createdAt" && orderBy == "desc") {
-      setFieldName("title");
-      setOrderBy("asc");
+    if (fieldName == SORTFIELD.time && orderBy == SORTORDER.desc) {
+      setFieldName(SORTFIELD.title);
+      setOrderBy(SORTORDER.asc);
     } else {
-      setFieldName("createdAt");
-      setOrderBy("desc");
+      setFieldName(SORTFIELD.time);
+      setOrderBy(SORTORDER.desc);
     }
   };
 
   const handleMostLiked = () => {
-    if (fieldName == "numberOfLikes" && orderBy == "desc") {
-      setFieldName("title");
-      setOrderBy("asc");
+    if (fieldName == SORTFIELD.likes && orderBy == SORTORDER.desc) {
+      setFieldName(SORTFIELD.title);
+      setOrderBy(SORTORDER.asc);
     } else {
-      setFieldName("numberOfLikes");
-      setOrderBy("desc");
+      setFieldName(SORTFIELD.likes);
+      setOrderBy(SORTORDER.desc);
     }
   };
 
@@ -47,14 +50,14 @@ export default function Filter() {
       <button
         onClick={(e) => handleRecent()}
         className={`py-2 px-3 ${
-          orderBy == "desc" &&
-          fieldName == "createdAt" &&
+          orderBy == SORTORDER.desc &&
+          fieldName == SORTFIELD.time &&
           "border-green text-green"
         }`}
       >
         <Clock
           color={
-            orderBy == "desc" && fieldName == "createdAt"
+            orderBy == SORTORDER.desc && fieldName == SORTFIELD.time
               ? "fill-green"
               : "fill-[#fff]"
           }
@@ -63,8 +66,8 @@ export default function Filter() {
       <button
         onClick={(e) => handleMostLiked()}
         className={`py-2 px-3 bg-card rounded-lg ${
-          orderBy == "desc" &&
-          fieldName == "numberOfLikes" &&
+          orderBy == SORTORDER.desc &&
+          fieldName == SORTFIELD.likes &&
           "border-green text-green"
         }`}
       >
@@ -75,18 +78,17 @@ export default function Filter() {
         value={orderBy}
         onChange={(e) => setOrderBy(e.target.value)}
       >
-        <option value="asc">Asc</option>
-        <option value="desc">Desc</option>
+        <option value={SORTORDER.asc}>Asc</option>
+        <option value={SORTORDER.desc}>Desc</option>
       </select>
       <select
         className="bg-card focus:outline-green p-2 rounded-lg outline-none"
         value={fieldName}
         onChange={(e) => setFieldName(e.target.value)}
       >
-        <option value="title">Title</option>
-        <option value="body">Description</option>
-        <option value="createdAt">Time</option>
-        <option value="numberOfLikes">Likes</option>
+        <option value={SORTFIELD.title}>Title</option>
+        <option value={SORTFIELD.time}>Time</option>
+        <option value={SORTFIELD.likes}>Likes</option>
       </select>
     </div>
   );
