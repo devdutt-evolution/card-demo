@@ -4,7 +4,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createComment, fetchUsers } from "../commentUtils";
-import { Mention, MentionsInput } from "react-mentions";
+import {
+  Mention,
+  MentionsInput,
+  type SuggestionDataItem,
+} from "react-mentions";
 import SuggestionBox from "@/components/Suggestion";
 import SuggestionItem from "@/components/SuggestItem";
 import type { User } from "@/types/type.d";
@@ -67,9 +71,14 @@ export default function AddComment({ postId }: { postId: string }) {
         <Mention
           trigger="@"
           data={fetchUser}
-          renderSuggestion={(data) => (
-            <SuggestionItem displayText={data.display} />
-          )}
+          renderSuggestion={(data: any) => {
+            return (
+              <SuggestionItem
+                displayText={data?.display}
+                picture={data?.picture}
+              />
+            );
+          }}
           displayTransform={(_id, name) => `@${name}`}
           appendSpaceOnAdd
         />

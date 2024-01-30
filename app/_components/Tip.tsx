@@ -38,7 +38,10 @@ export default function ContentElement({
   const [page, setPage] = useState(2);
   const { data: authData } = useSession();
   const router = useRouter();
-  const notificationsCount = notifications ? notifications.length : 0;
+  const notificationsCount =
+    (notifications?.length > 0 &&
+      notifications.filter((n) => n.seen == false).length) ||
+    0;
 
   async function markSeen() {
     const res = await fetch(
@@ -112,7 +115,7 @@ export default function ContentElement({
               Mark all Seen
             </p>
           </div>
-          {notificationsCount > 0 ? (
+          {notifications?.length > 0 ? (
             <ul className="flex flex-col gap-2 w-full py-2">
               {createJsx(notifications)}
               {loading && (
