@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function Filter() {
   const params = useSearchParams();
   const router = useRouter();
+  const [userId, setUserId] = useState(params.get("userId"));
   const [orderBy, setOrderBy] = useState(params.get("order") || SORTORDER.asc);
   const [fieldName, setFieldName] = useState(
     params.get("field") || SORTFIELD.title
@@ -45,8 +46,21 @@ export default function Filter() {
     }
   };
 
+  const handleResetFilter = () => {
+    setUserId("");
+    router.push(`/posts?order=${SORTORDER.asc}&field=${SORTFIELD.title}`);
+  };
+
   return (
     <div className="flex justify-end gap-2 text-sm font-semibold">
+      {userId && (
+        <button
+          onClick={(e) => handleResetFilter()}
+          className={`py-2 px-3 bg-card rounded-lg`}
+        >
+          Reset Filters
+        </button>
+      )}
       <button
         onClick={(e) => handleRecent()}
         className={`py-2 px-3 ${
