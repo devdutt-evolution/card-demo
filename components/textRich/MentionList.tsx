@@ -10,7 +10,7 @@ export const MentionList = forwardRef(function AnyName(props: any, ref) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selectItem = (index: number) => {
-    const list: { id: string; display: string }[] = props?.items;
+    const list: { id: string; display: string, picture: string }[] = props?.items;
     const item = list[index];
 
     if (item) {
@@ -59,10 +59,11 @@ export const MentionList = forwardRef(function AnyName(props: any, ref) {
     <div className="w-full p-2 flex gap-2 flex-col bg-card max-h-[30vh] overflow-auto">
       {props?.items?.length ? (
         props.items.map(
-          (item: { id: string; display: string }, index: number) => (
+          (item: { id: string; display: string, picture: string }, index: number) => (
             <SuggestionItem
               key={index}
               displayText={item.display}
+              picture={item.picture}
               classname={index === selectedIndex ? "bg-green" : ""}
               onClick={() => selectItem(index)}
             />
