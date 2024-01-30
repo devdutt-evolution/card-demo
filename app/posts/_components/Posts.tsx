@@ -20,27 +20,30 @@ export default function InfinitePosts({ posts }: { posts: Post[] }) {
 
   const sortWith = params.get("field") || SORTFIELD.title;
   const isAsc = params.get("order") || SORTORDER.asc;
+  const userId = params.get("userId");
   const search = params.get("q") || "";
 
   useEffect(() => {
-    const scrollHandler = (e: Event) => {
-      if (!hasMore) {
-        return;
-      }
-      const target = e.target as Document;
-      const doc = target.documentElement;
-      const scrollHeight = doc.scrollHeight;
-      const currentHeight = doc.scrollTop + window.innerHeight;
+    if (!userId) {
+      const scrollHandler = (e: Event) => {
+        if (!hasMore) {
+          return;
+        }
+        const target = e.target as Document;
+        const doc = target.documentElement;
+        const scrollHeight = doc.scrollHeight;
+        const currentHeight = doc.scrollTop + window.innerHeight;
 
-      if (currentHeight + 1 > scrollHeight) {
-        setLoading(true);
-        loadMore();
-      }
-    };
+        if (currentHeight + 1 > scrollHeight) {
+          setLoading(true);
+          loadMore();
+        }
+      };
 
-    window.addEventListener("scroll", scrollHandler);
+      window.addEventListener("scroll", scrollHandler);
 
-    return () => window.removeEventListener("scroll", scrollHandler);
+      return () => window.removeEventListener("scroll", scrollHandler);
+    }
   });
 
   useEffect(() => {
@@ -91,7 +94,9 @@ export default function InfinitePosts({ posts }: { posts: Post[] }) {
               </div>
               <div className="w-min flex gap-4 p-1 bg-black rounded-full">
                 <CustomLike
-                  reactionType={post?.userLike?.reactionType || REACTIONS.UNLIKE}
+                  reactionType={
+                    post?.userLike?.reactionType || REACTIONS.UNLIKE
+                  }
                   likeCount={post.numberOfLikes}
                   postId={post._id}
                   varient="post"

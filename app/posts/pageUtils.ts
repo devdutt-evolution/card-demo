@@ -1,15 +1,20 @@
 import type { Post } from "@/types/type.d";
 
-const url = (sortWith: string, isAsc: string, q?: string) =>
-  `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_q=${q}&_limit=10&_page=1&_sort=${sortWith}&_order=${isAsc}&_expand=user`;
+const url = (sortWith: string, isAsc: string, q?: string, userId?: string) => {
+  let uri = `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts?_q=${q}&_limit=10&_page=1&_sort=${sortWith}&_order=${isAsc}`;
+
+  if (userId) uri = `${uri}&_userId=${userId}`;
+  return uri;
+};
 
 export async function getInitialPosts(
   q: string,
   order: string,
   field: string,
-  token?: string
+  token?: string,
+  userId?: string
 ) {
-  const res = await fetch(url(field, order, q), {
+  const res = await fetch(url(field, order, q, userId), {
     headers: { authorization: `Bearer ${token}` },
   });
 

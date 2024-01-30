@@ -21,11 +21,18 @@ export default async function Page({
     q = "",
     order = SORTORDER.asc,
     field = SORTFIELD.title,
+    userId,
   } = searchParams;
 
   const authData = await getServerSession(options);
 
-  const posts = await getInitialPosts(q, order, field, authData?.user?.token);
+  const posts = await getInitialPosts(
+    q,
+    order,
+    field,
+    authData?.user?.token,
+    userId
+  );
 
   return <Posts posts={posts} />;
 }

@@ -31,7 +31,7 @@ export default function Like({
   reactionType: string;
   varient: string;
   postId: string;
-  commentId: string;
+  commentId?: string;
 }) {
   const [optimisticLike, optimisticUpdate] = useOptimistic(
     { likeCount, reaction: reactionType },
