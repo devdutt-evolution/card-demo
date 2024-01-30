@@ -5,12 +5,14 @@ declare module "next-auth" {
       email: string;
       name: string;
       id: string;
+      picture: string;
     };
   }
   interface User {
     email: string;
     name: string;
     token: string;
+    picture?: string;
   }
 }
 
@@ -35,6 +37,7 @@ type LikeObject = { userId: string; reactionType: string };
 
 export type User = {
   _id: string;
+  picture: string;
   name: string;
   username: string;
   email: string;

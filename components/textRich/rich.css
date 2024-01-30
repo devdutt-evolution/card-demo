@@ -2,6 +2,9 @@
   border-radius: 0.5rem;
   background-color: #121214;
 }
+.ProseMirror:focus {
+  outline: none;
+}
 
 .ProseMirror.nono {
   background-color: #202024;

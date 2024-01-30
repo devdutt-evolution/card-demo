@@ -13,8 +13,8 @@ import Avatar from "./_components/Avatar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Default",
-  description: "Default description",
+  title: "Main layout",
+  description: "create one description",
 };
 
 export default async function RootLayout({
@@ -41,7 +41,7 @@ export default async function RootLayout({
               {authData?.user && (
                 <Avatar
                   username={authData?.user?.name}
-                  userId={authData?.user?.id}
+                  profile={authData?.user?.picture}
                 />
               )}
             </div>

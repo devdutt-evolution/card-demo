@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const getInitials = (name?: string): string => {
@@ -15,15 +16,30 @@ const getInitials = (name?: string): string => {
 
 export default function Avatar({
   username,
-  userId,
+  profile,
 }: {
   username: string | undefined;
-  userId: string | undefined;
+  profile: string | undefined;
 }) {
+  if (profile) {
+    return (
+      <Link className="rounded-lg hidden sm:block" href={`/myprofile`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <Image
+          src={`${process.env.NEXT_PUBLIC_URL_BACKEND}/pictures/${profile}`}
+          height={40}
+          width={40}
+          className="object-cover rounded-lg w-full h-full"
+          alt="profile picture"
+        />
+      </Link>
+    );
+  }
+
   return (
     <Link
-      className="p-2 px-3 rounded-lg text-center bg-place text-black"
-      href={`user/${userId}`}
+      className="p-2 px-3 rounded-lg text-center bg-place text-black hidden sm:block"
+      href={`/myprofile`}
     >
       {getInitials(username)}
     </Link>

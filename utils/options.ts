@@ -6,6 +6,7 @@ type UserResponse = {
   name: string;
   email: string;
   token: string;
+  picture: string;
 };
 
 export const options: NextAuthOptions = {
@@ -22,6 +23,7 @@ export const options: NextAuthOptions = {
           email: user.email,
           name: user.name,
           token: user.token,
+          picture: user?.picture,
         };
       }
       // else
@@ -36,6 +38,7 @@ export const options: NextAuthOptions = {
           id: token.id,
           name: token.name,
           email: token.email,
+          picture: token.picture,
         },
       };
     },
