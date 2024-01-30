@@ -17,7 +17,7 @@ export default function EditableForm({ userDetails }: { userDetails: User }) {
   const [error, setError] = useState("");
   const {
     register,
-    formState: { errors, defaultValues },
+    formState: { errors, defaultValues, isDirty },
     handleSubmit,
     reset,
     control,
@@ -142,7 +142,7 @@ export default function EditableForm({ userDetails }: { userDetails: User }) {
       if (response.ok) {
         setEditMode(false);
         router.refresh();
-        setPreview("");
+        // setPreview(defaultValues?.picture || "");
         setError("");
       } else {
         // console.log("failed api");
@@ -160,7 +160,7 @@ export default function EditableForm({ userDetails }: { userDetails: User }) {
     >
       <div className="min-h-[200px] rounded-lg lg:col-span-2 md:row-span-2 lg:row-span-1 p-4">
         <div
-          className={`max-w-96 mx-auto h-full rounded-lg border-2 ${
+          className={`max-w-60 mx-auto h-full rounded-lg border-2 ${
             preview ? "border-solid" : "border-dashed"
           } border-divider flex justify-center items-center text-zinc-400 relative`}
         >
@@ -176,14 +176,14 @@ export default function EditableForm({ userDetails }: { userDetails: User }) {
                     <img
                       src={`${process.env.NEXT_PUBLIC_URL_BACKEND}/pictures/${defaultValues.picture}`}
                       alt="profile picture"
-                      className="absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-100 rounded-lg "
+                      className="absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-100 rounded-lg object-cover"
                     />
                   )}
                   {preview && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={preview}
-                      className="absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-100 rounded-lg "
+                      className="absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-100 rounded-lg object-cover"
                       alt="profile picture"
                     />
                   )}
@@ -338,14 +338,17 @@ export default function EditableForm({ userDetails }: { userDetails: User }) {
             <div
               className="px-3 p-2 bg-green hover:opacity-40 rounded-lg"
               onClick={(e) => {
-                e.preventDefault();
-                let yon = window.confirm("Edited data will be lost continue?");
-                if (yon) {
+                const fun = () => {
                   reset();
                   setPreview("");
                   setError("");
                   setEditMode(false);
-                }
+                };
+                e.preventDefault();
+                if (isDirty) {
+                  if (window.confirm("Edited data will be lost continue?"))
+                    fun();
+                } else fun();
               }}
             >
               Cancel
@@ -353,8 +356,10 @@ export default function EditableForm({ userDetails }: { userDetails: User }) {
           </>
         ) : (
           <>
-            <div className="px-3 p-2 bg-green hover:opacity-40 rounded-lg text-md">
-              <Link href="/posts">Back</Link>
+            <div className="bg-green hover:opacity-40 rounded-lg flex justify-center items-center">
+              <Link href="/posts" className="px-3 p-2 text-md">
+                Back
+              </Link>
             </div>
             <div
               className="px-3 p-2 bg-green hover:opacity-40 rounded-lg text-md"
