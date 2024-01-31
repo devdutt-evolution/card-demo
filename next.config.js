@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "",
+        hostname: "card-demo-bl6n.onrender.com",
         port: "",
         pathname: "/pictures/**",
       },
