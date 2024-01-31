@@ -2,14 +2,16 @@ import { ReactRenderer } from "@tiptap/react";
 import tippy from "tippy.js";
 
 import { MentionList } from "./MentionList";
-import { fetchUsers } from "@/app/post/[postId]/commentUtils";
+import { fetchUsers } from "@/app/post/[postId]/helper";
 
 export const suggestion = {
   items: async ({ query }: { query: string }) => {
-    const [data, error] = await fetchUsers(query);
-
-    if (data && data.length > 0) {
-      return data;
+    try {
+      const data = await fetchUsers(query);
+      return data.users;
+    } catch (err) {
+      console.log("failed to fetch users");
+      return [];
     }
   },
 

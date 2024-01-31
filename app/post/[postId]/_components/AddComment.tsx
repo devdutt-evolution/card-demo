@@ -1,20 +1,16 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { createComment, fetchUsers } from "../commentUtils";
-import {
-  Mention,
-  MentionsInput,
-  type SuggestionDataItem,
-} from "react-mentions";
+import { Mention, MentionsInput } from "react-mentions";
 import SuggestionBox from "@/components/Suggestion";
 import SuggestionItem from "@/components/SuggestItem";
-import type { User } from "@/types/type.d";
+import { createComment, fetchUsers } from "../helper";
 
-export default function AddComment({ postId }: { postId: string }) {
+export default function AddComment() {
   const router = useRouter();
+  const { postId } = useParams();
   const { data } = useSession({ required: true });
 
   const [comment, setComment] = useState("");
@@ -23,30 +19,33 @@ export default function AddComment({ postId }: { postId: string }) {
 
   // fetch users for suggestion
   async function fetchUser(query: string, callback: Function) {
-    if (!query) return;
+    try {
+      if (!query) return;
+      const users = await fetchUsers(query, data?.user?.token);
 
-    const [users, error] = (await fetchUsers(query, data?.user?.token)) as [
-      User[],
-      ""
-    ];
-
-    if (error) setError(error);
-    callback(users);
+      callback(users.users);
+    } catch (err) {
+      setError("Failed to fetch users");
+    }
   }
 
+  // create comment
   async function postComment() {
-    setLoading(true);
-    const [success, failed] = await createComment(
-      postId,
-      data?.user?.token,
-      comment
-    );
-    setLoading(false);
-    if (failed) setError(failed);
-    else {
+    try {
+      setLoading(true);
+      createComment(
+        typeof postId === "string" ? postId : postId[0],
+        comment,
+        data?.user?.token
+      );
       setComment("");
       setError("");
       router.refresh();
+    } catch (err) {
+      if (typeof err === "string") setError(err);
+      setError("error");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -71,14 +70,12 @@ export default function AddComment({ postId }: { postId: string }) {
         <Mention
           trigger="@"
           data={fetchUser}
-          renderSuggestion={(data: any) => {
-            return (
-              <SuggestionItem
-                displayText={data?.display}
-                picture={data?.picture}
-              />
-            );
-          }}
+          renderSuggestion={(data: any) => (
+            <SuggestionItem
+              displayText={data?.display}
+              picture={data?.picture}
+            />
+          )}
           displayTransform={(_id, name) => `@${name}`}
           appendSpaceOnAdd
         />
