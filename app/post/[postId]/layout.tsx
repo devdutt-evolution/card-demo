@@ -1,11 +1,7 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 
-export default function PostDetailsLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function PostDetailsLayout({ children }: PropsWithChildren) {
   return (
     <div className="w-4/5 sm:w-3/5 min-h-[50vh] min-w-80 rounded-lg mx-auto p-5 mt-2 bg-card">
       {children}

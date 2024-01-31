@@ -67,9 +67,6 @@ export default function Like({
   return (
     <Tippy
       placement="left"
-      // onHide={() => {}}
-      // trigger="manual"
-      // showOnCreate={true}
       content={
         !reactionType || reactionType === REACTIONS.UNLIKE ? (
           <AvailableReactions onReact={handleClicks} />
@@ -85,17 +82,17 @@ export default function Like({
           handleClicks(-1, REACTIONS.UNLIKE);
         }}
       >
-        {optimisticLike?.reaction === "heart" ? (
+        {optimisticLike?.reaction === REACTIONS.HEART ? (
           <OutlineLike active={true} />
-        ) : optimisticLike?.reaction === "like" ? (
+        ) : optimisticLike?.reaction === REACTIONS.LIKE ? (
           <Thumb active={true} />
-        ) : optimisticLike?.reaction === "happy" ? (
+        ) : optimisticLike?.reaction === REACTIONS.HAPPY ? (
           <Happy active={true} />
-        ) : optimisticLike?.reaction === "sad" ? (
+        ) : optimisticLike?.reaction === REACTIONS.SAD ? (
           <Sad active={true} />
-        ) : optimisticLike?.reaction === "verified" ? (
+        ) : optimisticLike?.reaction === REACTIONS.VERIFIED ? (
           <Verified active={true} />
-        ) : optimisticLike?.reaction === "angry" ? (
+        ) : optimisticLike?.reaction === REACTIONS.ANGRY ? (
           <Angry active={true} />
         ) : (
           <Reaction />

@@ -3,14 +3,12 @@ import { transformText } from "../commentUtils";
 import CustomLike from "@/components/Like";
 import { REACTIONS } from "@/utils/consts";
 
-export default function Comment({
-  comment,
-  postId,
-}: {
-  comment: Comment;
-  postId: string;
-}) {
+export default function Comment({ comment }: { comment: Comment }) {
   const commentBody = transformText(comment.body);
+  const userName = comment?.name.split(" ")[0] || comment.name;
+  const reactionType = comment?.userLike?.reactionType || REACTIONS.UNLIKE;
+  const customLikeVarient = "comment";
+  
   return (
     <div
       key={comment._id}
@@ -18,18 +16,16 @@ export default function Comment({
       className="bg-divider rounded-lg p-3"
     >
       <h4 className="text-l font-bold ">
-        <a href={`to:${comment.email}`}>
-          {comment?.name.split(" ")[0] || comment.name}
-        </a>
+        <a href={`to:${comment.email}`}>{userName}</a>
       </h4>
       <p className="text-sm text-place">{comment.email}</p>
       <div className="py-3" dangerouslySetInnerHTML={{ __html: commentBody }} />
       <CustomLike
         commentId={comment._id}
-        reactionType={comment?.userLike?.reactionType || REACTIONS.UNLIKE}
+        reactionType={reactionType}
         likeCount={comment.numberOfLikes}
-        postId={postId}
-        varient="comment"
+        postId={comment.postId}
+        varient={customLikeVarient}
       />
     </div>
   );
