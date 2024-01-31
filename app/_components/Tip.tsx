@@ -85,7 +85,7 @@ export default function ContentElement({
       data.notifications.length < 9
     )
       setHasMore(false);
-    if (data.notifications && data.notifications.length > 0)
+    if (Array.isArray(data.notifications))
       setNotifications((noti) => [...noti, ...data.notifications]);
     setLoading(false);
   }

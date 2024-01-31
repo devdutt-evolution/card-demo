@@ -9,6 +9,7 @@ import Notifications from "./_components/Notifications";
 import { getServerSession } from "next-auth";
 import { options } from "@/utils/options";
 import Avatar from "./_components/Avatar";
+import type { PropsWithChildren } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +18,7 @@ export const metadata: Metadata = {
   description: "create one description",
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: PropsWithChildren) {
   const authData = await getServerSession(options);
 
   return (
@@ -40,8 +37,8 @@ export default async function RootLayout({
               <AuthButton />
               {authData?.user && (
                 <Avatar
-                  username={authData?.user?.name}
-                  profile={authData?.user?.picture}
+                  username={authData.user?.name}
+                  profile={authData.user?.picture}
                 />
               )}
             </div>

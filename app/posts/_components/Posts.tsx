@@ -54,7 +54,7 @@ export default function InfinitePosts({ posts }: { posts: Post[] }) {
     if (hasMore) {
       let data: Post[] = await getMorePosts(page, sortWith, isAsc, search);
 
-      if (data?.length == 0 || data?.length < 9) setHasMore(false);
+      if (data?.length < 9) setHasMore(false);
       setPage((page) => page + 1);
       setData((prevPosts) => [...prevPosts, ...data]);
     }

@@ -1,17 +1,17 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
-import { type ReactNode, useEffect, useState } from "react";
+import { useEffect, useState, type PropsWithChildren } from "react";
 import { requestForToken, onMessageListener, init } from "@/utils/firebase";
 import { Banner } from "@/components/Modal";
 
 type NotificationBody = {
   title?: string;
   body?: string;
-  url?: string;
+  url: string;
 };
 
-export default function NextProvider({ children }: { children?: ReactNode }) {
+export default function NextProvider({ children }: PropsWithChildren) {
   const [open, setOpen] = useState(false);
   const [obj, setObj] = useState<NotificationBody>({
     title: "",
@@ -29,7 +29,7 @@ export default function NextProvider({ children }: { children?: ReactNode }) {
             setObj({
               title: payload?.notification?.title,
               body: payload?.notification?.body,
-              url: payload?.data?.url,
+              url: payload?.data?.url || "",
             });
           })
           .catch((err) => console.log("failed: ", err));
@@ -42,7 +42,7 @@ export default function NextProvider({ children }: { children?: ReactNode }) {
       <Banner
         title={obj?.title}
         body={obj?.body}
-        url={obj?.url}
+        url={obj.url || ""}
         open={open}
         toggle={() => setOpen(!open)}
       />

@@ -1,11 +1,16 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { useEffect, useState, ReactNode, MouseEventHandler } from "react";
+import {
+  useEffect,
+  useState,
+  type MouseEventHandler,
+  type PropsWithChildren,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-function Portal({ children }: { children: ReactNode }) {
+function Portal({ children }: PropsWithChildren) {
   const modalRoot: HTMLElement | null = document.getElementById("modal-root");
   const [element] = useState(document.createElement("div"));
   useEffect(() => {
@@ -23,8 +28,7 @@ export default function Modal({
   children,
   toggle,
   open,
-}: {
-  children: ReactNode;
+}: PropsWithChildren & {
   toggle: MouseEventHandler;
   open: boolean;
 }) {
@@ -64,7 +68,7 @@ export function Banner({
 }: {
   title?: string;
   body?: string;
-  url?: string;
+  url: string;
   open?: boolean;
   toggle: Function;
 }) {
@@ -76,7 +80,7 @@ export function Banner({
           onClick={(e) => toggle()}
         >
           <div className="min-w-60 flex p-5 gap-2 items-center rounded-lg bg-divider bg-opacity-90 mx-auto w-max">
-            <Link href={url as string}>
+            <Link href={url}>
               <Image
                 width={100}
                 height={100}
@@ -85,7 +89,7 @@ export function Banner({
                 className="rounded-lg"
               />
             </Link>
-            <Link href={url as string} className="min-w-36">
+            <Link href={url} className="min-w-36">
               <div className="w-max">
                 <h3 className="mb-2 text-lg">{title}</h3>
                 <p className="text-sm">{body}</p>

@@ -3,7 +3,7 @@ export const transformText = (comment: string): string => {
 
   const matched = comment.match(matchTag);
 
-  if (matched && matched?.length > 0) {
+  if (Array.isArray(matched)) {
     matched.map((str) => {
       const lastNameIndex = str.indexOf("]");
       const username = str.substring(2, lastNameIndex);
