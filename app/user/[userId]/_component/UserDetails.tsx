@@ -1,12 +1,12 @@
-import { options } from "@/utils/options";
-import { getServerSession } from "next-auth";
-import { getUserDetails } from "../getUserDetails";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import Like from "@/components/Like";
-import { REACTIONS } from "@/utils/consts";
-import Comment from "@/components/icons/Comment";
 import Link from "next/link";
+import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { notFound } from "next/navigation";
+import { options } from "@/utils/options";
+import { REACTIONS } from "@/utils/consts";
+import Like from "@/components/Like";
+import Comment from "@/components/icons/Comment";
+import { getUserDetails } from "../getUserDetails";
 
 export default async function UserDetails({ userId }: { userId: string }) {
   const session = await getServerSession(options);
@@ -15,58 +15,31 @@ export default async function UserDetails({ userId }: { userId: string }) {
   if (!user) return notFound();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-2">
-      <section className="max-w-60 max-h-60 min-w-48 min-h-48 ">
+    <div className="flex flex-col gap-4">
+      <section className="flex gap-5">
         <Image
           height={100}
           width={150}
           src={`${process.env.NEXT_PUBLIC_URL_BACKEND}/pictures/${user.picture}`}
           alt="profile picture"
-          className="w-full h-full rounded-lg object-center aspect-square"
+          className="rounded-lg object-cover aspect-square"
         />
-      </section>
-      <section className="">
-        <h2 className="text-2xl pb-5 font-bold">{user?.name}</h2>
-        <p>username: {user?.username}</p>
-        <p>
-          email:&nbsp;
-          <a href={`to:${user?.email}`} className="hover:text-hgreen">
-            {user?.email}
-          </a>
-        </p>
-        <p>
-          phone:&nbsp;
-          <a href={`tel:${user?.phone}`} className="hover:text-hgreen">
-            {user?.phone}
-          </a>
-        </p>
-        <p>
-          website:&nbsp;
-          <a href={user?.website} className="hover:text-hgreen">
-            {user?.website}
-          </a>
-        </p>
-      </section>
-      <section className="">
-        {user?.company && (
-          <div className="flex flex-col gap-1 mb-6 mt-2 sm:m-0">
-            <h3 className="text-2xl mb-2 text-hgreen">Company</h3>
-            <p>name:&nbsp;{user.company?.name}</p>
-            <p>catchPhrase:&nbsp;{user.company?.catchPhrase}</p>
-            <p>bs:&nbsp;{user.company?.bs}</p>
-          </div>
-        )}
-      </section>
-      <section className="">
-        {user?.address && (
-          <div className="flex flex-col gap-1">
-            <h3 className="text-2xl mb-2 text-hgreen">Address</h3>
-            <p>street:&nbsp;{user.address?.street}</p>
-            <p>suite:&nbsp;{user.address?.suite}</p>
-            <p>city:&nbsp;{user.address?.city}</p>
-            <p>zipcode:&nbsp;{user.address?.zipcode}</p>
-          </div>
-        )}
+        <div className="flex flex-col gap-2">
+          <h2 className="text-2xl font-bold mb-2">{user?.name}</h2>
+          <p>username: {user?.username}</p>
+          <p>
+            email:&nbsp;
+            <a href={`to:${user?.email}`} className="hover:text-hgreen">
+              {user?.email}
+            </a>
+          </p>
+          <p>
+            phone:&nbsp;
+            <a href={`tel:${user?.phone}`} className="hover:text-hgreen">
+              {user?.phone}
+            </a>
+          </p>
+        </div>
       </section>
       <section className="md:col-span-2 flex flex-col gap-2">
         <h2 className="my-2 text-2xl text-green border-b-2 border-b-green rounded-sm">

@@ -16,35 +16,15 @@ declare module "next-auth" {
   }
 }
 
-type Address = {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-  geo: {
-    lat: string;
-    lng: string;
-  };
-};
-
-type Company = {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-};
-
 type LikeObject = { userId: string; reactionType: string };
 
 export type User = {
   _id: string;
-  picture: string;
-  name: string;
-  username: string;
   email: string;
+  username: string;
+  name: string;
+  picture: string;
   phone: string;
-  website: string;
-  address: Address;
-  company: Company;
 };
 
 export type Post = {
