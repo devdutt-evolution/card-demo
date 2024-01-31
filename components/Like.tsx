@@ -80,7 +80,7 @@ export default function Like({
       interactive={true}
     >
       <div
-        className="w-max flex gap-3 p-1 px-2 rounded-full bg-black hover:bg-opacity-50"
+        className="w-max flex gap-3 p-1 px-2 rounded-full bg-black"
         onClick={(e) => {
           handleClicks(-1, REACTIONS.UNLIKE);
         }}

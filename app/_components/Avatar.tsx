@@ -23,7 +23,10 @@ export default function Avatar({
 }) {
   if (profile) {
     return (
-      <Link className="rounded-lg hidden sm:block" href={`/myprofile`}>
+      <Link
+        className="rounded-lg hidden sm:block w-10 h-10"
+        href={`/myprofile`}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image
           src={`${process.env.NEXT_PUBLIC_URL_BACKEND}/pictures/${profile}`}
