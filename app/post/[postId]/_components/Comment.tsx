@@ -2,13 +2,14 @@ import type { Comment } from "@/types/type.d";
 import { transformText } from "../commentUtils";
 import CustomLike from "@/components/Like";
 import { REACTIONS } from "@/utils/consts";
+import Link from "next/link";
 
 export default function Comment({ comment }: { comment: Comment }) {
   const commentBody = transformText(comment.body);
-  const userName = comment?.name.split(" ")[0] || comment.name;
+  const userName = comment?.username;
   const reactionType = comment?.userLike?.reactionType || REACTIONS.UNLIKE;
   const customLikeVarient = "comment";
-  
+
   return (
     <div
       key={comment._id}
@@ -16,9 +17,8 @@ export default function Comment({ comment }: { comment: Comment }) {
       className="bg-divider rounded-lg p-3"
     >
       <h4 className="text-l font-bold ">
-        <a href={`to:${comment.email}`}>{userName}</a>
+        <Link href={`/user/${comment.userId}`}>@{userName}</Link>
       </h4>
-      <p className="text-sm text-place">{comment.email}</p>
       <div className="py-3" dangerouslySetInnerHTML={{ __html: commentBody }} />
       <CustomLike
         commentId={comment._id}

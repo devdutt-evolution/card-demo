@@ -47,8 +47,8 @@ export type PostComment = {
 export type Comment = {
   _id: string;
   postId: string;
-  name: string;
-  email: string;
+  userId: string;
+  username: string;
   body: string;
   numberOfLikes: number;
   likedByUser: boolean;
