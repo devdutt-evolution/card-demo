@@ -3,8 +3,16 @@ import { transformText } from "../commentUtils";
 import CustomLike from "@/components/Like";
 import { REACTIONS } from "@/utils/consts";
 import Link from "next/link";
+import type { Session } from "next-auth";
+import CreateReply from "./ReplyWrapper";
 
-export default function Comment({ comment }: { comment: Comment }) {
+export default function Comment({
+  comment,
+  userSession,
+}: {
+  comment: Comment;
+  userSession: Session["user"];
+}) {
   const commentBody = transformText(comment.body);
   const userName = comment?.username;
   const reactionType = comment?.userLike?.reactionType || REACTIONS.UNLIKE;
@@ -20,18 +28,16 @@ export default function Comment({ comment }: { comment: Comment }) {
         <Link href={`/user/${comment.userId}`}>@{userName}</Link>
       </h4>
       <div className="py-3" dangerouslySetInnerHTML={{ __html: commentBody }} />
-      <div className="flex gap-4 items-center">
-        <CustomLike
-          commentId={comment._id}
-          reactionType={reactionType}
-          likeCount={comment.numberOfLikes}
-          postId={comment.postId}
-          varient={customLikeVarient}
-        />
-        <div className="p-1 px-2 rounded-full cursor-pointer hover:bg-card">
-          Reply
-        </div>
-      </div>
+      {/* <div className="flex gap-4 items-center"> */}
+      <CustomLike
+        commentId={comment._id}
+        reactionType={reactionType}
+        likeCount={comment.numberOfLikes}
+        postId={comment.postId}
+        varient={customLikeVarient}
+      />
+      <CreateReply comment={comment} userSession={userSession} />
+      {/* </div> */}
       {comment.replies?.length > 0 && (
         <p className="text-green hover:underline cursor-pointer mt-2">
           {comment.replies?.length} reply

@@ -1,11 +1,14 @@
+import type { Session } from "next-auth";
 import AddComment from "./AddComment";
 import Comment from "./Comment";
 import { type PostComment } from "@/types/type.d";
 
-export default async function PostData({
+export default function PostData({
   postDetails,
+  userSession,
 }: {
   postDetails: PostComment;
+  userSession: Session["user"];
 }) {
   return (
     <>
@@ -19,7 +22,11 @@ export default async function PostData({
       <div className="my-4 flex gap-2 flex-col">
         {Array.isArray(postDetails?.comments) ? (
           postDetails.comments?.map((comment) => (
-            <Comment key={comment._id} comment={comment} />
+            <Comment
+              key={comment._id}
+              comment={comment}
+              userSession={userSession}
+            />
           ))
         ) : (
           <div className="bg-divider py-3 px-5 rounded-lg">No Comments</div>
