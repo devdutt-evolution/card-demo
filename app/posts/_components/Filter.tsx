@@ -56,12 +56,14 @@ export default function Filter() {
       {userId && (
         <button
           onClick={(e) => handleResetFilter()}
+          type="button"
           className={`py-2 px-3 bg-card rounded-lg`}
         >
           Reset Filters
         </button>
       )}
       <button
+        type="button"
         onClick={(e) => handleRecent()}
         className={`py-2 px-3 ${
           orderBy == SORTORDER.desc &&
@@ -78,6 +80,7 @@ export default function Filter() {
         />
       </button>
       <button
+        type="button"
         onClick={(e) => handleMostLiked()}
         className={`py-2 px-3 bg-card rounded-lg ${
           orderBy == SORTORDER.desc &&

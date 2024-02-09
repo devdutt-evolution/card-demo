@@ -47,6 +47,7 @@ export default function Modal({
             <button
               className="text-2xl absolute top-0 right-0 rounded-bl-[50%] rounded-tr-lg w-[40px] h-[40px] hover:bg-red"
               onClick={toggle}
+              type="button"
             >
               &times;
             </button>
@@ -63,7 +64,6 @@ export function Banner({
   title,
   body,
   url,
-  open,
   toggle,
 }: {
   title?: string;
@@ -73,31 +73,29 @@ export function Banner({
   toggle: Function;
 }) {
   return (
-    open && (
-      <Portal>
-        <div
-          className="absolute mt-4 w-full h-full top-0 left-0"
-          onClick={(e) => toggle()}
-        >
-          <div className="min-w-60 flex p-5 gap-2 items-center rounded-lg bg-divider bg-opacity-90 mx-auto w-max">
-            <Link href={url}>
-              <Image
-                width={100}
-                height={100}
-                src="/logo.svg"
-                alt="logo"
-                className="rounded-lg"
-              />
-            </Link>
-            <Link href={url} className="min-w-36">
-              <div className="w-max">
-                <h3 className="mb-2 text-lg">{title}</h3>
-                <p className="text-sm">{body}</p>
-              </div>
-            </Link>
-          </div>
+    <Portal>
+      <div
+        className="absolute mt-4 w-full h-full top-0 left-0"
+        onClick={(e) => toggle()}
+      >
+        <div className="min-w-60 flex p-5 gap-2 items-center rounded-lg bg-divider bg-opacity-90 mx-auto w-max">
+          <Link href={url}>
+            <Image
+              width={100}
+              height={100}
+              src="/logo.svg"
+              alt="logo"
+              className="rounded-lg"
+            />
+          </Link>
+          <Link href={url} className="min-w-36">
+            <div className="w-max">
+              <h3 className="mb-2 text-lg">{title}</h3>
+              <p className="text-sm">{body}</p>
+            </div>
+          </Link>
         </div>
-      </Portal>
-    )
+      </div>
+    </Portal>
   );
 }

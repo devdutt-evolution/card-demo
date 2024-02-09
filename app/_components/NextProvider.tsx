@@ -39,13 +39,14 @@ export default function NextProvider({ children }: PropsWithChildren) {
 
   return (
     <SessionProvider>
-      <Banner
-        title={obj?.title}
-        body={obj?.body}
-        url={obj.url || ""}
-        open={open}
-        toggle={() => setOpen(!open)}
-      />
+      {open && (
+        <Banner
+          title={obj?.title}
+          body={obj?.body}
+          url={obj.url || ""}
+          toggle={() => setOpen(!open)}
+        />
+      )}
       {children}
     </SessionProvider>
   );

@@ -9,8 +9,8 @@ export default async function Home() {
   if (!session) redirect("/login");
 
   return (
-    <div className="flex h-[calc(100vh-120px)] justify-center items-center text-3xl">
+    <main className="flex h-[calc(100vh-120px)] justify-center items-center text-3xl">
       <Link href="/posts">Take me to Posts</Link>
-    </div>
+    </main>
   );
 }

@@ -51,15 +51,14 @@ export default function AddPost() {
 
   return (
     <div className="bg-card h-[100px] rounded-lg flex items-center justify-center">
-      <div
+      <button
+        type="button"
         className="flex gap-2 bg-divider w-4/5 h-2/4 rounded-lg items-center justify-center text-place cursor-pointer hover:text-[#FFF] border-2 border-dashed"
         onClick={() => setOpen((t) => !t)}
       >
-        <p className="h-max">
-          <span className="text-2xl">+</span>{" "}
-          <span className="text-xl">Create Post</span>
-        </p>
-      </div>
+        <span className="text-2xl">+</span>{" "}
+        <span className="text-xl">Create Post</span>
+      </button>
 
       {open && (
         <Modal

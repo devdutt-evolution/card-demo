@@ -194,7 +194,8 @@ export default function EditableForm({ userDetails }: { userDetails: User }) {
             >
               Save
             </button>
-            <div
+            <button
+              type="button"
               className="px-3 p-2 bg-green hover:opacity-40 rounded-lg cursor-pointer w-max"
               onClick={(e) => {
                 const fun = () => {
@@ -211,7 +212,7 @@ export default function EditableForm({ userDetails }: { userDetails: User }) {
               }}
             >
               Cancel
-            </div>
+            </button>
           </>
         )}
       </div>
