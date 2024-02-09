@@ -1,12 +1,16 @@
+"use client";
+
 import type { Comment } from "@/types/type.d";
 import { transformText } from "../commentUtils";
 import CustomLike from "@/components/Like";
 import { REACTIONS } from "@/utils/consts";
 import Link from "next/link";
 import type { Session } from "next-auth";
-import CreateReply from "./ReplyWrapper";
+import ReplyButton from "./ReplyButton";
+import { useState } from "react";
+import CommentReplies from "./CommentReplies";
 
-export default function Comment({
+export default function CommentBody({
   comment,
   userSession,
 }: {
@@ -18,6 +22,12 @@ export default function Comment({
   const reactionType = comment?.userLike?.reactionType || REACTIONS.UNLIKE;
   const customLikeVarient = "comment";
 
+  const [activeShow, setActiveShow] = useState(false);
+
+  function toggleShowActive() {
+    setActiveShow((state) => !state);
+  }
+
   return (
     <div
       key={comment._id}
@@ -28,7 +38,7 @@ export default function Comment({
         <Link href={`/user/${comment.userId}`}>@{userName}</Link>
       </h4>
       <div className="py-3" dangerouslySetInnerHTML={{ __html: commentBody }} />
-      {/* <div className="flex gap-4 items-center"> */}
+      {/* REACTION ELEMENT */}
       <CustomLike
         commentId={comment._id}
         reactionType={reactionType}
@@ -36,12 +46,19 @@ export default function Comment({
         postId={comment.postId}
         varient={customLikeVarient}
       />
-      <CreateReply comment={comment} userSession={userSession} />
-      {/* </div> */}
-      {comment.replies?.length > 0 && (
-        <p className="text-green hover:underline cursor-pointer mt-2">
-          {comment.replies?.length} reply
+      {/* REPLY BUTTON */}
+      <ReplyButton comment={comment} userSession={userSession} />
+      {/* IF THERE ARE REPLIES */}
+      {comment.replies > 0 && (
+        <p
+          className="text-hgreen hover:underline cursor-pointer mt-2"
+          onClick={(e) => toggleShowActive()}
+        >
+          {comment.replies} reply
         </p>
+      )}
+      {activeShow && (
+        <CommentReplies comment={comment} userSession={userSession} />
       )}
     </div>
   );

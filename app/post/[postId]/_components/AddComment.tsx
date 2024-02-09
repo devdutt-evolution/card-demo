@@ -8,6 +8,9 @@ import SuggestionBox from "@/components/Suggestion";
 import SuggestionItem from "@/components/SuggestItem";
 import { createComment, fetchUsers } from "../helper";
 
+/**
+ * TEXTAREA and its own states
+ */
 export default function AddComment() {
   const router = useRouter();
   const { postId } = useParams();
@@ -59,6 +62,7 @@ export default function AddComment() {
         }
       }}
     >
+      {/* WRAPPER FOR TEXTRICH */}
       <MentionsInput
         value={comment}
         onChange={(e) => setComment(e.target.value)}
@@ -67,6 +71,7 @@ export default function AddComment() {
         customSuggestionsContainer={SuggestionBox}
         className="bg-black rounded-lg outline-none focus:outline-none border-0 text-sm min-h-[100px]"
       >
+        {/* MANAGES MENTIONS SUGGESTIONBOX */}
         <Mention
           trigger="@"
           data={fetchUser}

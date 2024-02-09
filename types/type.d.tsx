@@ -53,5 +53,5 @@ export type Comment = {
   numberOfLikes: number;
   likedByUser: boolean;
   userLike?: LikeObject;
-  replies: { _id: string }[];
+  replies: number;
 };

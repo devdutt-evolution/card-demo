@@ -6,13 +6,22 @@ import { useState } from "react";
 import { Mention, MentionsInput } from "react-mentions";
 import SuggestionBox from "@/components/Suggestion";
 import SuggestionItem from "@/components/SuggestItem";
-import { createComment, fetchUsers } from "../helper";
+import { createReply, fetchUsers } from "../helper";
 import Loader from "@/components/Loader";
+import { Comment } from "@/types/type.d";
+import { Session } from "next-auth";
 
+/**
+ * Textarea and createreply api
+ */
 export default function AddReply({
+  comment,
+  userSession,
   toggleActive,
   initString = "",
 }: {
+  comment: Comment;
+  userSession: Session["user"];
   toggleActive: Function;
   initString?: string;
 }) {
@@ -40,13 +49,15 @@ export default function AddReply({
   async function postReply() {
     try {
       setLoading(true);
-      // createReply(
-      //   typeof postId === "string" ? postId : postId[0],
-      //   reply,
-      //   data?.user?.token
-      // );
+      createReply(
+        typeof postId === "string" ? postId : postId[0],
+        comment._id,
+        reply,
+        userSession?.token
+      );
       setReply("");
       setError("");
+      toggleActive();
       router.refresh();
     } catch (err) {
       if (typeof err === "string") setError(err);

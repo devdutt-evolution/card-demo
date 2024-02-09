@@ -1,4 +1,4 @@
-import { PostComment, User } from "@/types/type.d";
+import { Comment, PostComment, User } from "@/types/type.d";
 import { METHODS } from "@/utils/consts";
 import { FetchResponse } from "@/utils/requests";
 
@@ -43,6 +43,51 @@ export async function createComment(
     else throw new Error("Failed to create");
   }
   return;
+}
+
+export async function createReply(
+  postId: string,
+  commentId: string,
+  comment: string,
+  token?: string
+) {
+  const res = await fetch(`${BASE}/reply/${commentId}`, {
+    method: METHODS.post,
+    headers: {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ comment, postId }),
+  });
+
+  const data = new FetchResponse<{ message: string } | void>(res)
+    .checkAuth()
+    .checkNotFound()
+    .checkInternal();
+
+  if (data.isError()) {
+    const message = await data.getData();
+    if (typeof message === "object" && "message" in message)
+      throw new Error(message["message"]);
+    else throw new Error("Failed to create");
+  }
+  return;
+}
+
+export async function getReply(commentId: string, token?: string) {
+  const res = await fetch(`${BASE}/reply/${commentId}`, {
+    method: METHODS.get,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = new FetchResponse<{ replies: Comment[] }>(res)
+    .checkAuth()
+    .checkNotFound()
+    .checkInternal();
+
+  return data.getData();
 }
 
 export async function fetchUsers(q: string, token?: string) {
