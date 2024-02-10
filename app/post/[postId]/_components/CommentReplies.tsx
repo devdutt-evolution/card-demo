@@ -9,9 +9,11 @@ import { transformText } from "../commentUtils";
 export default function CommentReplies({
   comment,
   userSession,
+  replyId,
 }: {
   comment: Comment;
   userSession: Session["user"];
+  replyId: string | string[] | undefined;
 }) {
   const [replies, setReplies] = useState<Comment[]>([]);
 
@@ -23,12 +25,23 @@ export default function CommentReplies({
     getReplies();
   }, [setReplies, comment, userSession]);
 
+  useEffect(() => {
+    if (replyId && typeof replyId == "string") {
+      const ele = document.getElementById(replyId);
+      ele?.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+
   return (
     <>
       {replies && (
         <div className="flex flex-col items-end gap-2">
           {replies.map((reply) => (
-            <div key={reply._id} className="w-[90%] rounded-lg bg-card p-2">
+            <div
+              key={reply._id}
+              className="w-[90%] rounded-lg bg-card p-2"
+              id={reply._id}
+            >
               <Link
                 href={`/user/${reply.userId}`}
                 className="pb-2 font-bold block"

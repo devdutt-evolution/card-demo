@@ -12,15 +12,23 @@ import { useEffect, useState } from "react";
 export default function PostData({
   postDetails,
   userSession,
+  commentId,
+  replyId,
 }: {
   postDetails: PostComment;
   userSession: Session["user"];
+  commentId: string | string[] | undefined;
+  replyId: string | string[] | undefined;
 }) {
   const [details, setDetails] = useState(postDetails);
 
   useEffect(() => {
     setDetails(postDetails);
-  }, [postDetails, setDetails]);
+    if (commentId && typeof commentId == "string" && !replyId) {
+      const ele = document.getElementById(commentId);
+      ele?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [postDetails, setDetails, commentId, replyId]);
 
   return (
     <>
@@ -40,6 +48,8 @@ export default function PostData({
               key={comment._id}
               comment={comment}
               userSession={userSession}
+              isActive={comment._id === commentId}
+              replyId={replyId}
             />
           ))
         ) : (

@@ -13,16 +13,20 @@ import CommentReplies from "./CommentReplies";
 export default function CommentBody({
   comment,
   userSession,
+  isActive,
+  replyId,
 }: {
   comment: Comment;
   userSession: Session["user"];
+  isActive: boolean;
+  replyId: string | string[] | undefined;
 }) {
   const commentBody = transformText(comment.body);
   const userName = comment?.username;
   const reactionType = comment?.userLike?.reactionType || REACTIONS.UNLIKE;
   const customLikeVarient = "comment";
 
-  const [activeShow, setActiveShow] = useState(false);
+  const [activeShow, setActiveShow] = useState(isActive);
 
   function toggleShowActive() {
     setActiveShow((state) => !state);
@@ -58,7 +62,7 @@ export default function CommentBody({
         </p>
       )}
       {activeShow && (
-        <CommentReplies comment={comment} userSession={userSession} />
+        <CommentReplies comment={comment} userSession={userSession} replyId={replyId} />
       )}
     </div>
   );
