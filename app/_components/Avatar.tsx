@@ -24,24 +24,31 @@ export default function Avatar({
   if (profile) {
     return (
       <Link
-        className="rounded-lg hidden sm:block w-10 h-10"
+        className='rounded-lg hidden sm:block w-10 h-10'
         href={`/myprofile`}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <Image
-          src={`${process.env.NEXT_PUBLIC_URL_BACKEND}/pictures/${profile}`}
-          height={40}
-          width={40}
-          className="object-cover rounded-lg w-full h-full"
-          alt="profile picture"
-        />
+        <object
+          data={`${process.env.NEXT_PUBLIC_URL_BACKEND}/pictures/${profile}`}
+          width='40'
+          height='40'
+          aria-label='This image should exist, but alas it does not'
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src='https://www.gravatar.com/avatar'
+            height={40}
+            width={40}
+            className='object-cover rounded-lg w-full h-full'
+            alt='profile picture'
+          />
+        </object>
       </Link>
     );
   }
 
   return (
     <Link
-      className="p-2 px-3 rounded-lg text-center bg-place text-black hidden sm:block"
+      className='p-2 px-3 rounded-lg text-center bg-place text-black hidden sm:block'
       href={`/myprofile`}
     >
       {getInitials(username)}

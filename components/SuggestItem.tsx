@@ -30,20 +30,28 @@ export default function SuggestionItem({
       className={` hover:bg-green rounded-lg flex items-center w-full p-2 ${classname}`}
       {...props}
     >
-      <div className="rounded-full w-8 h-8 bg-place flex justify-center items-center mr-2 overflow-hidden">
+      <div className='rounded-full w-8 h-8 bg-place flex justify-center items-center mr-2 overflow-hidden'>
         {!picture ? (
           getInitials(displayText)
         ) : (
-          <Image
-            height={32}
-            width={32}
-            src={`${process.env.NEXT_PUBLIC_URL_BACKEND}/pictures/${picture}`}
-            alt="profile picture"
-            className="object-cover w-full h-full"
-          />
+          <object
+            data={`${process.env.NEXT_PUBLIC_URL_BACKEND}/pictures/${picture}`}
+            width='40'
+            height='40'
+            aria-label='This image should exist, but alas it does not'
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src='https://www.gravatar.com/avatar'
+              height={40}
+              width={40}
+              className='object-cover rounded-lg w-full h-full'
+              alt='profile picture'
+            />
+          </object>
         )}
       </div>
-      <p className="">{displayText}</p>
+      <p className=''>{displayText}</p>
     </div>
   );
 }
