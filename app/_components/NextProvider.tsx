@@ -1,5 +1,5 @@
 "use client";
-
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { SessionProvider } from "next-auth/react";
 import { useEffect, useState, type PropsWithChildren } from "react";
 import { requestForToken, onMessageListener, init } from "@/utils/firebase";
@@ -48,6 +48,12 @@ export default function NextProvider({ children }: PropsWithChildren) {
         />
       )}
       {children}
+      <ProgressBar
+        height='2px'
+        color='#00875F'
+        options={{ showSpinner: false }}
+        shallowRouting
+      />
     </SessionProvider>
   );
 }

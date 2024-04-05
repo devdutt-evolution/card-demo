@@ -22,17 +22,17 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   const authData = await getServerSession(options);
 
   return (
-    <html lang="en">
+    <html lang='en'>
       <body className={inter.className}>
         <NextProvider>
-          <header className="flex w-full h-[100px] bg-card justify-center items-center sticky top-0 z-[1]">
-            <Link className="flex gap-2" href="/">
-              <Image src="/logo.svg" alt="logo" width="65" height="61" />
-              <div className="text-4xl flex justify-center items-center">
+          <header className='flex w-full h-[100px] bg-card justify-center items-center sticky top-0 z-[1]'>
+            <Link className='flex gap-2' href='/'>
+              <Image src='/logo.svg' alt='logo' width='65' height='61' />
+              <div className='text-4xl flex justify-center items-center'>
                 <p>કથાnak</p>
               </div>
             </Link>
-            <div className="absolute top-50% mr-4 right-0 w-max flex gap-4">
+            <div className='absolute top-50% mr-4 right-0 w-max flex gap-4'>
               {authData?.user && <Notifications />}
               <AuthButton />
               {authData?.user && (
@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
             </div>
           </header>
           {children}
-          <div id="modal-root"></div>
+          <div id='modal-root'></div>
         </NextProvider>
       </body>
     </html>
