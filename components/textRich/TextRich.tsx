@@ -5,6 +5,7 @@ import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
+import Placeholder from "@tiptap/extension-placeholder";
 import Mention from "@tiptap/extension-mention";
 import "./rich.css";
 import { suggestion } from "./suggestion";
@@ -152,6 +153,9 @@ const MenuBar = () => {
 };
 
 const extensions = [
+  Placeholder.configure({
+    placeholder: `Mention people using '@'`,
+  }),
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle.configure({ HTMLAttributes: [ListItem.name] }),
   Mention.configure({
@@ -172,8 +176,6 @@ const extensions = [
   }),
 ];
 
-const content = `<br/>Mention people using '@'<br />`;
-
 export default function TextRich(props: { content?: string }) {
   return (
     <div
@@ -185,8 +187,9 @@ export default function TextRich(props: { content?: string }) {
     >
       <EditorProvider
         slotBefore={<MenuBar />}
+        slotAfter={<div className='h-4'></div>}
         extensions={extensions}
-        content={props.content || content}
+        content={props.content}
       >
         <></>
       </EditorProvider>
