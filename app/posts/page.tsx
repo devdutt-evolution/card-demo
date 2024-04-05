@@ -3,7 +3,7 @@ import Posts from "./_components/Posts";
 import { getServerSession } from "next-auth";
 import { options } from "@/utils/options";
 import { getInitialPosts } from "./pageUtils";
-import { SORTFIELD, SORTORDER } from "@/utils/consts";
+import { SORT_FIELD, SORT_ORDER } from "@/utils/consts";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -19,8 +19,8 @@ export default async function Page({
 }) {
   const {
     q = "",
-    order = SORTORDER.asc,
-    field = SORTFIELD.title,
+    order = SORT_ORDER.asc,
+    field = SORT_FIELD.title,
     userId,
   } = searchParams;
 

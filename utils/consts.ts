@@ -15,12 +15,12 @@ export enum REACTIONS {
   UNLIKE = "unlike",
 }
 
-export enum SORTORDER {
+export enum SORT_ORDER {
   asc = "asc",
   desc = "desc",
 }
 
-export enum SORTFIELD {
+export enum SORT_FIELD {
   title = "title",
   time = "createAt",
   likes = "numberOfLikes",

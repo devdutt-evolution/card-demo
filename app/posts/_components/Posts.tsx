@@ -9,7 +9,7 @@ import CustomLike from "@/components/Like";
 import CommentIcon from "@/components/icons/Comment";
 import { getMorePosts } from "@/utils/action";
 import Loader from "@/components/Loader";
-import { REACTIONS, SORTFIELD, SORTORDER } from "@/utils/consts";
+import { REACTIONS, SORT_FIELD, SORT_ORDER } from "@/utils/consts";
 
 export default function InfinitePosts({ posts }: { posts: Post[] }) {
   const params = useSearchParams();
@@ -18,8 +18,8 @@ export default function InfinitePosts({ posts }: { posts: Post[] }) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const sortWith = params.get("field") || SORTFIELD.title;
-  const isAsc = params.get("order") || SORTORDER.asc;
+  const sortWith = params.get("field") || SORT_FIELD.title;
+  const isAsc = params.get("order") || SORT_ORDER.asc;
   const userId = params.get("userId");
   const search = params.get("q") || "";
 
