@@ -9,9 +9,11 @@ export default function Filter() {
   const params = useSearchParams();
   const router = useRouter();
   const [userId, setUserId] = useState(params.get("userId"));
-  const [orderBy, setOrderBy] = useState(params.get("order") || SORT_ORDER.asc);
+  const [orderBy, setOrderBy] = useState(
+    params.get("order") || SORT_ORDER.desc
+  );
   const [fieldName, setFieldName] = useState(
-    params.get("field") || SORT_FIELD.title
+    params.get("field") || SORT_FIELD.time
   );
 
   useEffect(() => {
@@ -38,8 +40,8 @@ export default function Filter() {
 
   const handleMostLiked = () => {
     if (fieldName == SORT_FIELD.likes && orderBy == SORT_ORDER.desc) {
-      setFieldName(SORT_FIELD.title);
-      setOrderBy(SORT_ORDER.asc);
+      setFieldName(SORT_FIELD.time);
+      setOrderBy(SORT_ORDER.desc);
     } else {
       setFieldName(SORT_FIELD.likes);
       setOrderBy(SORT_ORDER.desc);
@@ -48,7 +50,7 @@ export default function Filter() {
 
   const handleResetFilter = () => {
     setUserId("");
-    router.push(`/posts?order=${SORT_ORDER.asc}&field=${SORT_FIELD.title}`);
+    router.push(`/posts?order=${SORT_ORDER.desc}&field=${SORT_FIELD.time}`);
   };
 
   return (

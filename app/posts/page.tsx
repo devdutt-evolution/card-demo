@@ -19,8 +19,8 @@ export default async function Page({
 }) {
   const {
     q = "",
-    order = SORT_ORDER.asc,
-    field = SORT_FIELD.title,
+    order = SORT_ORDER.desc,
+    field = SORT_FIELD.time,
     userId,
   } = searchParams;
 

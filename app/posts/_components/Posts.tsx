@@ -18,8 +18,8 @@ export default function InfinitePosts({ posts }: { posts: Post[] }) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const sortWith = params.get("field") || SORT_FIELD.title;
-  const isAsc = params.get("order") || SORT_ORDER.asc;
+  const sortWith = params.get("field") || SORT_FIELD.time;
+  const isAsc = params.get("order") || SORT_ORDER.desc;
   const userId = params.get("userId");
   const search = params.get("q") || "";
 

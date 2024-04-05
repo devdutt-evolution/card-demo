@@ -22,6 +22,6 @@ export enum SORT_ORDER {
 
 export enum SORT_FIELD {
   title = "title",
-  time = "createAt",
+  time = "createdAt",
   likes = "numberOfLikes",
 }
