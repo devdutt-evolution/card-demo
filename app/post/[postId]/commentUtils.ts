@@ -17,3 +17,30 @@ export const transformText = (comment: string): string => {
 
   return comment;
 };
+
+export async function sendPutRequest(
+  postId: string,
+  postData: {
+    title: string;
+    body: string;
+  },
+  token?: string
+) {
+  try {
+    let res = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}`,
+      {
+        method: "put",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      }
+    );
+    if (res.status == 200) return ["success", null];
+    return [null, "Failed"];
+  } catch (err) {
+    return [null, err as string];
+  }
+}

@@ -32,7 +32,7 @@ const MenuBar = () => {
   if (!editor) return null;
 
   return (
-    <div className="flex flex-wrap gap-2 py-2">
+    <div className='flex flex-wrap gap-2 py-2'>
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -142,7 +142,7 @@ const MenuBar = () => {
         <BlockQuote />
       </button>
       <button
-        className=""
+        className=''
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
       >
         <HorizontalRule />
@@ -174,10 +174,10 @@ const extensions = [
 
 const content = `<br/>Mention people using '@'<br />`;
 
-export default function TextRich() {
+export default function TextRich(props: { content?: string }) {
   return (
     <div
-      className="flex flex-col"
+      className='flex flex-col'
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -186,7 +186,7 @@ export default function TextRich() {
       <EditorProvider
         slotBefore={<MenuBar />}
         extensions={extensions}
-        content={content}
+        content={props.content || content}
       >
         <></>
       </EditorProvider>

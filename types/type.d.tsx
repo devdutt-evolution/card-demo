@@ -35,6 +35,7 @@ export type Post = {
   numberOfLikes: number;
   commentCount: number;
   likedByUser: boolean;
+  isEdited: boolean;
   userLike?: LikeObject;
   publishAt?: number;
   user?: User;
