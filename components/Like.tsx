@@ -23,13 +23,13 @@ type LikeObject = {
 export default function Like({
   likeCount,
   reactionType,
-  varient,
+  variant,
   postId,
   commentId,
 }: {
   likeCount: number;
   reactionType: string;
-  varient: string;
+  variant: string;
   postId: string;
   commentId?: string;
 }) {
@@ -58,10 +58,10 @@ export default function Like({
           likeCount: count,
           reaction: react,
         });
-        likeAction(postId, react, varient, commentId);
+        likeAction(postId, react, variant, commentId);
       });
     },
-    [postId, commentId, varient, optimisticUpdate]
+    [postId, commentId, variant, optimisticUpdate]
   );
 
   return (

@@ -13,7 +13,7 @@ export default function Error() {
   });
   return (
     <FallbackLayout>
-      <h1 className="text-5xl">Some Error Occured</h1>
+      <h1 className='text-5xl'>Some Error Occurred</h1>
     </FallbackLayout>
   );
 }

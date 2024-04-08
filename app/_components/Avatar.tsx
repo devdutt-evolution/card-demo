@@ -3,15 +3,12 @@ import Link from "next/link";
 
 const getInitials = (name?: string): string => {
   if (!name) return "DN";
-  const splitted = name.split(" ");
-  let initials = "";
-  if (splitted.length == 1) initials = splitted[0][0].toUpperCase();
-  else if (splitted.length > 1)
-    initials =
-      splitted[0][0].toUpperCase() +
-      splitted[splitted.length - 1][0].toUpperCase();
+  const nameArr = name.split(" ");
 
-  return initials;
+  if (nameArr.length == 1) return nameArr[0][0].toUpperCase();
+  else if (nameArr.length > 1)
+    return nameArr[0][0].toUpperCase() + nameArr.at(-1)![0].toUpperCase();
+  else return "";
 };
 
 export default function Avatar({

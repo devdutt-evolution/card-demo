@@ -104,7 +104,7 @@ export default function InfinitePosts({ posts }: { posts: Post[] }) {
                   }
                   likeCount={post.numberOfLikes}
                   postId={post._id}
-                  varient='post'
+                  variant='post'
                   commentId=''
                 />
                 <Link

@@ -9,11 +9,11 @@ const PAGE_SIZE = 10;
 export async function likeAction(
   postId: string,
   reaction: string,
-  varient: string,
+  variant: string,
   commentId?: string
 ) {
   const url =
-    varient == "post"
+    variant == "post"
       ? `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}/react`
       : `${process.env.NEXT_PUBLIC_URL_BACKEND}/comments/${commentId}`;
 
@@ -22,7 +22,7 @@ export async function likeAction(
     "reaction " +
       reaction +
       " " +
-      varient +
+      variant +
       " Id " +
       (commentId || postId) +
       " " +
@@ -39,7 +39,7 @@ export async function likeAction(
 
   if (!res.ok) throw new Error("Something went wrong !");
 
-  if (varient === "post") revalidatePath("/posts");
+  if (variant === "post") revalidatePath("/posts");
   else revalidatePath("/post/" + postId);
 }
 

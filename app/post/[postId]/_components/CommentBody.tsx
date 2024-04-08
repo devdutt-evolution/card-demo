@@ -24,7 +24,7 @@ export default function CommentBody({
   const commentBody = transformText(comment.body);
   const userName = comment?.username;
   const reactionType = comment?.userLike?.reactionType || REACTIONS.UNLIKE;
-  const customLikeVarient = "comment";
+  const customLikeVariant = "comment";
 
   const [activeShow, setActiveShow] = useState(isActive);
 
@@ -48,7 +48,7 @@ export default function CommentBody({
         reactionType={reactionType}
         likeCount={comment.numberOfLikes}
         postId={comment.postId}
-        varient={customLikeVarient}
+        variant={customLikeVariant}
       />
       {/* REPLY BUTTON */}
       <ReplyButton comment={comment} userSession={userSession} />
