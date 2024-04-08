@@ -6,12 +6,14 @@ declare module "next-auth" {
       name: string;
       id: string;
       picture: string;
+      admin?: boolean;
     };
   }
   interface User {
     email: string;
     name: string;
     token: string;
+    admin?: boolean;
     picture?: string;
   }
 }

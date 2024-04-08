@@ -9,15 +9,15 @@ export default function AuthButton() {
   const path = usePathname();
 
   return (
-    <div className="flex justify-center items-center w-max px-3 py-2 text-[#fff] bg-green rounded-lg hover:bg-hgreen">
+    <div className='flex justify-center items-center w-max px-3 py-2 text-[#fff] bg-green rounded-lg hover:bg-hgreen max-h-[50px]'>
       {path.startsWith("/register") && !data?.user?.token ? (
-        <p className="cursor-pointer" onClick={(e) => signIn()}>
+        <p className='cursor-pointer' onClick={(e) => signIn()}>
           Login
         </p>
       ) : path.startsWith("/login") && !data?.user?.token ? (
-        <Link href="/register">Register</Link>
+        <Link href='/register'>Register</Link>
       ) : (
-        <p className="cursor-pointer" onClick={(e) => signOut()}>
+        <p className='cursor-pointer' onClick={(e) => signOut()}>
           Logout
         </p>
       )}

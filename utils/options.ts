@@ -7,6 +7,7 @@ type UserResponse = {
   email: string;
   token: string;
   picture: string;
+  admin?: boolean;
 };
 
 export const options: NextAuthOptions = {
@@ -14,7 +15,7 @@ export const options: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    jwt: ({ token: decodedToken, user }) => {
+    jwt: ({ token: decodedToken, user }: any) => {
       // if first login
       if (user) {
         return {
@@ -24,6 +25,7 @@ export const options: NextAuthOptions = {
           name: user.name,
           token: user.token,
           picture: user?.picture,
+          admin: user?.admin || false,
         };
       }
       // else
@@ -39,6 +41,7 @@ export const options: NextAuthOptions = {
           name: token.name,
           email: token.email,
           picture: token.picture,
+          admin: token.admin,
         },
       };
     },
