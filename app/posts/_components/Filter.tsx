@@ -2,34 +2,23 @@
 
 import Clock from "@/components/icons/Clock";
 import { SORT_FIELD, SORT_ORDER } from "@/utils/consts";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function Filter() {
-  const params = useSearchParams();
+type Props = {
+  userId: string;
+  setUserId: (a: string) => void;
+  orderBy: SORT_ORDER;
+  setOrderBy: (a: SORT_ORDER) => void;
+  fieldName: SORT_FIELD;
+  setFieldName: (a: SORT_FIELD) => void;
+};
+export default function Filter(props: Props) {
   const router = useRouter();
-  const [userId, setUserId] = useState(params.get("userId"));
-  const [orderBy, setOrderBy] = useState(
-    params.get("order") || SORT_ORDER.desc
-  );
-  const [fieldName, setFieldName] = useState(
-    params.get("field") || SORT_FIELD.time
-  );
-
-  useEffect(() => {
-    const current = new URLSearchParams(Array.from(params.entries()));
-    if (!orderBy) current.delete("order");
-    else current.set("order", orderBy);
-
-    if (!fieldName) current.delete("field");
-    else current.set("field", fieldName);
-
-    const queryString = current.toString();
-    router.push(queryString ? `?${queryString}` : "");
-  }, [orderBy, fieldName, router, params]);
+  const { userId, setUserId, orderBy, setOrderBy, fieldName, setFieldName } =
+    props;
 
   const handleRecent = () => {
-    if (fieldName == SORT_FIELD.time && orderBy == SORT_ORDER.desc) {
+    if (fieldName === SORT_FIELD.time && orderBy === SORT_ORDER.desc) {
       setFieldName(SORT_FIELD.title);
       setOrderBy(SORT_ORDER.asc);
     } else {
@@ -39,7 +28,7 @@ export default function Filter() {
   };
 
   const handleMostLiked = () => {
-    if (fieldName == SORT_FIELD.likes && orderBy == SORT_ORDER.desc) {
+    if (fieldName === SORT_FIELD.likes && orderBy === SORT_ORDER.desc) {
       setFieldName(SORT_FIELD.time);
       setOrderBy(SORT_ORDER.desc);
     } else {
@@ -50,7 +39,8 @@ export default function Filter() {
 
   const handleResetFilter = () => {
     setUserId("");
-    router.push(`/posts?order=${SORT_ORDER.desc}&field=${SORT_FIELD.time}`);
+    // router.push(`/posts?order=${SORT_ORDER.desc}&field=${SORT_FIELD.time}`);
+    router.push(`/posts`);
   };
 
   return (
@@ -95,7 +85,7 @@ export default function Filter() {
       <select
         className='bg-card focus:outline-green p-2 rounded-lg outline-none'
         value={orderBy}
-        onChange={(e) => setOrderBy(e.target.value)}
+        onChange={(e) => setOrderBy(e.target.value as SORT_ORDER)}
       >
         <option value={SORT_ORDER.asc}>Asc</option>
         <option value={SORT_ORDER.desc}>Desc</option>
@@ -103,7 +93,7 @@ export default function Filter() {
       <select
         className='bg-card focus:outline-green p-2 rounded-lg outline-none'
         value={fieldName}
-        onChange={(e) => setFieldName(e.target.value)}
+        onChange={(e) => setFieldName(e.target.value as SORT_FIELD)}
       >
         <option value={SORT_FIELD.title}>Title</option>
         <option value={SORT_FIELD.time}>Time</option>
