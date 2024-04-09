@@ -36,24 +36,24 @@ export default function Modal({
     <Portal>
       {open && (
         <div
-          className="absolute flex flex-col justify-center items-center top-0 left-0 w-[calc(100vw-0.7em)] bg-black bg-opacity-80"
+          className='fixed flex flex-col justify-center items-center inset-0 w-[calc(100vw-0.7em)] bg-black bg-opacity-80'
           onClick={toggle}
         >
-          <div className="h-[30vh]"></div>
+          <div className='h-[30vh]'></div>
           <div
-            className="flex flex-col p-0 relative"
+            className='flex flex-col p-0 relative'
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="text-2xl absolute top-0 right-0 rounded-bl-[50%] rounded-tr-lg w-[40px] h-[40px] hover:bg-red"
+              className='text-2xl absolute top-0 right-0 rounded-bl-[50%] rounded-tr-lg w-[40px] h-[40px] hover:bg-red'
               onClick={toggle}
-              type="button"
+              type='button'
             >
               &times;
             </button>
             {children}
           </div>
-          <div className="h-[30vh]"></div>
+          <div className='h-[30vh]'></div>
         </div>
       )}
     </Portal>
@@ -75,23 +75,23 @@ export function Banner({
   return (
     <Portal>
       <div
-        className="absolute mt-4 w-full h-full top-0 left-0"
+        className='absolute mt-4 w-full h-full top-0 left-0'
         onClick={(e) => toggle()}
       >
-        <div className="min-w-60 flex p-5 gap-2 items-center rounded-lg bg-divider bg-opacity-90 mx-auto w-max">
+        <div className='min-w-60 flex p-5 gap-2 items-center rounded-lg bg-divider bg-opacity-90 mx-auto w-max'>
           <Link href={url}>
             <Image
               width={100}
               height={100}
-              src="/logo.svg"
-              alt="logo"
-              className="rounded-lg"
+              src='/logo.svg'
+              alt='logo'
+              className='rounded-lg'
             />
           </Link>
-          <Link href={url} className="min-w-36">
-            <div className="w-max">
-              <h3 className="mb-2 text-lg">{title}</h3>
-              <p className="text-sm">{body}</p>
+          <Link href={url} className='min-w-36'>
+            <div className='w-max'>
+              <h3 className='mb-2 text-lg'>{title}</h3>
+              <p className='text-sm'>{body}</p>
             </div>
           </Link>
         </div>

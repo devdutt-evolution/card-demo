@@ -48,3 +48,28 @@ export async function sendPostRequest(
     return [null, err as string];
   }
 }
+
+export async function reportPost(
+  postId: string,
+  reason: string,
+  token: string
+) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}/report`,
+      {
+        method: "POST",
+        body: JSON.stringify({ reason }),
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status === 200) return ["success", null];
+    return [null, "Failed"];
+  } catch (err) {
+    return [null, err as string];
+  }
+}

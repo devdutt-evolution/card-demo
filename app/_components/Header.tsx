@@ -24,7 +24,7 @@ export default async function Header() {
         {authData?.user?.admin && (
           <Link
             href='/reported'
-            className='px-4 py-2 text-white tracking-wide rounded-lg bg-green'
+            className='px-4 py-2 text-white tracking-wide rounded-lg bg-red'
           >
             Reports
           </Link>

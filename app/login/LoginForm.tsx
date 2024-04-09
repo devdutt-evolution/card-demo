@@ -44,26 +44,26 @@ export default function LoginForm() {
 
   return (
     <form
-      className="bg-card flex flex-col items-start justify-around w-full gap-4 p-5 rounded-lg"
+      className='bg-card flex flex-col items-start justify-around w-full gap-4 p-5 rounded-lg'
       noValidate
       onSubmit={handleSubmit(login)}
     >
       <Input
         className={errors.email ? "outline-red" : ""}
-        type="text"
-        autoComplete="off"
-        placeholder="email"
+        type='text'
+        autoComplete='off'
+        placeholder='email'
         {...emailHandler}
       />
       {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
       <Input
-        type="password"
-        placeholder="password"
+        type='password'
+        placeholder='password'
         {...register("password", { required: "Password is required" })}
       />
       {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
       {error && <ErrorText>{error}</ErrorText>}
-      {isLoading ? <Loader /> : <Button type="submit">Login</Button>}
+      {isLoading ? <Loader /> : <Button type='submit'>Login</Button>}
     </form>
   );
 }
