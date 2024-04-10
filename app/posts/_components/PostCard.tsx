@@ -1,43 +1,82 @@
-import { DateTime } from "luxon";
-import Link from "next/link";
-import CustomLike from "@/components/Like";
-import CommentIcon from "@/components/icons/Comment";
-import { REACTIONS } from "@/utils/consts";
-import { Post } from "@/types/type.d";
-import { useEffect, useState } from "react";
-import Modal from "@/components/Modal";
-import { useForm } from "react-hook-form";
-import Loader from "@/components/Loader";
-import { useSession } from "next-auth/react";
-import { reportPost } from "../pageUtils";
+'use client';
 
-type Props = { post: Post };
+import { DateTime } from 'luxon';
+import Link from 'next/link';
+import CustomLike from '@/components/Like';
+import CommentIcon from '@/components/icons/Comment';
+import { REACTIONS } from '@/utils/consts';
+import { Post } from '@/types/type.d';
+import { useEffect, useState } from 'react';
+import Modal from '@/components/Modal';
+import { useForm } from 'react-hook-form';
+import Loader from '@/components/Loader';
+import { useSession } from 'next-auth/react';
+import { reportPost } from '../pageUtils';
+import {
+  deletePostApi,
+  discardReportApi,
+  type reportReasonAndUser,
+} from '@/app/reported/reportUtils';
+import { useRouter } from 'next/navigation';
+
+type Props = {
+  post: Post;
+  admin?: boolean;
+  reportedUser?: {
+    count: number;
+    reports: reportReasonAndUser[];
+  };
+};
 type FormData = {
   reason: string;
 };
 
 export default function PostCard(props: Props) {
-  const { post } = props;
+  const { post, admin, reportedUser } = props;
   let parsedDate;
   if (post.publishAt && post.publishAt > 0)
     parsedDate = DateTime.fromMillis(post.publishAt);
 
+  const router = useRouter();
   const { data: authData } = useSession();
   const [open, setOpen] = useState(false);
+  const [openUser, setOpenUser] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const { register, handleSubmit, setFocus, resetField } = useForm<FormData>();
 
   useEffect(() => {
-    setFocus("reason");
+    setFocus('reason');
   }, [setFocus]);
 
   function handleClick() {
     setOpen(true);
   }
+  function showUsers() {
+    setOpenUser(true);
+  }
+  async function deletePost() {
+    const [_, err] = await deletePostApi(post._id, authData?.user.token || '');
+
+    if (err) return;
+    router.refresh();
+  }
+
+  async function discardReport() {
+    const [_, err] = await discardReportApi(
+      post._id,
+      authData?.user.token || ''
+    );
+
+    if (err) return;
+    router.refresh();
+  }
 
   function toggleModal() {
     setOpen((p) => !p);
+  }
+  function toggleUserModal() {
+    setOpenUser((p) => !p);
   }
 
   async function Report(data: FormData) {
@@ -48,17 +87,17 @@ export default function PostCard(props: Props) {
       authData?.user.token as string
     );
     if (error) {
-      setError("Failed to report");
+      setError('Failed to report');
     } else {
       toggleModal();
-      resetField("reason");
-      setError("");
+      resetField('reason');
+      setError('');
     }
     setLoading(false);
   }
 
   return (
-    <>
+    <div>
       <div
         key={post.body}
         className='bg-card hover:border-2 hover:border-green hover:shadow-sm hover:shadow-green px-8 py-6 border-2 border-card rounded-lg'
@@ -99,12 +138,36 @@ export default function PostCard(props: Props) {
               <p className='text-md'>{post.commentCount}</p>
             </Link>
           </div>
-          <button
-            className='px-3 py-2 bg-red rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
-            onClick={handleClick}
-          >
-            Report
-          </button>
+          <div className='flex gap-2'>
+            {admin && (
+              <>
+                <button
+                  className='px-3 py-2 bg-green rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
+                  onClick={showUsers}
+                >
+                  Users & reasons ({reportedUser?.count})
+                </button>
+                <button
+                  className='px-3 py-2 bg-red rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
+                  onClick={deletePost}
+                >
+                  Delete Post
+                </button>
+                <button
+                  className='px-3 py-2 bg-green rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
+                  onClick={discardReport}
+                >
+                  Discard
+                </button>
+              </>
+            )}
+            <button
+              className='px-3 py-2 bg-red rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
+              onClick={handleClick}
+            >
+              Report
+            </button>
+          </div>
         </div>
       </div>
       {open && (
@@ -117,7 +180,7 @@ export default function PostCard(props: Props) {
             <textarea
               className='min-w-72 min-h-32 resize bg-divider outline-none focus:outline-green w-full px-4 py-2 text-[#fff] rounded-lg tracking-wide'
               placeholder='Reason to report'
-              {...register("reason", { required: false })}
+              {...register('reason', { required: false })}
             />
             {error && <p className='text-red'>{error}</p>}
             <div className='flex justify-center mt-4'>
@@ -132,6 +195,25 @@ export default function PostCard(props: Props) {
           </form>
         </Modal>
       )}
-    </>
+      {openUser && (
+        <Modal open={openUser} toggle={toggleUserModal}>
+          <ul className='p-6 rounded-lg bg-card flex flex-col gap-4 min-w-72'>
+            {reportedUser?.reports &&
+              reportedUser.reports.map((user, index) => {
+                return (
+                  <li key={user.userId}>
+                    {index + 1}.{' '}
+                    <span className='text-xl text-green mb-1'>
+                      {user.user.name} reported
+                    </span>{' '}
+                    <br />
+                    {user.reason}
+                  </li>
+                );
+              })}
+          </ul>
+        </Modal>
+      )}
+    </div>
   );
 }

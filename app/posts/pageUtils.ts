@@ -56,7 +56,7 @@ export async function reportPost(
 ) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_BACKEND}/posts/${postId}/report`,
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/reports/${postId}`,
       {
         method: "POST",
         body: JSON.stringify({ reason }),
