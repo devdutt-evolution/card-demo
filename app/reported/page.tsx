@@ -4,6 +4,8 @@ import { options } from '@/utils/options';
 import { getReportedPosts } from './reportUtils';
 import PostCard from '../posts/_components/PostCard';
 
+export const revalidate = 0;
+
 export default async function Reported() {
   const session = await getServerSession(options);
 

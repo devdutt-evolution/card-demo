@@ -1,9 +1,10 @@
-"use client";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import { SessionProvider } from "next-auth/react";
-import { useEffect, useState, type PropsWithChildren } from "react";
-import { requestForToken, onMessageListener, init } from "@/utils/firebase";
-import { Banner } from "@/components/Modal";
+'use client';
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+import { SessionProvider } from 'next-auth/react';
+import { useEffect, useState, type PropsWithChildren } from 'react';
+import { requestForToken, onMessageListener, init } from '@/utils/firebase';
+import { Banner } from '@/components/Modal';
+// import Transition from './Transition';
 
 type NotificationBody = {
   title?: string;
@@ -14,9 +15,9 @@ type NotificationBody = {
 export default function NextProvider({ children }: PropsWithChildren) {
   const [open, setOpen] = useState(false);
   const [obj, setObj] = useState<NotificationBody>({
-    title: "",
-    body: "",
-    url: "",
+    title: '',
+    body: '',
+    url: '',
   });
 
   useEffect(() => {
@@ -29,21 +30,22 @@ export default function NextProvider({ children }: PropsWithChildren) {
             setObj({
               title: payload?.notification?.title,
               body: payload?.notification?.body,
-              url: payload?.data?.url || "",
+              url: payload?.data?.url || '',
             });
           })
-          .catch((err) => console.log("failed: ", err));
+          .catch((err) => console.log('failed: ', err));
       }
     });
   });
 
   return (
+    // <Transition>
     <SessionProvider>
       {open && (
         <Banner
           title={obj?.title}
           body={obj?.body}
-          url={obj.url || ""}
+          url={obj.url || ''}
           toggle={() => setOpen(!open)}
         />
       )}
@@ -55,5 +57,6 @@ export default function NextProvider({ children }: PropsWithChildren) {
         shallowRouting
       />
     </SessionProvider>
+    // </Transition>
   );
 }

@@ -18,6 +18,7 @@ import {
   type reportReasonAndUser,
 } from '@/app/reported/reportUtils';
 import { useRouter } from 'next/navigation';
+import LoaderButton from '@/components/LoaderButton';
 
 type Props = {
   post: Post;
@@ -42,6 +43,7 @@ export default function PostCard(props: Props) {
   const [open, setOpen] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [error, setError] = useState('');
   const { register, handleSubmit, setFocus, resetField } = useForm<FormData>();
 
@@ -56,19 +58,27 @@ export default function PostCard(props: Props) {
     setOpenUser(true);
   }
   async function deletePost() {
+    setDeleteLoading(true);
     const [_, err] = await deletePostApi(post._id, authData?.user.token || '');
 
-    if (err) return;
+    if (err) {
+      setDeleteLoading(false);
+      return;
+    }
     router.refresh();
   }
 
   async function discardReport() {
+    setLoading(true);
     const [_, err] = await discardReportApi(
       post._id,
       authData?.user.token || ''
     );
 
-    if (err) return;
+    if (err) {
+      setLoading(false);
+      return;
+    }
     router.refresh();
   }
 
@@ -150,23 +160,29 @@ export default function PostCard(props: Props) {
                 <button
                   className='px-3 py-2 bg-red rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
                   onClick={deletePost}
+                  disabled={deleteLoading}
                 >
-                  Delete Post
+                  <LoaderButton loading={deleteLoading}>
+                    Delete Post
+                  </LoaderButton>
                 </button>
                 <button
                   className='px-3 py-2 bg-green rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
                   onClick={discardReport}
+                  disabled={loading}
                 >
-                  Discard
+                  <LoaderButton loading={loading}>Discard</LoaderButton>
                 </button>
               </>
             )}
-            <button
-              className='px-3 py-2 bg-red rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
-              onClick={handleClick}
-            >
-              Report
-            </button>
+            {!admin && (
+              <button
+                className='px-3 py-2 bg-red rounded-full text-center hover:shadow-sm hover:shadow-slate-50'
+                onClick={handleClick}
+              >
+                Report
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -184,13 +200,20 @@ export default function PostCard(props: Props) {
             />
             {error && <p className='text-red'>{error}</p>}
             <div className='flex justify-center mt-4'>
-              {loading ? (
+              {/* {loading ? (
                 <Loader />
               ) : (
                 <button className='px-3 py-2 rounded-lg bg-green text-white'>
                   Report
                 </button>
-              )}
+              )} */}
+              {
+                <LoaderButton loading={loading}>
+                  <button className='px-3 py-2 rounded-lg bg-green text-white'>
+                    Report
+                  </button>
+                </LoaderButton>
+              }
             </div>
           </form>
         </Modal>

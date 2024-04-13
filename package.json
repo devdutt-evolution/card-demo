@@ -19,6 +19,7 @@
     "@tiptap/starter-kit": "^2.1.13",
     "@tiptap/suggestion": "^2.1.16",
     "firebase": "^10.7.2",
+    "framer-motion": "^11.0.28",
     "luxon": "^3.4.4",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
